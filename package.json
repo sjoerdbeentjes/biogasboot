@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start-update": "nodemon ./bin/www",
     "expose": "ngrok http 3000",
-    "build": "browserify ./src/js/index.js -t | babelify -d -o ./public/js/index.js",
-    "watch": "watchify ./src/js/index.js -o | babelify -d -o ./public/js/index.js"
+    "build-js": "browserify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
+    "build-css": "node-sass --include-path scss src/scss/main.scss ./public/css/main.css",
+    "build": "npm run build-js && npm run build-css",
+    "watch-js": "watchify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "watch": "npm run watch-js && npm run watch-css"
   },
   "repository": {
     "type": "git",
@@ -77,8 +82,12 @@
     "passport-local": "*"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
+    "ngrok": "^2.2.9",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.11.0",
     "watchify": "^3.9.0"
   }
 }
