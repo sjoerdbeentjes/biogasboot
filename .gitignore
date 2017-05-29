@@ -1,4 +1,6 @@
 # Own
+.idea
+.idea/
 .env
 
 # Logs
