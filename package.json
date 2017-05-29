@@ -32,6 +32,9 @@
       "no-implicit-coercion": 0,
       "no-unused-vars": 0,
       "new-cap": 0,
+      "no-multi-assign": 0,
+      "curly": 0,
+      "no-else-return": 0,
       "no-unused-expressions": [
         "error",
         {
@@ -56,11 +59,22 @@
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
+    "dotenv": "^4.0.0",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
+    "mongoose": "^4.10.3",
     "morgan": "~1.8.1",
     "node-sass-middleware": "0.9.8",
-    "xo": "^0.18.2"
+    "xo": "^0.18.2",
+    "bcryptjs": "*",
+    "connect-flash": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "mongodb": "*",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
   },
   "devDependencies": {
     "babelify": "^7.3.0",
