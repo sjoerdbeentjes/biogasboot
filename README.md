@@ -25,7 +25,7 @@ Single feature description
 ```
 
 ## Screenshots
-![example-image](./repo-images/example-image.png)
+![example-image](md-media/example-image.png)
 
 ## Used packages
 * [x] [`Package init`](#) package description init.
