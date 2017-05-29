@@ -60,7 +60,7 @@ router.post('/register', (req, res) => {
         }];
         res.render('register');
       } else {
-        User.find({email: email}, (err, user) => {
+        User.find({email}, (err, user) => {
           if (user.length) {
             res.locals.errors = [{
               msg: 'Dit emailadres is al in gebruik'
