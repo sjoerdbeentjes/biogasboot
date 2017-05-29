@@ -16,7 +16,7 @@ const db = mongoose.connection;
 require('dotenv').config();
 
 const index = require('./routes/index');
-const users = require('./routes/users');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -90,7 +90,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use('/', index);
-app.use('/auth', users);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

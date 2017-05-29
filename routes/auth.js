@@ -8,12 +8,20 @@ const User = require('../models/user');
 
 // login
 router.get('/login', (req, res) => {
-  res.render('login');
+  if (res.locals.user) {
+    res.redirect('/');
+  } else {
+    res.render('login');
+  }
 });
 
 // register
 router.get('/register', (req, res) => {
-  res.render('register');
+  if (res.locals.user) {
+    res.redirect('/');
+  } else {
+    res.render('register');
+  }
 });
 
 router.post('/register', (req, res) => {
