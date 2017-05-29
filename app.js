@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // express session
 app.use(session({
-  secret: 'secret',
+  secret: 'appelflap',
   saveUninitialized: true,
   resave: true
 }));
@@ -90,8 +90,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use('/', index);
-app.use('/users', users);
-
+app.use('/auth', users);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -45,12 +45,30 @@ router.post('/register', (req, res) => {
       password
     });
 
-    User.createUser(newUser, (err, user) => {
-      if (err) {
-        throw err;
-      }
+    User.find({name: username}, (err, user) => {
+      if (user.length) {
+        res.locals.errors = [{
+          msg: 'Deze gebruikersnaam is al in gebruik'
+        }];
+        res.render('register');
+      } else {
+        User.find({email: email}, (err, user) => {
+          if (user.length) {
+            res.locals.errors = [{
+              msg: 'Dit emailadres is al in gebruik'
+            }];
+            res.render('register');
+          } else {
+            User.createUser(newUser, (err, user) => {
+              if (err) {
+                throw err;
+              }
 
-      res.redirect('/users/login');
+              res.redirect('/auth/login');
+            });
+          }
+        });
+      }
     });
   }
 });
@@ -90,7 +108,7 @@ passport.deserializeUser((id, done) => {
 router.post('/login',
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/users/login'
+    failureRedirect: '/auth/login'
   }),
   (req, res) => {
     res.redirect('/');
@@ -100,7 +118,7 @@ router.post('/login',
 router.get('/logout', (req, res) => {
   req.logout();
 
-  res.redirect('/users/login');
+  res.redirect('/auth/login');
 });
 
 module.exports = router;
