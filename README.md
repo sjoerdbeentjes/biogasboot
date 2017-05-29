@@ -75,8 +75,8 @@ Diego Staphorst   | Sjoerd Beentjes  | Timo Verkroost
 ## License
 MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost
 
-[diego]: https://avatars0.githubusercontent.com/u/10053770?v=3&s=460 "Diego Staphorst"
+[diego]: https://avatars0.githubusercontent.com/u/10053770?v=3&s=400 "Diego Staphorst"
 
-[sjoerd]: https://avatars3.githubusercontent.com/u/11621275?v=3&s=460 "Sjoerd Beentjes"
+[sjoerd]: https://avatars3.githubusercontent.com/u/11621275?v=3&s=400 "Sjoerd Beentjes"
 
-[timo]: https://avatars2.githubusercontent.com/u/17787175?v=3&s=460 "Timo Verkroost"
+[timo]: https://avatars2.githubusercontent.com/u/17787175?v=3&s=400 "Timo Verkroost"
