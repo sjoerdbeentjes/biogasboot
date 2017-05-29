@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start-update": "nodemon ./bin/www",
     "expose": "ngrok http 3000",
     "build-js": "browserify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
     "build-css": "node-sass --include-path scss src/scss/main.scss ./public/css/main.css",

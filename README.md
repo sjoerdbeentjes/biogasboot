@@ -64,6 +64,11 @@ npm run build
 npm start
 ```
 
+### Start server with live updates
+```
+npm run start-update
+```
+
 ## Sources
 - [De Biogasboot](http://www.biogasboot.nl/)
 - [De Ceuvel](http://deceuvel.nl/nl/)
