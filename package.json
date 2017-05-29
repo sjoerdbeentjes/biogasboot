@@ -1,10 +1,12 @@
 {
   "name": "biogasboot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "expose": "ngrok http 3000",
+    "build": "browserify ./src/js/index.js -t | babelify -d -o ./public/js/index.js",
+    "watch": "watchify ./src/js/index.js -o | babelify -d -o ./public/js/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
       "operator-linebreak": 0,
       "camelcase": 0,
       "no-implicit-coercion": 0,
+      "unicorn/prefer-starts-ends-with": 0,
       "no-unused-expressions": [
         "error",
         {
@@ -37,6 +40,18 @@
     }
   },
   "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "ejs": "~2.5.6",
+    "express": "~4.15.2",
+    "morgan": "~1.8.1",
+    "node-sass-middleware": "0.9.8",
     "xo": "^0.18.2"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "watchify": "^3.9.0"
   }
 }
