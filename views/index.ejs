@@ -1,12 +1,12 @@
 <%- include partials/head.ejs %>
 
 <% if (!locals.user) { %>
-  <a href="/users/login">Inloggen</a>
-  <a href="/users/register">Registreren</a>
+  <a href="/auth/login">Inloggen</a>
+  <a href="/auth/register">Registreren</a>
 <% } %>
 
 <% if (locals.user) { %>
-  <a href="/users/logout">Uitloggen</a>
+  <a href="/auth/logout">Uitloggen</a>
 <% } %>
 
 main
