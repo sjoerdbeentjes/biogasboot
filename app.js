@@ -4,11 +4,24 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
+const expressValidator = require('express-validator');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const mongo = require('mongodb');
+const mongoose = require('mongoose');
+
+const db = mongoose.connection;
+
+require('dotenv').config();
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 
 const app = express();
+
+// mongoose setup
+mongoose.connect(process.env.DB_URL);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,16 +39,43 @@ app.use(sassMiddleware({
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+// express session
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
 
-// catch 404 and forward to error handler
+// passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// express validator
+app.use(expressValidator({
+  errorFormatter(param, msg, value) {
+    const namespace = param.split('.');
+    const root = namespace.shift();
+    let formParam = root;
+
+    while (namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+
+    return {
+      param: formParam,
+      msg,
+      value
+    };
+  }
+}));
+
+// global vars
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.locals.user = req.user || null;
+  next();
 });
 
 // error handler
@@ -47,6 +87,17 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use('/', index);
+app.use('/users', users);
+
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 module.exports = app;
