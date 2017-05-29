@@ -16,5 +16,27 @@
   "bugs": {
     "url": "https://github.com/sjoerdbeentjes/biogasboot/issues"
   },
-  "homepage": "https://github.com/sjoerdbeentjes/biogasboot#readme"
+  "homepage": "https://github.com/sjoerdbeentjes/biogasboot#readme",
+  "xo": {
+    "space": true,
+    "env": [
+      "node",
+      "browser"
+    ],
+    "rules": {
+      "capitalized-comments": 0,
+      "operator-linebreak": 0,
+      "camelcase": 0,
+      "no-implicit-coercion": 0,
+      "no-unused-expressions": [
+        "error",
+        {
+          "allowTernary": true
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "xo": "^0.18.2"
+  }
 }
