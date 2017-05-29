@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "expose": "ngrok http 3000",
+    "build": "browserify ./src/js/index.js -t | babelify -d -o ./public/js/index.js",
+    "watch": "watchify ./src/js/index.js -o | babelify -d -o ./public/js/index.js"
   },
   "repository": {
     "type": "git",
@@ -58,5 +61,10 @@
     "morgan": "~1.8.1",
     "node-sass-middleware": "0.9.8",
     "xo": "^0.18.2"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "watchify": "^3.9.0"
   }
 }
