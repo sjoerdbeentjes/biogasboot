@@ -72,7 +72,7 @@ npm start
 Diego Staphorst   | Sjoerd Beentjes  | Timo Verkroost  
 --- | --- | ---
 ![Diego Staphorst][diego] | ![Sjoerd Beentjes][sjoerd] | ![Timo Verkroost][timo]
-## Licence
+## License
 MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost
 
 [diego]: https://avatars0.githubusercontent.com/u/10053770?v=3&s=460 "Diego Staphorst"
