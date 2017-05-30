@@ -1,1 +1,0 @@
-console.error("Error: Couldn't find preset \"es2015\" relative to directory \"/Users/Sjoerd/Desktop/CMD v2/minor/biogasboot/src/js\" while parsing file: /Users/Sjoerd/Desktop/CMD v2/minor/biogasboot/src/js/index.js");

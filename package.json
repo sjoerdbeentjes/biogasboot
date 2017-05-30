@@ -73,6 +73,7 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "line-by-line": "^0.1.5",
     "mongodb": "*",
     "mongoose": "^4.10.3",
     "morgan": "~1.8.1",
@@ -80,6 +81,7 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
+    "web-push": "^3.2.2",
     "xo": "^0.18.2"
   },
   "devDependencies": {
