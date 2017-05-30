@@ -4,7 +4,10 @@ Through sensors that themselves report their data, data is generated about the f
 Biogasboot data visualization: [Live demo](#)
 
 ## Concept
-Concept init
+
+### Operators
+
+### Customers
 
 ## Usage
 Usage init
