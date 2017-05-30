@@ -4,27 +4,29 @@ Through sensors that themselves report their data, data is generated about the f
 Biogasboot data visualization: [Live demo](#)
 
 ## Concept
-Concept init
+We have 2 specific target audiences that both needed their own approach.
+- **The operators** of the Biogasboot, they have to see all the data that is coming from the sensors of the Biogasboot.
+- **The customers** of café De Ceuvel, they don't need all the data but only a fraction of it so realize what the Biogasboot does.
+
+### Operators
+The operator is the person who takes control of the food waste digester. He or she wants to know the current state of the digester with the current values of the process parameters. Historical data should be accessible to the operator to determine if a new adjustment had a good effect on the process compared to a previous run. Remarkable trends in the data should also be notified which the operator gets the response of. 
+
+### Customers
+When a customer is at the bar he or she sees the large TV screen with the Biogasboot it's data. We know that all customers have to order add the bar so they have to see it. It's important that the customer almost instantly knows what the data on the screen means, this can be done for example with illustrations and leading titles. Also the customers have to know from what date the data is measured until the current date. They have to realize how "bio clean" café De Ceuvel's kitchen is.
 
 ## Usage
 Usage init
 
 ## Stakeholders
 - Operators of the Biogasboot.
-- Visitors of café "De Ceuvel".
+- Customers of café "De Ceuvel".
 - Employees of café "De Ceuvel".
 - The planet :earth_africa:. 
 
 ## Features
 List of the most important features.
 
-### Notifications (Timo)
-
-### Login (Sjoerd)
-
-### Input/Output (Diego)
-
-### Single feature init
+### Single feature (Name of developer)
 Single feature description
 ```javascript
   // Example JS code
