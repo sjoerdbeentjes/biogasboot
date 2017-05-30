@@ -1,0 +1,27 @@
+nav {
+  background-color: $lighter-grey;
+}
+
+nav ul {
+  display: flex;
+  padding: 0;
+}
+
+nav ul li {
+  list-style: none;
+
+  a {
+    display: block;
+    padding: 1em;
+    text-decoration: none;
+    color: $text-color;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+nav .user {
+  margin-left: auto;
+}

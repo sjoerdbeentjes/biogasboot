@@ -1,0 +1,19 @@
+button, [role='button'] {
+  display: inline-block;
+  font-size: 1em;
+  background-color: #fff;
+  border: 1px solid $primary-theme-color;
+  padding: 1em;
+  text-decoration: none;
+  color: $primary-theme-color;
+
+  &.success {
+    border: 1px solid $success-theme-color;
+    color: $success-theme-color;
+  }
+
+  &.warning {
+    border: 1px solid $warning-theme-color;
+    color: $warning-theme-color;
+  }
+}
