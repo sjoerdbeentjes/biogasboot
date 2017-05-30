@@ -23,6 +23,10 @@ const app = express();
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
 
+// Service worker push notifications
+const serviceWorker = require('./modules/server-service-worker');
+serviceWorker();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
