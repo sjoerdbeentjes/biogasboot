@@ -6,6 +6,8 @@
  "display": "browser",
  "theme_color": "#34b25e",
  "background_color": "#f2f2f2",
+ "gcm_sender_id": "754807760408",
+ "gcm_user_visible_only": true,
  "icons": [
   {
    "src": "/images/icons/android-icon-36x36.png",
