@@ -18,6 +18,12 @@ Usage init
 ## Features
 List of the most important features.
 
+### Notifications (Timo)
+
+### Login (Sjoerd)
+
+### Input/Output (Diego)
+
 ### Single feature init
 Single feature description
 ```javascript
