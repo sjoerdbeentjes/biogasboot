@@ -80,6 +80,7 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
+    "web-push": "^3.2.2",
     "xo": "^0.18.2"
   },
   "devDependencies": {
