@@ -25,7 +25,7 @@ Usage init
 ## Features
 List of the most important features.
 
-### Single feature init
+### Single feature (Name of developer)
 Single feature description
 ```javascript
   // Example JS code
