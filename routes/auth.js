@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
                 throw err;
               }
 
-              res.redirect('/users');
+              res.redirect('/auth/login');
             });
           }
         });
