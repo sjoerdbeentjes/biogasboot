@@ -34,11 +34,15 @@
     <li><a href="/">Home</a></li>
     <% if (!locals.user) { %>
       <li class="user"><a href="/auth/login">Inloggen</a></li>
-      <li><a href="/auth/register">Registreren</a></li>
     <% } %>
 
     <% if (locals.user) { %>
-      <li class="user"><a href=""><%= user.name %></a></li>
+      <li class="user"><a href=""><%= user.name %> (<%= user.role %>)</a></li>
+
+      <% if (locals.user.role === 'admin') { %>
+        <li><a href="/auth/register">Gebruiker toevoegen</a></li>
+      <% } %>
+
       <li><a href="/auth/logout">Uitloggen</a></li>
     <% } %>
   </ul>
