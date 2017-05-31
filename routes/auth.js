@@ -20,7 +20,7 @@ router.get('/register', (req, res) => {
   if (res.locals.user && res.locals.user.role === 'admin') {
     res.render('register');
   } else {
-    res.redirect('/');
+    res.status(404).render('404');
   }
 });
 
@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
                 throw err;
               }
 
-              res.redirect('/auth/login');
+              res.redirect('/users');
             });
           }
         });
