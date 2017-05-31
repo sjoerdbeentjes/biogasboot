@@ -1,5 +1,5 @@
 // Register event listener for the 'push' event.
-self.addEventListener('push', function(event) {
+self.addEventListener('push', event => {
   // Keep the service worker alive until the notification is created.
   event.waitUntil(
     // Show a notification with title 'ServiceWorker Cookbook' and body 'Alea iacta est'.
@@ -13,7 +13,7 @@ self.addEventListener('push', function(event) {
       body: 'Biogasboot notificatie body tekst',
       icon: '/images/icons/favicon-96x96.png',
       badge: '/images/icons/favicon-96x96.png',
-      vibrate: [500, 100, 500],
+      vibrate: [500, 100, 500]
     })
   );
 });
