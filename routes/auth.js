@@ -17,16 +17,17 @@ router.get('/login', (req, res) => {
 
 // register
 router.get('/register', (req, res) => {
-  if (res.locals.user) {
-    res.redirect('/');
-  } else {
+  if (res.locals.user && res.locals.user.role === 'admin') {
     res.render('register');
+  } else {
+    res.status(404).render('404');
   }
 });
 
 router.post('/register', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
+  const role = req.body.role;
   const username = req.body.username;
   const password = req.body.password;
   const password2 = req.body.password2;
@@ -36,6 +37,7 @@ router.post('/register', (req, res) => {
   req.checkBody('email', 'Email is required').notEmpty();
   req.checkBody('email', 'Email is not valid').isEmail();
   req.checkBody('username', 'Username is required').notEmpty();
+  req.checkBody('role', 'Role is required').notEmpty();
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
 
@@ -50,6 +52,7 @@ router.post('/register', (req, res) => {
       name,
       email,
       username,
+      role,
       password
     });
 

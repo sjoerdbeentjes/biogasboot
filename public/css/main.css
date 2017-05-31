@@ -116,6 +116,22 @@ form footer {
   padding: 1em;
   margin-bottom: 1em; }
 
+table {
+  border-collapse: collapse; }
+
+table, th {
+  text-align: left; }
+
+table, th, td {
+  border: 1px solid black;
+  padding: 0.5em; }
+
+button + table, [role=button] + table {
+  margin-top: 1em; }
+
+table + button, table [role=button] {
+  margin-top: 1em; }
+
 nav {
   background-color: #ecf0f1; }
 
