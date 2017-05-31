@@ -2,6 +2,7 @@ const webPush = require('web-push');
 require('dotenv').config();
 
 function serviceWorker(app) {
+
 // Store subscriptions
   const subscriptions = [];
 
@@ -22,9 +23,10 @@ function serviceWorker(app) {
       endpoint
     }).then(() => {
       console.log('Push Application Server - Notification sent to ' + endpoint);
-    }).catch(() => {
+    }).catch((err) => {
       console.log('ERROR in sending Notification, endpoint removed ' + endpoint);
       subscriptions.splice(subscriptions.indexOf(endpoint), 1);
+      console.log(err);
     });
   }
 

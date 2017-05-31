@@ -26,18 +26,6 @@ const app = express();
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
 
-// app.post('/register', function(req, res) {
-//   "use strict";
-//   res.send(req.params);
-//   console.log(req);
-// });
-//
-// app.post('/unregister', function(req, res) {
-//   "use strict";
-//   res.send(req.params);
-//   console.log(req);
-// });
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
