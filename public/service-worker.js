@@ -1,5 +1,4 @@
-// Listen to `push` notification event. Define the text to be displayed
-// and show the notification.
+// Push notification config
 self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification('Biogasboot update', {
@@ -13,10 +12,7 @@ self.addEventListener('push', event => {
   );
 });
 
-// Listen to  `pushsubscriptionchange` event which is fired when
-// subscription expires. Subscribe again and register the new subscription
-// in the server by sending a POST request with endpoint. Real world
-// application would probably use also user identification.
+// Refresh subscription
 self.addEventListener('pushsubscriptionchange', event => {
   console.log('Subscription expired');
   event.waitUntil(
@@ -35,3 +31,4 @@ self.addEventListener('pushsubscriptionchange', event => {
       })
   );
 });
+// source: https://serviceworke.rs/push-subscription-management.html

@@ -2,12 +2,10 @@ const webPush = require('web-push');
 require('dotenv').config();
 
 function serviceWorker(app) {
-// Global array collecting all active endpoints. In real world
-// application one would use a database here.
+// Store subscriptions
   const subscriptions = [];
 
-// How often (in seconds) should the server send a notification to the
-// user.
+// Push interval (10 seconds)
   const pushInterval = 10;
 
 // Setting the Google Cloud Messaging API Key.
@@ -18,9 +16,7 @@ function serviceWorker(app) {
     webPush.setGCMAPIKey(process.env.GCM_API_KEY);
   }
 
-// Send notification to the push service. Remove the endpoint from the
-// `subscriptions` array if the  push service responds with an error.
-// Subscription has been cancelled or expired.
+// Send notification
   function sendNotification(endpoint) {
     webPush.sendNotification({
       endpoint
@@ -32,9 +28,7 @@ function serviceWorker(app) {
     });
   }
 
-// In real world application is sent only if an event occured.
-// To simulate it, server is sending a notification every `pushInterval` seconds
-// to each registered endpoint.
+// Simulate send notifications needs to be disabled
   setInterval(() => {
     subscriptions.forEach(sendNotification);
   }, pushInterval * 1000);
@@ -63,7 +57,7 @@ function serviceWorker(app) {
     res.type('js').send('{"success":true}');
   });
 }
-// source: https://serviceworke.rs/push-rich.html
+// source: https://serviceworke.rs/push-subscription-management.html
 
 // Export module
 module.exports = serviceWorker;
