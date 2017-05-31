@@ -10,6 +10,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
 
@@ -23,9 +24,17 @@ const app = express();
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
 
-// Service worker push notifications
-const serviceWorker = require('./modules/server-service-worker');
-serviceWorker(app);
+// app.post('/register', function(req, res) {
+//   "use strict";
+//   res.send(req.params);
+//   console.log(req);
+// });
+//
+// app.post('/unregister', function(req, res) {
+//   "use strict";
+//   res.send(req.params);
+//   console.log(req);
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -89,6 +98,9 @@ app.use((err, req, res, next) => {
 
 app.use('/', index);
 app.use('/auth', auth);
+
+// Service worker push notifications
+serviceWorker(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
