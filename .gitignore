@@ -2,7 +2,7 @@
 .idea
 .idea/
 .env
-public/css/style.css
+public/css/main.css
 public/js/index.js
 
 # Logs
