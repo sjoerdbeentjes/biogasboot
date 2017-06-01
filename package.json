@@ -65,6 +65,7 @@
     "body-parser": "~1.17.1",
     "connect-flash": "*",
     "cookie-parser": "~1.4.3",
+    "csv-parse": "^1.2.0",
     "d3": "^4.9.1",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",

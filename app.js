@@ -18,6 +18,7 @@ require('dotenv').config();
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const api = require('./routes/api');
 const error = require('./routes/error');
 
 const app = express();
@@ -92,6 +93,7 @@ app.use((err, req, res, next) => {
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/api', api);
 app.use('*', error);
 
 // catch 404 and forward to error handler
