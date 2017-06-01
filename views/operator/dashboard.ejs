@@ -1,5 +1,34 @@
 <%- include ../partials/head.ejs %>
 
-<h2>Operator dashboard</h2>
+<main>
+  <h2>Operator dashboard</h2>
+  <p>Dashboard intro text?</p>
+  <section id="currentData">
+    <section id="statusCurrent">
+      Aan/uit
+    </section>
+    <section id="phCurrent">
+      PH <span class="value">13</span>
+    </section>
+    <section id="tempCurrent">
+      <span class="value">37</span> &#8451;
+    </section>
+    <section id="bagCurrent">
+      <span class="value">130</span> cm
+    </section>
+    <section id="inputCurrent">
+      <span class="value">10</span> kg
+    </section>
+  </section>
+  <section id="filter">
+    <h3>Filters</h3>
+      <label>
+          Filernaam 1 <input type="checkbox" name="filternaam1" value="filternaam1">
+      </label>
+      <label>
+          Filernaam 2 <input type="checkbox" name="filternaam2" value="filternaam2">
+      </label>
+  </section>
+</main>
 
 <%- include ../partials/foot.ejs %>
