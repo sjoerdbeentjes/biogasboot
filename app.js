@@ -10,7 +10,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
-const serviceWorker = require('./modules/server-service-worker');
+// const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
 
@@ -92,7 +92,7 @@ app.use('/users', users);
 app.use('*', error);
 
 // Service worker push notifications
-serviceWorker(app);
+// serviceWorker(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
