@@ -66,14 +66,14 @@ h4 {
 p {
   margin-bottom: 1em; }
 
-.background-dashboard {
+body {
+  box-sizing: border-box;
   background: url(/images/background.jpg) no-repeat center center fixed;
   background: url(/images/background.webp) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
-  height: 100vh; }
+  background-size: cover; }
 
 button, [role='button'] {
   display: inline-block;
@@ -160,3 +160,25 @@ nav ul li {
 
 nav .user {
   margin-left: auto; }
+
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex: 0 1 calc(50% - 2em);
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+  padding: 1em;
+  margin: 1em; }
+  .card img {
+    height: 10em;
+    display: block; }
+
+.card-dashboard {
+  display: flex;
+  flex: 0 1 50%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: row; }
+  .card-dashboard footer {
+    display: none; }
