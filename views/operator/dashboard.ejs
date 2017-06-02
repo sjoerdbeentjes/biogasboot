@@ -1,34 +1,50 @@
 <%- include ../partials/head.ejs %>
 
 <main>
-  <h2>Operator dashboard</h2>
-  <p>Dashboard intro text?</p>
   <section id="currentData">
-    <section id="statusCurrent">
-      Aan/uit
-    </section>
-    <section id="phCurrent">
-      PH <span class="value">13</span>
-    </section>
-    <section id="tempCurrent">
-      <span class="value">37</span> &#8451;
-    </section>
-    <section id="bagCurrent">
-      <span class="value">130</span> cm
-    </section>
-    <section id="inputCurrent">
-      <span class="value">10</span> kg
+    <aside id="phCurrent" class="goodValue">
+      <div class="inner">
+        <h3>PH waarde</h3>
+        <span class="value">7</span>
+      </div>
+    </aside>
+    <aside id="tempCurrent" class="warningValue">
+      <div class="inner">
+        <h3>Temperatuur</h3>
+        <span class="value">37</span> <span class="unit">&#8451;</span>
+      </div>
+    </aside>
+    <aside id="bagCurrent" class="errorValue">
+      <div class="inner">
+        <h3>Gaszak</h3>
+        <span class="value">130</span> <span class="unit">cm</span>
+      </div>
+    </aside>
+    <aside id="inputCurrent" class="goodValue">
+      <div class="inner">
+        <h3>Input</h3>
+        <span class="value">10</span> <span class="unit">kg</span>
+      </div>
+    </aside>
+    <aside id="heaterCurrent" class="goodValue">
+      <div class="inner">
+        <h3>Heater</h3>
+        <span class="value">Aan</span>
+      </div>
+    </aside>
+    <section id="graph">
+      Grafiek
     </section>
   </section>
-  <section id="filter">
-    <h3>Filters</h3>
-      <label>
-          Filernaam 1 <input type="checkbox" name="filternaam1" value="filternaam1">
-      </label>
-      <label>
-          Filernaam 2 <input type="checkbox" name="filternaam2" value="filternaam2">
-      </label>
-  </section>
+  <!--<section id="filter">-->
+    <!--<h3>Filters</h3>-->
+      <!--<label>-->
+          <!--Filernaam 1 <input type="checkbox" name="filternaam1" value="filternaam1">-->
+      <!--</label>-->
+      <!--<label>-->
+          <!--Filernaam 2 <input type="checkbox" name="filternaam2" value="filternaam2">-->
+      <!--</label>-->
+  <!--</section>-->
 </main>
 
 <%- include ../partials/foot.ejs %>
