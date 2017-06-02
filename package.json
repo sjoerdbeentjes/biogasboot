@@ -8,7 +8,7 @@
     "expose": "ngrok http 3000",
     "build-js": "browserify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
     "build-css": "node-sass --include-path scss src/scss/main.scss ./public/css/main.css",
-    "build-webp": "node npm-scripts/webp.js",
+    "build-webp": "node ./npm-scripts/webp.js",
     "build": "npm run build-js && npm run build-css",
     "watch-js": "watchify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",

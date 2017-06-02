@@ -66,10 +66,14 @@ h4 {
 p {
   margin-bottom: 1em; }
 
-ul {
-  padding-left: 1em;
-  margin-bottom: 1em;
-  display: block; }
+.background-dashboard {
+  background: url(/images/background.jpg) no-repeat center center fixed;
+  background: url(/images/background.webp) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100vh; }
 
 button, [role='button'] {
   display: inline-block;
@@ -131,6 +135,11 @@ button + table, [role=button] + table {
 
 table + button, table [role=button] {
   margin-top: 1em; }
+
+ul {
+  padding-left: 1em;
+  margin-bottom: 1em;
+  display: block; }
 
 nav {
   background-color: #ecf0f1; }
