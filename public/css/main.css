@@ -151,3 +151,6 @@ nav ul li {
 
 nav .user {
   margin-left: auto; }
+
+.axis.y .tick line {
+  stroke: #ecf0f1; }

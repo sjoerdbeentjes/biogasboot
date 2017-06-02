@@ -31,3 +31,5 @@ if ('serviceWorker' in navigator) {
     });
   // source: https://serviceworke.rs/push-rich.html
 }
+
+require('./modules/real-time-graph');

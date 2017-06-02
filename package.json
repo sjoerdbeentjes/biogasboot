@@ -40,6 +40,7 @@
       "no-multi-assign": 0,
       "curly": 0,
       "no-else-return": 0,
+      "array-callback-return": 0,
       "no-unused-expressions": [
         "error",
         {
@@ -82,6 +83,8 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
+    "socket.io": "^2.0.2",
+    "socket.io-client": "^2.0.2",
     "web-push": "^3.2.2",
     "xo": "^0.18.2"
   },

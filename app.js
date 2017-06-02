@@ -1,3 +1,4 @@
+const http = require('http').Server;
 const path = require('path');
 const express = require('express');
 const logger = require('morgan');
@@ -10,8 +11,15 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const socketio = require('socket.io');
+
+const app = express();
 
 const db = mongoose.connection;
+
+// Socket.io connection
+const io = socketio();
+app.io = io;
 
 require('dotenv').config();
 
@@ -21,14 +29,18 @@ const users = require('./routes/users');
 const api = require('./routes/api');
 const error = require('./routes/error');
 
-const app = express();
-
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
 
 // Service worker push notifications
 const serviceWorker = require('./modules/server-service-worker');
+
 serviceWorker(app);
+
+// websockets
+const webSockets = require('./modules/websockets');
+
+webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,6 +100,10 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+io.on('connection', socket => {
+  console.log('CONNECTION');
 });
 
 app.use('/', index);
