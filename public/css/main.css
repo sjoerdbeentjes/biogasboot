@@ -176,7 +176,6 @@ nav .user {
 
 .card-dashboard {
   display: flex;
-  flex: 0 1 50%;
   justify-content: space-around;
   flex-wrap: wrap;
   flex-direction: row; }
