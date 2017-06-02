@@ -19,6 +19,7 @@ require('dotenv').config();
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const customerDashboard = require('./routes/customer-dashboard');
 const error = require('./routes/error');
 
 const app = express();
@@ -89,6 +90,7 @@ app.use((err, req, res, next) => {
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/customer-dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
