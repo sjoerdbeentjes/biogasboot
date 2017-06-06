@@ -1,9 +1,12 @@
-.card-dashboard {
+#customer-dashboard {
+  .card-dashboard {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: row;
+    height: 100%;
     footer {
-        display: none;
+      display: none;
     }
+  }
 }

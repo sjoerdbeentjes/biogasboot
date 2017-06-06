@@ -30,13 +30,20 @@
 <body>
 
 <nav>
+  <label for="showMenu">
+    MENU
+  </label>
+  <input name="showMenu" id="showMenu" type="checkbox">
   <ul>
     <li><a href="/">Home</a></li>
+    <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
     <% if (!locals.user) { %>
       <li class="user"><a href="/auth/login">Inloggen</a></li>
     <% } %>
 
     <% if (locals.user) { %>
+      <!--<li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>-->
+
       <li class="user"><a href=""><%= user.name %> (<%= user.role %>)</a></li>
 
       <% if (locals.user.role === 'admin') { %>

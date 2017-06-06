@@ -1,23 +1,24 @@
 <%- include partials/head.ejs %>
+<main>
+  <% if (locals.errors) {%>
+    <% errors.forEach(error => { %>
+      <div><%= error.msg %></div>
+    <% }) %>
+  <% } %>
 
-<% if (locals.errors) {%>
-  <% errors.forEach(error => { %>
-    <div><%= error.msg %></div>
-  <% }) %>
-<% } %>
+  <form method="post" action="/auth/login">
+    <label for="username">Gebruikersnaam</label>
+    <input id="username" type="text" class="form-control" placeholder="Username" name="username" autofocus>
 
-<form method="post" action="/auth/login">
-  <label for="username">Gebruikersnaam</label>
-  <input id="username" type="text" class="form-control" placeholder="Username" name="username" autofocus>
+    <label for="password">Wachtwoord</label>
+    <input id="password" type="password" class="form-control" placeholder="Password" name="password">
 
-  <label for="password">Wachtwoord</label>
-  <input id="password" type="password" class="form-control" placeholder="Password" name="password">
+    <footer>
+      <a href="/auth/register">Registreren</a>
 
-  <footer>
-    <a href="/auth/register">Registreren</a>
-
-    <button type="submit" class="btn btn-default">Inloggen</button>
-  </footer>
-</form>
+      <button type="submit" class="btn btn-default">Inloggen</button>
+    </footer>
+  </form>
+</main>
 
 <%- include partials/foot.ejs %>

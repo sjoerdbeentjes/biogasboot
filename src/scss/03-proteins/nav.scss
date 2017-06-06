@@ -1,20 +1,48 @@
 nav {
-  background-color: $lighter-grey;
+  background-color: #ffffff;
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  width: 100%;
+  border-bottom: 0.1em solid #e9e9e9;
+
+}
+
+#showMenu {
+  display: none;
+}
+
+nav > label {
+  padding: 1em;
+  display: block;
+  margin-bottom: 0;
 }
 
 nav ul {
-  display: flex;
+  display: none;
   padding: 0;
+  margin-bottom: 0;
+  border-top: 0.1em solid #e9e9e9;
+}
+
+nav > input[type="checkbox"]:checked + ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 nav ul li {
   list-style: none;
+  display: block;
+  flex-basis: 100%;
+  max-width: 100%;
 
   a {
     display: block;
     padding: 1em;
     text-decoration: none;
-    color: $text-color;
+    color: #434343;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
