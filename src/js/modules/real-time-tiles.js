@@ -85,3 +85,27 @@ socket.on('dataPoint', point => {
     }
   }
 });
+
+// Toggle tiles max 2 selected
+const getButtons = document.querySelectorAll('#currentData > button');
+let i;
+let count = 0;
+// Loop through buttons
+for (i = 0; i < getButtons.length; i++) {
+  // activate on click
+    getButtons[i].addEventListener('click', function() {
+      // select max of 2
+      if (count < 2) {
+        this.classList.toggle('active');
+        if (this.classList.contains('active')) {
+          count++;
+        } else {
+          count--;
+        }
+      } else if (this.classList.contains('active')) {
+        // When 2 are selected this is the way to remove an active class
+        this.classList.remove('active');
+        count--;
+      }
+    });
+}

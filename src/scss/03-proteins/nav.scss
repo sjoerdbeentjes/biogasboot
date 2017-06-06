@@ -17,6 +17,7 @@ nav > label {
   padding: 1em;
   display: block;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 nav ul {
@@ -52,4 +53,19 @@ nav ul li {
 
 nav .user {
   margin-left: auto;
+}
+
+@media screen and (min-width: 768px) {
+  nav > label {
+    display: none;
+  }
+
+  nav ul {
+    display: block;
+    border-top:none;
+  }
+
+  nav ul li {
+    display: inline-block;
+  }
 }
