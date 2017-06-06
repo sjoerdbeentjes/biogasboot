@@ -1,26 +1,27 @@
 <%- include partials/head.ejs %>
+<main>
+  <a href="/auth/register" role="button">Gebruiker toevoegen</a>
 
-<a href="/auth/register" role="button">Gebruiker toevoegen</a>
-
-<table>
-  <thead>
-    <tr>
-      <th>Naam</th>
-      <th>Gebruikersnaam</th>
-      <th>Email</th>
-      <th>Rol</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% users.forEach(user => { %>
+  <table>
+    <thead>
       <tr>
-        <td><%= user.name %></td>
-        <td><%= user.username %></td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
+        <th>Naam</th>
+        <th>Gebruikersnaam</th>
+        <th>Email</th>
+        <th>Rol</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
 
 <%- include partials/foot.ejs %>

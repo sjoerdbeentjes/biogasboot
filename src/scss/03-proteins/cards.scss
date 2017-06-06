@@ -1,5 +1,6 @@
-.card {
-    background: hsla(0,0%,100%,.6);
+#customer-dashboard {
+  .card {
+    background: hsla(0, 0%, 100%, .6);
     display: flex;
     flex: 0 0 calc(50% - 2em);
     flex-direction: column;
@@ -7,10 +8,15 @@
     align-items: center;
     padding: 1em;
     margin: 1em;
-        text-align: center;
-        justify-content: space-between;
-    img {
-        height: 10em;
-        display: block;
+    max-width: 40vw;
+    text-align: center;
+    justify-content: space-between;
+    &:last-child {
+        margin-top: auto;
     }
+    img {
+      height: 10em;
+      display: block;
+    }
+  }
 }
