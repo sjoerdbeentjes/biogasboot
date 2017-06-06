@@ -274,6 +274,14 @@ nav ul li {
 nav .user {
   margin-left: auto; }
 
+.axis.y .tick line {
+  stroke: #ecf0f1; }
+
+.smoothline {
+  fill: none;
+  stroke: #060c36;
+  stroke-width: 3px; }
+
 .card {
   background: rgba(255, 255, 255, 0.6);
   display: flex;

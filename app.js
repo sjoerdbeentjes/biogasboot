@@ -1,3 +1,4 @@
+const http = require('http').Server;
 const path = require('path');
 const express = require('express');
 const logger = require('morgan');
@@ -10,23 +11,40 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const socketio = require('socket.io');
+
+const app = express();
+
 // const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
+
+// Socket.io connection
+const io = socketio();
+app.io = io;
 
 require('dotenv').config();
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const api = require('./routes/api');
 const customerDashboard = require('./routes/customer-dashboard');
 const error = require('./routes/error');
 const operatorDashboard = require('./routes/operator/dashboard');
 
-const app = express();
-
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
+
+// Service worker push notifications
+const serviceWorker = require('./modules/server-service-worker');
+
+serviceWorker(app);
+
+// websockets
+const webSockets = require('./modules/websockets');
+
+webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,9 +106,14 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
+io.on('connection', socket => {
+  console.log('CONNECTION');
+});
+
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/api', api);
 app.use('/operator/dashboard', operatorDashboard);
 app.use('/customer-dashboard', customerDashboard);
 app.use('*', error);
