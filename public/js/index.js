@@ -23284,39 +23284,44 @@ module.exports = yeast;
 },{}],46:[function(require,module,exports){
 'use strict';
 
-if ('serviceWorker' in navigator) {
-  var endpoint = void 0;
-
-  // Register a Service Worker.
-  navigator.serviceWorker.register('service-worker.js').then(function (registration) {
-    // Use the PushManager to get the user's subscription to the push service.
-    return registration.pushManager.getSubscription().then(function (subscription) {
-      // If a subscription was found, return it.
-      if (subscription) {
-        return subscription;
-      }
-
-      // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
-      // send notifications that don't have a visible effect for the user).
-      return registration.pushManager.subscribe({ userVisibleOnly: true });
-    });
-  }).then(function (subscription) {
-    endpoint = subscription.endpoint;
-    // Send the subscription details to the server using the Fetch API.
-    fetch('./register', {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        endpoint: subscription.endpoint
-      })
-    });
-  });
-  // source: https://serviceworke.rs/push-rich.html
-}
+// if ('serviceWorker' in navigator) {
+//   let endpoint;
+//
+//   // Register a Service Worker.
+//   navigator.serviceWorker.register('service-worker.js')
+//     .then(registration => {
+//       // Use the PushManager to get the user's subscription to the push service.
+//       return registration.pushManager.getSubscription()
+//         .then(subscription => {
+//           // If a subscription was found, return it.
+//           if (subscription) {
+//             return subscription;
+//           }
+//
+//           // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
+//           // send notifications that don't have a visible effect for the user).
+//           return registration.pushManager.subscribe({userVisibleOnly: true});
+//         });
+//     }).then(subscription => {
+//       endpoint = subscription.endpoint;
+//     // Send the subscription details to the server using the Fetch API.
+//       fetch('./register', {
+//         method: 'post',
+//         headers: {
+//           'Content-type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//           endpoint: subscription.endpoint
+//         })
+//       });
+//     });
+//   // source: https://serviceworke.rs/push-rich.html
+// }
 
 require('./modules/real-time-graph');
+
+// Include serviceworker
+// require('./serviceworker-index.js');
 
 },{"./modules/real-time-graph":47}],47:[function(require,module,exports){
 'use strict';
@@ -23324,82 +23329,85 @@ require('./modules/real-time-graph');
 var d3 = require('d3');
 var io = require('socket.io-client');
 
-var socket = io.connect();
+if (document.querySelector('#chart')) {
 
-var data = [];
+  // Main loop
+  var tick = function tick(point) {
+    data.push(point);
 
-var ticks = 30;
+    // Remote old data (max 20 points)
+    if (data.length > ticks + 1) {
+      data.shift();
+    }
 
-var containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
+    // Draw new line
+    path.datum(data).attr('class', 'smoothline').attr('d', smoothLine);
 
-var margin = { top: 20, right: 50, bottom: 30, left: 20 };
-var width = containerWidth - margin.left - margin.right;
-var height = 350 - margin.top - margin.bottom;
+    // Shift the chart left
+    x.domain([maxDate, minDate]);
 
-var minDate = new Date();
-var maxDate = d3.timeMinute.offset(minDate, -ticks);
+    axisY.call(yAxis);
 
-var parseTime = d3.timeParse('%d-%m-%y %H:%M:%S');
-var formatTime = d3.timeFormat('%H:%M');
+    axisX.call(xAxis);
+  };
 
-var chart = d3.select('#chart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+  var socket = io.connect();
 
-var x = d3.scaleTime().domain([maxDate, minDate]).range([0, width]);
+  var data = [];
 
-var y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
+  var ticks = 30;
 
-var smoothLine = d3.line().x(function (d) {
-  return x(d.minDate);
-}).y(function (d) {
-  return y(d.Gaszak_hoogte_hu);
-});
+  var containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
 
-// Draw the axis
-var xAxis = d3.axisBottom().tickFormat(function (d) {
-  var date = d3.timeMinute.offset(d, -ticks);
-  return formatTime(date);
-}).scale(x);
+  var margin = { top: 20, right: 50, bottom: 30, left: 20 };
+  var width = containerWidth - margin.left - margin.right;
+  var height = 350 - margin.top - margin.bottom;
 
-var yAxis = d3.axisLeft().tickSize(-width).scale(y);
+  var minDate = new Date();
+  var maxDate = d3.timeMinute.offset(minDate, -ticks);
 
-var axisX = chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0, ' + height + ')').call(xAxis);
+  var parseTime = d3.timeParse('%d-%m-%y %H:%M:%S');
+  var formatTime = d3.timeFormat('%H:%M');
 
-var axisY = chart.append('g').attr('class', 'y axis').call(yAxis);
+  var chart = d3.select('#chart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-var path = chart.append('g').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, -1)) + ')').append('path');
+  var x = d3.scaleTime().domain([maxDate, minDate]).range([0, width]);
 
-socket.on('dataPoint', function (point) {
-  var dateTime = point.Date + ' ' + point.Time;
+  var y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
 
-  var parsedDateTime = parseTime(dateTime);
+  var smoothLine = d3.line().x(function (d) {
+    return x(d.minDate);
+  }).y(function (d) {
+    return y(d.Gaszak_hoogte_hu);
+  });
 
-  point.minDate = parsedDateTime;
-  point.maxDate = d3.timeMinute.offset(minDate, -ticks);
+  // Draw the axis
+  var xAxis = d3.axisBottom().tickFormat(function (d) {
+    var date = d3.timeMinute.offset(d, -ticks);
+    return formatTime(date);
+  }).scale(x);
 
-  minDate = point.minDate;
-  maxDate = point.maxDate;
+  var yAxis = d3.axisLeft().tickSize(-width).scale(y);
 
-  tick(point);
-});
+  var axisX = chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0, ' + height + ')').call(xAxis);
 
-// Main loop
-function tick(point) {
-  data.push(point);
+  var axisY = chart.append('g').attr('class', 'y axis').call(yAxis);
 
-  // Remote old data (max 20 points)
-  if (data.length > ticks + 1) {
-    data.shift();
-  }
+  var path = chart.append('g').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, -1)) + ')').append('path');
 
-  // Draw new line
-  path.datum(data).attr('class', 'smoothline').attr('d', smoothLine);
+  socket.on('dataPoint', function (point) {
+    var dateTime = point.Date + ' ' + point.Time;
 
-  // Shift the chart left
-  x.domain([maxDate, minDate]);
+    var parsedDateTime = parseTime(dateTime);
 
-  axisY.call(yAxis);
+    point.minDate = parsedDateTime;
+    point.maxDate = d3.timeMinute.offset(minDate, -ticks);
 
-  axisX.call(xAxis);
+    minDate = point.minDate;
+    maxDate = point.maxDate;
+
+    tick(point);
+  });
 }
 
 },{"d3":10,"socket.io-client":35}]},{},[46]);
