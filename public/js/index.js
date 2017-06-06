@@ -23319,11 +23319,13 @@ module.exports = yeast;
 // }
 
 require('./modules/real-time-graph');
+// Tiles update
+require('./modules/real-time-tiles');
 
 // Include serviceworker
 // require('./serviceworker-index.js');
 
-},{"./modules/real-time-graph":47}],47:[function(require,module,exports){
+},{"./modules/real-time-graph":47,"./modules/real-time-tiles":48}],47:[function(require,module,exports){
 'use strict';
 
 var d3 = require('d3');
@@ -23410,4 +23412,82 @@ if (document.querySelector('#chart')) {
   });
 }
 
-},{"d3":10,"socket.io-client":35}]},{},[46]);
+},{"d3":10,"socket.io-client":35}],48:[function(require,module,exports){
+'use strict';
+
+var io = require('socket.io-client');
+var socket = io.connect();
+
+socket.on('dataPoint', function (point) {
+  console.log(point);
+
+  // Get bag value element
+  var bagElementValue = document.getElementById('bagCurrent').getElementsByClassName('value')[0];
+  // Get current number of bag height
+  var currentBag = Number(point.Gaszak_hoogte_hu);
+  // Round to number
+  currentBag = Math.round(currentBag);
+  // Only updates the tile when the value is different
+  if (Number(bagElementValue.innerHTML) !== currentBag) {
+    // Update value
+    bagElementValue.innerHTML = currentBag;
+  }
+
+  // Get temp value element
+  var tempElementValue = document.getElementById('tempCurrent').getElementsByClassName('value')[0];
+  // Get both temps
+  var currentTemp1 = Number(point.PT100_real_1);
+  var currentTemp2 = Number(point.PT100_real_2);
+  // Average temp
+  var currentTemp = (currentTemp1 + currentTemp2) / 2;
+  // Round to 1 decimal
+  currentTemp = Math.round(currentTemp * 10) / 10;
+  // Only updates the tile when the value is different
+  if (Number(tempElementValue.innerHTML) !== currentTemp.toFixed(1)) {
+    // Update value
+    tempElementValue.innerHTML = currentTemp.toFixed(1);
+  }
+
+  // Get PH value element
+  var phElementValue = document.getElementById('phCurrent').getElementsByClassName('value')[0];
+  // Get both temps
+  var currentPh = Number(point.ph_value);
+  // Round to number
+  currentPh = Math.round(currentPh);
+  // Only updates the tile when the value is different
+  if (Number(phElementValue.innerHTML) !== currentPh) {
+    // Update value
+    phElementValue.innerHTML = currentPh;
+  }
+
+  // Get input value element
+  var inputElementValue = document.getElementById('inputCurrent').getElementsByClassName('value')[0];
+  // Get both temps
+  var currentInput = Number(point.input_value);
+  // Round to number
+  currentInput = Math.round(currentInput);
+  // Only updates the tile when the value is different
+  if (Number(inputElementValue.innerHTML) !== currentInput) {
+    // Update value
+    inputElementValue.innerHTML = currentInput;
+  }
+
+  // Get heater value element
+  var heaterElementValue = document.getElementById('heaterCurrent').getElementsByClassName('value')[0];
+  // Get both temps
+  var currentHeater = Number(point.heater_status);
+
+  if (currentHeater === 0) {
+    heaterElementValue.innerHTML = 'Uit';
+  } else if (currentHeater === 1) {
+    heaterElementValue.innerHTML = 'Aan';
+  }
+
+  // // Only updates the tile when the value is different
+  // if (Number(heaterElementValue.innerHTML) !== currentHeater) {
+  //   // Update value
+  //   heaterElementValue.innerHTML = currentHeater;
+  // }
+});
+
+},{"socket.io-client":35}]},{},[46]);

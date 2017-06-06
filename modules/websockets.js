@@ -6,7 +6,7 @@ function webSokets(app, io) {
     if (err) {
       throw err;
     }
-    parse(data, {columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Gaszak_hoogte_hu']}, (error, output) => {
+    parse(data, {columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Gaszak_hoogte_hu', 'ph_value', 'input_value', 'heater_status']}, (error, output) => {
       if (error) {
         throw error;
       }

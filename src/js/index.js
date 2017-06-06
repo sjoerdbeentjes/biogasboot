@@ -33,6 +33,8 @@
 // }
 
 require('./modules/real-time-graph');
+// Tiles update
+require('./modules/real-time-tiles');
 
 // Include serviceworker
 // require('./serviceworker-index.js');
