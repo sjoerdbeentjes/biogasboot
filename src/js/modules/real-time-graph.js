@@ -8,11 +8,17 @@ if (document.querySelector('#chart')) {
 
   const ticks = 30;
 
-  const containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
+  const containerWidth = Number((window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('width')).replace('px', ''));
+  const containerHeight = Number((window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('height')).replace('px', ''));
 
-  const margin = {top: 20, right: 50, bottom: 30, left: 20};
+  console.log(containerWidth, containerHeight);
+
+  // const containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
+  // const containerHeight = document.querySelector('#chart').parentNode.offsetHeight;
+
+  const margin = {top: 20, right: 60, bottom: 60, left: 30};
   const width = containerWidth - margin.left - margin.right;
-  const height = 350 - margin.top - margin.bottom;
+  const height = containerHeight - margin.top - margin.bottom;
 
   let minDate = new Date();
   let maxDate = d3.timeMinute.offset(minDate, -ticks);
@@ -28,17 +34,26 @@ if (document.querySelector('#chart')) {
 
   const x = d3
     .scaleTime()
-    .domain([maxDate, minDate])
+    .domain([d3.timeMinute.offset(minDate, 1), maxDate])
     .range([0, width]);
 
-  const y = d3
+  const yLeft = d3
     .scaleLinear()
     .domain([0, 200])
     .range([height, 0]);
 
-  const smoothLine = d3.line()
+  const yRight = d3
+    .scaleLinear()
+    .domain([0, 40])
+    .range([height, 0]);
+
+  const lineOne = d3.line()
     .x(d => x(d.minDate))
-    .y(d => y(d.Gaszak_hoogte_hu));
+    .y(d => yLeft(d.Gaszak_hoogte_hu));
+
+  const lineTwo = d3.line()
+    .x(d => x(d.minDate))
+    .y(d => yRight(d.PT100_real_2));
 
   // Draw the axis
   const xAxis = d3
@@ -49,23 +64,43 @@ if (document.querySelector('#chart')) {
     })
     .scale(x);
 
-  const yAxis = d3
+  const yAxisLeft = d3
     .axisLeft()
+    .ticks(6)
     .tickSize(-width)
-    .scale(y);
+    .scale(yLeft);
+
+  const yAxisRight = d3
+    .axisRight()
+    .ticks(6)
+    .tickSize(width)
+    .scale(yRight);
 
   const axisX = chart.append('g')
     .attr('class', 'x axis')
     .attr('transform', `translate(0, ${height})`)
     .call(xAxis);
 
-  const axisY = chart.append('g')
-    .attr('class', 'y axis')
-    .call(yAxis);
+  const axisYLeft = chart.append('g')
+    .attr('class', 'y axis left')
+    .style('fill', '#9b59b6')
+    .call(yAxisLeft);
 
-  const path = chart
+  const axisYRight = chart.append('g')
+    .attr('class', 'y axis right')
+    .style('fill', '#e67e22')
+    .call(yAxisRight);
+
+  const pathOne = chart
     .append('g')
-    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, -1))})`)
+    .attr('stroke', '#e67e22')
+    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
+    .append('path');
+
+  const pathTwo = chart
+    .append('g')
+    .attr('stroke', '#9b59b6')
+    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
     .append('path');
 
   socket.on('dataPoint', point => {
@@ -74,7 +109,7 @@ if (document.querySelector('#chart')) {
     const parsedDateTime = parseTime(dateTime);
 
     point.minDate = parsedDateTime;
-    point.maxDate = d3.timeMinute.offset(minDate, -ticks);
+    point.maxDate = d3.timeMinute.offset(minDate, ticks);
 
     minDate = point.minDate;
     maxDate = point.maxDate;
@@ -92,16 +127,23 @@ if (document.querySelector('#chart')) {
     }
 
     // Draw new line
-    path.datum(data)
-      .attr('class', 'smoothline')
-      .attr('d', smoothLine);
+    pathOne.datum(data)
+      .attr('class', 'lineOne')
+      .attr('d', lineOne);
+
+    pathTwo.datum(data)
+      .attr('class', 'lineTwo')
+      .attr('d', lineTwo);
 
     // Shift the chart left
     x
-      .domain([maxDate, minDate]);
+      .domain([d3.timeMinute.offset(minDate, -1), maxDate]);
 
-    axisY
-      .call(yAxis);
+    axisYLeft
+      .call(yAxisLeft);
+
+    axisYRight
+      .call(yAxisRight);
 
     axisX
       .call(xAxis);
