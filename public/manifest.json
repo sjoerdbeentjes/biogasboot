@@ -2,7 +2,7 @@
  "name": "De Biogasboot, Koken op de voedselresten van gisteren.",
  "short_name": "De Biogasboot",
  "lang": "nl-NL",
- "start_url": "/?homescreen",
+ "start_url": "/",
  "display": "browser",
  "theme_color": "#34b25e",
  "background_color": "#f2f2f2",

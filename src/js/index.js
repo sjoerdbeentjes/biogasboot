@@ -33,3 +33,6 @@ if ('serviceWorker' in navigator) {
 }
 
 require('./modules/real-time-graph');
+
+// Include serviceworker
+// require('./serviceworker-index.js');

@@ -15,6 +15,8 @@ const socketio = require('socket.io');
 
 const app = express();
 
+// const serviceWorker = require('./modules/server-service-worker');
+
 const db = mongoose.connection;
 
 // Socket.io connection
@@ -28,6 +30,8 @@ const auth = require('./routes/auth');
 const users = require('./routes/users');
 const api = require('./routes/api');
 const error = require('./routes/error');
+const customerDashboard = require('./routes/customer-dashboard');
+const operatorDashboard = require('./routes/operator/dashboard');
 
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
@@ -110,7 +114,12 @@ app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
 app.use('/api', api);
+app.use('/operator/dashboard', operatorDashboard);
+app.use('/customer-dashboard', customerDashboard);
 app.use('*', error);
+
+// Service worker push notifications
+// serviceWorker(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

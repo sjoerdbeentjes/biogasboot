@@ -17,7 +17,7 @@ function webSokets(app, io) {
         io.sockets.emit('dataPoint', output[i]);
 
         i++;
-      }, 200);
+      }, 1000);
     });
   });
 }
