@@ -74,16 +74,14 @@ socket.on('dataPoint', point => {
 
   // Get both temps
   const currentHeater = Number(point.heater_status);
-
+  // Change status text in tile, only when there is a change
   if (currentHeater === 0) {
-    heaterElementValue.innerHTML = 'Uit';
+    if (heaterElementValue.innerHTML !== 'Uit') {
+      heaterElementValue.innerHTML = 'Uit';
+    }
   } else if (currentHeater === 1) {
-    heaterElementValue.innerHTML = 'Aan';
+    if (heaterElementValue.innerHTML !== 'Aan') {
+      heaterElementValue.innerHTML = 'Aan';
+    }
   }
-
-  // // Only updates the tile when the value is different
-  // if (Number(heaterElementValue.innerHTML) !== currentHeater) {
-  //   // Update value
-  //   heaterElementValue.innerHTML = currentHeater;
-  // }
 });
