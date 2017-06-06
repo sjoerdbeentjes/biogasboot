@@ -154,3 +154,8 @@ nav .user {
 
 .axis.y .tick line {
   stroke: #ecf0f1; }
+
+.smoothline {
+  fill: none;
+  stroke: #060c36;
+  stroke-width: 3px; }

@@ -23344,7 +23344,7 @@ var formatTime = d3.timeFormat('%H:%M');
 
 var chart = d3.select('#chart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-var x = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
+var x = d3.scaleTime().domain([maxDate, minDate]).range([0, width]);
 
 var y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
 
@@ -23352,14 +23352,6 @@ var smoothLine = d3.line().x(function (d) {
   return x(d.minDate);
 }).y(function (d) {
   return y(d.Gaszak_hoogte_hu);
-});
-
-var lineArea = d3.area().x(function (d) {
-  return x(d.minDate);
-}).y0(function (d) {
-  return y(d.min);
-}).y1(function (d) {
-  return y(d.max);
 });
 
 // Draw the axis
@@ -23374,7 +23366,7 @@ var axisX = chart.append('g').attr('class', 'x axis').attr('transform', 'transla
 
 var axisY = chart.append('g').attr('class', 'y axis').call(yAxis);
 
-var path = chart.append('g').attr('transform', 'translate(0, 0})').append('path');
+var path = chart.append('g').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, -1)) + ')').append('path');
 
 socket.on('dataPoint', function (point) {
   var dateTime = point.Date + ' ' + point.Time;
@@ -23392,8 +23384,6 @@ socket.on('dataPoint', function (point) {
 
 // Main loop
 function tick(point) {
-  console.log(point);
-
   data.push(point);
 
   // Remote old data (max 20 points)
@@ -23405,7 +23395,7 @@ function tick(point) {
   path.datum(data).attr('class', 'smoothline').attr('d', smoothLine);
 
   // Shift the chart left
-  x.domain([minDate, maxDate]);
+  x.domain([maxDate, minDate]);
 
   axisY.call(yAxis);
 

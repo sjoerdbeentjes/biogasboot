@@ -27,7 +27,7 @@ const chart = d3.select('#chart')
 
 const x = d3
   .scaleTime()
-  .domain([minDate, maxDate])
+  .domain([maxDate, minDate])
   .range([0, width]);
 
 const y = d3
@@ -38,11 +38,6 @@ const y = d3
 const smoothLine = d3.line()
   .x(d => x(d.minDate))
   .y(d => y(d.Gaszak_hoogte_hu));
-
-const lineArea = d3.area()
-  .x(d => x(d.minDate))
-  .y0(d => y(d.min))
-  .y1(d => y(d.max));
 
 // Draw the axis
 const xAxis = d3
@@ -69,7 +64,7 @@ const axisY = chart.append('g')
 
 const path = chart
   .append('g')
-  .attr('transform', `translate(0, 0})`)
+  .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, -1))})`)
   .append('path');
 
 socket.on('dataPoint', point => {
@@ -88,8 +83,6 @@ socket.on('dataPoint', point => {
 
 // Main loop
 function tick(point) {
-  console.log(point);
-
   data.push(point);
 
   // Remote old data (max 20 points)
@@ -103,7 +96,8 @@ function tick(point) {
     .attr('d', smoothLine);
 
   // Shift the chart left
-  x.domain([minDate, maxDate]);
+  x
+    .domain([maxDate, minDate]);
 
   axisY
     .call(yAxis);
