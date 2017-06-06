@@ -164,12 +164,14 @@ nav .user {
 .card {
   background: rgba(255, 255, 255, 0.6);
   display: flex;
-  flex: 0 1 calc(50% - 2em);
+  flex: 0 0 calc(70% - 2em);
   flex-direction: column;
   border-radius: 5px;
   align-items: center;
   padding: 1em;
-  margin: 1em; }
+  margin: 1em;
+  text-align: center;
+  justify-content: space-between; }
   .card img {
     height: 10em;
     display: block; }

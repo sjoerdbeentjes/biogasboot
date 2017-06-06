@@ -1,12 +1,15 @@
 .card {
     background: hsla(0,0%,100%,.6);
     display: flex;
-    flex: 0 1 calc(50% - 2em);
+    flex: 0 0 calc(70% - 2em);
     flex-direction: column;
     border-radius: 5px;
     align-items: center;
     padding: 1em;
     margin: 1em;
+    // max-width: 20em;
+        text-align: center;
+        justify-content: space-between;
     img {
         height: 10em;
         display: block;
