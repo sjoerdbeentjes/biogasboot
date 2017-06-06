@@ -155,10 +155,14 @@ h4 {
 p {
   margin-bottom: 1em; }
 
-ul {
-  padding-left: 1em;
-  margin-bottom: 1em;
-  display: block; }
+body {
+  box-sizing: border-box;
+  background: url(/images/background.jpg) no-repeat center center fixed;
+  background: url(/images/background.webp) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
 
 button, [role='button'] {
   display: inline-block;
@@ -221,6 +225,11 @@ button + table, [role=button] + table {
 table + button, table [role=button] {
   margin-top: 1em; }
 
+ul {
+  padding-left: 1em;
+  margin-bottom: 1em;
+  display: block; }
+
 nav {
   background-color: #ffffff;
   position: fixed;
@@ -264,3 +273,26 @@ nav ul li {
 
 nav .user {
   margin-left: auto; }
+
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex: 0 0 calc(70% - 2em);
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+  padding: 1em;
+  margin: 1em;
+  text-align: center;
+  justify-content: space-between; }
+  .card img {
+    height: 10em;
+    display: block; }
+
+.card-dashboard {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: row; }
+  .card-dashboard footer {
+    display: none; }
