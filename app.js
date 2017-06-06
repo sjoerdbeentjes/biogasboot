@@ -29,8 +29,8 @@ const index = require('./routes/index');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
 const api = require('./routes/api');
-const customerDashboard = require('./routes/customer-dashboard');
 const error = require('./routes/error');
+const customerDashboard = require('./routes/customer-dashboard');
 const operatorDashboard = require('./routes/operator/dashboard');
 
 // mongoose setup
