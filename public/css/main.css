@@ -155,7 +155,7 @@ h4 {
 p {
   margin-bottom: 1em; }
 
-body {
+.background {
   box-sizing: border-box;
   background: url(/images/background.jpg) no-repeat center center fixed;
   background: url(/images/background.webp) no-repeat center center fixed;
@@ -277,7 +277,7 @@ nav .user {
 .card {
   background: rgba(255, 255, 255, 0.6);
   display: flex;
-  flex: 0 0 calc(70% - 2em);
+  flex: 0 0 calc(50% - 2em);
   flex-direction: column;
   border-radius: 5px;
   align-items: center;
