@@ -19,8 +19,8 @@ socket.on('dataPoint', point => {
   // Get temp value element
   const tempElementValue = document.getElementById('tempCurrent').getElementsByClassName('value')[0];
   // Get both temps
-  let currentTemp1 = Number(point.PT100_real_1);
-  let currentTemp2 = Number(point.PT100_real_2);
+  const currentTemp1 = Number(point.PT100_real_1);
+  const currentTemp2 = Number(point.PT100_real_2);
   // Average temp
   let currentTemp = (currentTemp1 + currentTemp2) / 2;
   // Round to 1 decimal
@@ -58,17 +58,15 @@ socket.on('dataPoint', point => {
   // Get heater value element
   const heaterElementValue = document.getElementById('heaterCurrent').getElementsByClassName('value')[0];
   // Get both temps
-  let currentHeater = Number(point.heater_status);
-
+  const currentHeater = Number(point.heater_status);
+  // Change status text in tile, only when there is a change
   if (currentHeater === 0) {
-    heaterElementValue.innerHTML = 'Uit';
+    if (heaterElementValue.innerHTML !== 'Uit') {
+      heaterElementValue.innerHTML = 'Uit';
+    }
   } else if (currentHeater === 1) {
-    heaterElementValue.innerHTML = 'Aan';
+    if (heaterElementValue.innerHTML !== 'Aan') {
+      heaterElementValue.innerHTML = 'Aan';
+    }
   }
-
-  // // Only updates the tile when the value is different
-  // if (Number(heaterElementValue.innerHTML) !== currentHeater) {
-  //   // Update value
-  //   heaterElementValue.innerHTML = currentHeater;
-  // }
 });
