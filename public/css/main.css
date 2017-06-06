@@ -282,7 +282,7 @@ nav .user {
   stroke: #060c36;
   stroke-width: 3px; }
 
-.card {
+#customer-dashboard .card {
   background: rgba(255, 255, 255, 0.6);
   display: flex;
   flex: 0 0 calc(50% - 2em);
@@ -291,16 +291,20 @@ nav .user {
   align-items: center;
   padding: 1em;
   margin: 1em;
+  max-width: 40vw;
   text-align: center;
   justify-content: space-between; }
-  .card img {
+  #customer-dashboard .card:last-child {
+    margin-top: auto; }
+  #customer-dashboard .card img {
     height: 10em;
     display: block; }
 
-.card-dashboard {
+#customer-dashboard .card-dashboard {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  flex-direction: row; }
-  .card-dashboard footer {
+  flex-direction: row;
+  height: 100%; }
+  #customer-dashboard .card-dashboard footer {
     display: none; }
