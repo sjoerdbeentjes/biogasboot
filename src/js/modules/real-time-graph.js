@@ -11,11 +11,6 @@ if (document.querySelector('#chart')) {
   const containerWidth = Number((window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('width')).replace('px', ''));
   const containerHeight = Number((window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('height')).replace('px', ''));
 
-  console.log(containerWidth, containerHeight);
-
-  // const containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
-  // const containerHeight = document.querySelector('#chart').parentNode.offsetHeight;
-
   const margin = {top: 20, right: 60, bottom: 60, left: 30};
   const width = containerWidth - margin.left - margin.right;
   const height = containerHeight - margin.top - margin.bottom;
