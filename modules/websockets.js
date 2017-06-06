@@ -14,6 +14,10 @@ function webSokets(app, io) {
       let i = 1;
 
       setInterval(() => {
+        if (!output[i]) {
+          i = 1;
+        }
+
         io.sockets.emit('dataPoint', output[i]);
 
         i++;

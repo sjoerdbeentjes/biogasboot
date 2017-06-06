@@ -23341,12 +23341,16 @@ if (document.querySelector('#chart')) {
     }
 
     // Draw new line
-    path.datum(data).attr('class', 'smoothline').attr('d', smoothLine);
+    pathOne.datum(data).attr('class', 'lineOne').attr('d', lineOne);
+
+    pathTwo.datum(data).attr('class', 'lineTwo').attr('d', lineTwo);
 
     // Shift the chart left
-    x.domain([maxDate, minDate]);
+    x.domain([d3.timeMinute.offset(minDate, -1), maxDate]);
 
-    axisY.call(yAxis);
+    axisYLeft.call(yAxisLeft);
+
+    axisYRight.call(yAxisRight);
 
     axisX.call(xAxis);
   };
@@ -23357,11 +23361,17 @@ if (document.querySelector('#chart')) {
 
   var ticks = 30;
 
-  var containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
+  var containerWidth = Number(window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('width').replace('px', ''));
+  var containerHeight = Number(window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('height').replace('px', ''));
 
-  var margin = { top: 20, right: 50, bottom: 30, left: 20 };
+  console.log(containerWidth, containerHeight);
+
+  // const containerWidth = document.querySelector('#chart').parentNode.offsetWidth;
+  // const containerHeight = document.querySelector('#chart').parentNode.offsetHeight;
+
+  var margin = { top: 20, right: 60, bottom: 60, left: 30 };
   var width = containerWidth - margin.left - margin.right;
-  var height = 350 - margin.top - margin.bottom;
+  var height = containerHeight - margin.top - margin.bottom;
 
   var minDate = new Date();
   var maxDate = d3.timeMinute.offset(minDate, -ticks);
@@ -23371,14 +23381,22 @@ if (document.querySelector('#chart')) {
 
   var chart = d3.select('#chart').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-  var x = d3.scaleTime().domain([maxDate, minDate]).range([0, width]);
+  var x = d3.scaleTime().domain([d3.timeMinute.offset(minDate, 1), maxDate]).range([0, width]);
 
-  var y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
+  var yLeft = d3.scaleLinear().domain([0, 200]).range([height, 0]);
 
-  var smoothLine = d3.line().x(function (d) {
+  var yRight = d3.scaleLinear().domain([0, 40]).range([height, 0]);
+
+  var lineOne = d3.line().x(function (d) {
     return x(d.minDate);
   }).y(function (d) {
-    return y(d.Gaszak_hoogte_hu);
+    return yLeft(d.Gaszak_hoogte_hu);
+  });
+
+  var lineTwo = d3.line().x(function (d) {
+    return x(d.minDate);
+  }).y(function (d) {
+    return yRight(d.PT100_real_2);
   });
 
   // Draw the axis
@@ -23387,13 +23405,19 @@ if (document.querySelector('#chart')) {
     return formatTime(date);
   }).scale(x);
 
-  var yAxis = d3.axisLeft().tickSize(-width).scale(y);
+  var yAxisLeft = d3.axisLeft().ticks(6).tickSize(-width).scale(yLeft);
+
+  var yAxisRight = d3.axisRight().ticks(6).tickSize(width).scale(yRight);
 
   var axisX = chart.append('g').attr('class', 'x axis').attr('transform', 'translate(0, ' + height + ')').call(xAxis);
 
-  var axisY = chart.append('g').attr('class', 'y axis').call(yAxis);
+  var axisYLeft = chart.append('g').attr('class', 'y axis left').style('fill', '#9b59b6').call(yAxisLeft);
 
-  var path = chart.append('g').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, -1)) + ')').append('path');
+  var axisYRight = chart.append('g').attr('class', 'y axis right').style('fill', '#e67e22').call(yAxisRight);
+
+  var pathOne = chart.append('g').attr('stroke', '#e67e22').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, 2)) + ')').append('path');
+
+  var pathTwo = chart.append('g').attr('stroke', '#9b59b6').attr('transform', 'translate(' + x(d3.timeMinute.offset(maxDate, 2)) + ')').append('path');
 
   socket.on('dataPoint', function (point) {
     var dateTime = point.Date + ' ' + point.Time;
@@ -23401,7 +23425,7 @@ if (document.querySelector('#chart')) {
     var parsedDateTime = parseTime(dateTime);
 
     point.minDate = parsedDateTime;
-    point.maxDate = d3.timeMinute.offset(minDate, -ticks);
+    point.maxDate = d3.timeMinute.offset(minDate, ticks);
 
     minDate = point.minDate;
     maxDate = point.maxDate;
