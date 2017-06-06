@@ -1,12 +1,6 @@
-// Register event listener for the 'push' event.
+// Push notification config
 self.addEventListener('push', event => {
-  // Keep the service worker alive until the notification is created.
   event.waitUntil(
-    // Show a notification with title 'ServiceWorker Cookbook' and body 'Alea iacta est'.
-    // Set other parameters such as the notification language, a vibration pattern associated
-    // to the notification, an image to show near the body.
-    // There are many other possible options, for an exhaustive list see the specs:
-    //   https://notifications.spec.whatwg.org/
     self.registration.showNotification('Biogasboot update', {
       lang: 'nl',
       title: 'Biogasboot',
@@ -17,4 +11,26 @@ self.addEventListener('push', event => {
     })
   );
 });
-// source: https://serviceworke.rs/push-rich.html
+
+// Refresh subscription
+self.addEventListener('pushsubscriptionchange', event => {
+  console.log('Subscription expired');
+  event.waitUntil(
+    self.registration.pushManager.subscribe({
+      userVisibleOnly: true
+    })
+      .then(subscription => {
+        console.log('Subscribed after expiration', subscription.endpoint);
+        return fetch('/register-serviceworker', {
+          method: 'post',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            endpoint: subscription.endpoint
+          })
+        });
+      })
+  );
+});
+// source: https://serviceworke.rs/push-subscription-management.html
