@@ -4,7 +4,7 @@ if (document.getElementById('currentData')) {
 
   const socket = io.connect();
 
-  socket.on('dataPoint', point => {
+  socket.on('dataPoint', (point, tileStatus) => {
     // Get bag value element
     const bagElementValue = document.getElementById('bagCurrent').getElementsByClassName('value')[0];
 
@@ -31,12 +31,12 @@ if (document.getElementById('currentData')) {
     let currentTemp = (currentTemp1 + currentTemp2) / 2;
 
     // Round to 1 decimal
-    currentTemp = Math.round(currentTemp * 10) / 10;
+    currentTemp = parseFloat(Math.round(currentTemp * 10) / 10).toFixed(1);
 
     // Only updates the tile when the value is different
-    if (Number(tempElementValue.innerHTML) !== currentTemp.toFixed(1)) {
+    if (Number(tempElementValue.innerHTML) !== currentTemp) {
       // Update value
-      tempElementValue.innerHTML = currentTemp.toFixed(1);
+      tempElementValue.innerHTML = currentTemp;
     }
 
     // Get PH value element
@@ -45,13 +45,19 @@ if (document.getElementById('currentData')) {
     // Get both temps
     let currentPh = Number(point.ph_value);
 
-    // Round to number
-    currentPh = Math.round(currentPh);
+    // Round to 2 decimal
+    currentPh = parseFloat(Math.round(currentPh * 100) / 100).toFixed(2);
 
     // Only updates the tile when the value is different
     if (Number(phElementValue.innerHTML) !== currentPh) {
       // Update value
       phElementValue.innerHTML = currentPh;
+      // Indicator
+      // Explain number meanings
+      // 0 = Good
+      // 1 = Warning
+      // 2 = Error
+      document.getElementById('phCurrent').setAttribute('data-status', tileStatus.phStatus);
     }
 
     // Get input value element
