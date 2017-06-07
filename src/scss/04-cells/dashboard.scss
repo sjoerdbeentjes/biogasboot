@@ -1,10 +1,12 @@
 #customer-dashboard {
   .card-dashboard {
+    border-top: 3px solid white;
+    margin: 0 2em;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: row;
-    height: 100%;
+    max-height: 80vh;
     footer {
       display: none;
     }

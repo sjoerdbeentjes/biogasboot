@@ -115,7 +115,7 @@ app.use('/auth', auth);
 app.use('/users', users);
 app.use('/api', api);
 app.use('/operator/dashboard', operatorDashboard);
-app.use('/customer-dashboard', customerDashboard);
+app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
