@@ -16,6 +16,7 @@
  margin: 2.5%;
  border-radius: 0.2em;
  cursor: pointer;
+ position: relative;
 
  display: flex;
  flex-direction: row;
@@ -46,7 +47,7 @@
  #currentData > button {
   flex-basis: 18%;
   max-width: 18%;
-  margin: 1%;
+  margin: 1% 1% 3em;
  }
 
  #currentData > button > .inner > h3 {
@@ -87,7 +88,7 @@
  color: rgba(236, 240, 241,1.0);
 
  &.active {
-   border: 0.3em solid darken($success-theme-color, 20%);
+   border: 0.3em solid darken($success-theme-color, 10%);
  }
 }
 
@@ -97,7 +98,7 @@
  color: rgba(236, 240, 241,1.0);
 
  &.active {
-   border: 0.3em solid darken($warning-theme-color, 20%);
+   border: 0.3em solid darken($warning-theme-color, 10%);
  }
 }
 
@@ -107,6 +108,21 @@
  color: rgba(236, 240, 241,1.0);
 
  &.active {
-   border: 0.3em solid darken($error-theme-color, 20%);
+   border: 0.3em solid darken($error-theme-color, 10%);
  }
+}
+
+#currentData > button.active .indicator {
+  position: absolute;
+  height: 0.3em;
+  bottom: -1em;
+  border-radius: 0.15em;
+  left: -0.3em;
+  width: 100%;
+  width: calc(100% + 0.6em);
+  background-color: #e67e22;
+}
+
+#currentData > button.active:first-of-type .indicator {
+  background-color: #9b59b6;
 }
