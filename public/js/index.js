@@ -1,0 +1,1 @@
+console.error("SyntaxError: /Users/Sjoerd/Desktop/CMD v2/minor/biogasboot/src/js/modules/real-time-tiles.js: Unexpected token, expected , (186:1) while parsing file: /Users/Sjoerd/Desktop/CMD v2/minor/biogasboot/src/js/modules/real-time-tiles.js");

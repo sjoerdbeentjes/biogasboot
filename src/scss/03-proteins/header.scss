@@ -1,0 +1,14 @@
+#customer-dashboard {
+    > header {
+        display: inline-block;
+        color: white;
+        margin: 0 2em;
+        h1 {
+
+        }
+        p {
+            text-align: end;
+            line-height: 0;
+        }
+    }
+}
