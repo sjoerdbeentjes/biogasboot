@@ -2,14 +2,15 @@
   stroke: $lighter-grey;
 }
 
-.lineOne {
+.line {
   fill: none;
   stroke-width: 3px;
+  stroke: inherit;
+  display: none;
 }
 
-.lineTwo {
-  fill: none;
-  stroke-width: 3px;
+.show .line {
+  display: block;
 }
 
 .axis {

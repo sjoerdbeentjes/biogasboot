@@ -2,6 +2,19 @@ const io = require('socket.io-client');
 
 const socket = io.connect();
 
+const colors = [
+  {
+    id: 1,
+    used: false,
+    hex: '#3498db' // blue
+  },
+  {
+    id: 2,
+    used: false,
+    hex: '#e67e22' // orange
+  }
+];
+
 socket.on('dataPoint', point => {
   // Get bag value element
   const bagElementValue = document.getElementById('bagCurrent').getElementsByClassName('value')[0];
@@ -92,18 +105,76 @@ let count = 0;
 // Loop through buttons
 getButtons.forEach(button => {
   button.addEventListener('click', function () {
+    const type = this.getAttribute('data-type');
+
+    const line = document.querySelector(`.line-${type}`);
+
     // select max of 2
     if (count < 2) {
       this.classList.toggle('active');
+
       if (this.classList.contains('active')) {
         count++;
       } else {
         count--;
       }
+
+      if (line.parentNode.classList.contains('show')) {
+        const colorId = Number(this.getAttribute('data-color'));
+
+        line.parentNode.classList.remove('show');
+
+        colors.forEach(color => {
+          if (color.id === colorId) {
+            color.used = false;
+          }
+        });
+      } else {
+        let color;
+
+        if (colors[0].used) {
+          color = colors[1];
+          colors[1].used = true;
+
+          this.setAttribute('data-color', color.id);
+
+          console.log(this.querySelector('.indicator'));
+
+          this.querySelector('.indicator').style.background = color.hex;
+        } else {
+          color = colors[0];
+          colors[0].used = true;
+
+          this.setAttribute('data-color', color.id);
+
+          console.log(this.querySelector('.indicator'));
+
+          this.querySelector('.indicator').style.background = color.hex;
+        }
+
+        line.parentNode.classList.add('show');
+        line.parentNode.style.stroke = color.hex;
+      }
     } else if (this.classList.contains('active')) {
       // When 2 are selected this is the way to remove an active class
       this.classList.remove('active');
       count--;
+
+      if (line.parentNode.classList.contains('show')) {
+        const colorId = Number(this.getAttribute('data-color'));
+
+        line.parentNode.classList.remove('show');
+
+        colors.forEach(color => {
+          colors.forEach(color => {
+            if (color.id === colorId) {
+              color.used = false;
+            }
+          });
+        });
+      }
     }
+
+    console.log(colors);
   });
 });

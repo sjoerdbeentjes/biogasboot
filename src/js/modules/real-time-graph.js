@@ -32,23 +32,50 @@ if (document.querySelector('#chart')) {
     .domain([d3.timeMinute.offset(minDate, 1), maxDate])
     .range([0, width]);
 
-  const yLeft = d3
+  const yHoogte = d3
     .scaleLinear()
     .domain([0, 200])
     .range([height, 0]);
 
-  const yRight = d3
+  const yTemp = d3
     .scaleLinear()
     .domain([0, 40])
     .range([height, 0]);
 
-  const lineOne = d3.line()
-    .x(d => x(d.minDate))
-    .y(d => yLeft(d.Gaszak_hoogte_hu));
+  const yPH = d3
+    .scaleLinear()
+    .domain([0, 14])
+    .range([height, 0]);
 
-  const lineTwo = d3.line()
+  const yInput = d3
+    .scaleLinear()
+    .domain([0, 20])
+    .range([height, 0]);
+
+  const yHeater = d3
+    .scaleLinear()
+    .domain([0, 2])
+    .range([height, 0]);
+
+  const lineHoogte = d3.line()
     .x(d => x(d.minDate))
-    .y(d => yRight(d.PT100_real_2));
+    .y(d => yHoogte(d.Gaszak_hoogte_hu));
+
+  const lineTemp = d3.line()
+    .x(d => x(d.minDate))
+    .y(d => yTemp(d.PT100_real_2));
+
+  const linePH = d3.line()
+    .x(d => x(d.minDate))
+    .y(d => yPH(d.ph_value));
+
+  const lineInput = d3.line()
+    .x(d => x(d.minDate))
+    .y(d => yInput(d.input_value));
+
+  const lineHeater = d3.line()
+    .x(d => x(d.minDate))
+    .y(d => yHeater(d.heater_status));
 
   // Draw the axis
   const xAxis = d3
@@ -59,42 +86,88 @@ if (document.querySelector('#chart')) {
     })
     .scale(x);
 
-  const yAxisLeft = d3
+  const yAxisHoogte = d3
     .axisLeft()
     .ticks(6)
     .tickSize(-width)
-    .scale(yLeft);
+    .scale(yHoogte);
 
-  const yAxisRight = d3
-    .axisRight()
+  const yAxisTemp = d3
+    .axisLeft()
     .ticks(6)
-    .tickSize(width)
-    .scale(yRight);
+    .tickSize(-width)
+    .scale(yHoogte);
+
+  const yAxisPH = d3
+    .axisLeft()
+    .ticks(6)
+    .tickSize(-width)
+    .scale(yHoogte);
+
+  const yAxisInput = d3
+    .axisLeft()
+    .ticks(6)
+    .tickSize(-width)
+    .scale(yHoogte);
+
+  const yAxisHeater = d3
+    .axisLeft()
+    .ticks(6)
+    .tickSize(-width)
+    .scale(yHoogte);
 
   const axisX = chart.append('g')
     .attr('class', 'x axis')
     .attr('transform', `translate(0, ${height})`)
     .call(xAxis);
 
-  const axisYLeft = chart.append('g')
-    .attr('class', 'y axis left')
+  const axisYHoogte = chart.append('g')
+    .attr('class', 'y axis hoogte')
     .style('fill', '#9b59b6')
-    .call(yAxisLeft);
+    .call(yAxisHoogte);
 
-  const axisYRight = chart.append('g')
-    .attr('class', 'y axis right')
-    .style('fill', '#e67e22')
-    .call(yAxisRight);
+  const axisYTemp = chart.append('g')
+    .attr('class', 'y axis temp')
+    .style('fill', '#9b59b6')
+    .call(yAxisTemp);
 
-  const pathOne = chart
+  const axisYPH = chart.append('g')
+    .attr('class', 'y axis ph')
+    .style('fill', '#9b59b6')
+    .call(yAxisPH);
+
+  const axisYInput = chart.append('g')
+    .attr('class', 'y axis input')
+    .style('fill', '#9b59b6')
+    .call(yAxisInput);
+
+  const axisYHeater = chart.append('g')
+    .attr('class', 'y axis heater')
+    .style('fill', '#9b59b6')
+    .call(yAxisHeater);
+
+  const pathHoogte = chart
     .append('g')
-    .attr('stroke', '#e67e22')
     .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
     .append('path');
 
-  const pathTwo = chart
+  const pathTemp = chart
     .append('g')
-    .attr('stroke', '#9b59b6')
+    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
+    .append('path');
+
+  const pathPH = chart
+    .append('g')
+    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
+    .append('path');
+
+  const pathInput = chart
+    .append('g')
+    .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
+    .append('path');
+
+  const pathHeater = chart
+    .append('g')
     .attr('transform', `translate(${x(d3.timeMinute.offset(maxDate, 2))})`)
     .append('path');
 
@@ -122,23 +195,44 @@ if (document.querySelector('#chart')) {
     }
 
     // Draw new line
-    pathOne.datum(data)
-      .attr('class', 'lineOne')
-      .attr('d', lineOne);
+    pathHoogte.datum(data)
+      .attr('class', 'line line-hoogte')
+      .attr('d', lineHoogte);
 
-    pathTwo.datum(data)
-      .attr('class', 'lineTwo')
-      .attr('d', lineTwo);
+    pathTemp.datum(data)
+      .attr('class', 'line line-temp')
+      .attr('d', lineTemp);
+
+    pathPH.datum(data)
+      .attr('class', 'line line-ph')
+      .attr('d', linePH);
+
+    pathInput.datum(data)
+      .attr('class', 'line line-input')
+      .attr('d', lineInput);
+
+    pathHeater.datum(data)
+      .attr('class', 'line line-heater')
+      .attr('d', lineHeater);
 
     // Shift the chart left
     x
       .domain([d3.timeMinute.offset(minDate, -1), maxDate]);
 
-    axisYLeft
-      .call(yAxisLeft);
+    axisYHoogte
+      .call(yAxisHoogte);
 
-    axisYRight
-      .call(yAxisRight);
+    axisYTemp
+      .call(yAxisTemp);
+
+    axisYPH
+      .call(yAxisPH);
+
+    axisYInput
+      .call(yAxisInput);
+
+    axisYHeater
+      .call(yAxisHeater);
 
     axisX
       .call(xAxis);
