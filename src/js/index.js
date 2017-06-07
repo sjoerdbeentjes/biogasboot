@@ -33,6 +33,7 @@
 // }
 
 require('./modules/real-time-graph');
+require('./modules/customer-dashboard');
 
 // Tiles update
 require('./modules/real-time-tiles');
