@@ -23319,11 +23319,21 @@ module.exports = yeast;
 // }
 
 require('./modules/real-time-graph');
+require('./modules/customer-dashboard');
 
 // Include serviceworker
 // require('./serviceworker-index.js');
 
-},{"./modules/real-time-graph":47}],47:[function(require,module,exports){
+},{"./modules/customer-dashboard":47,"./modules/real-time-graph":48}],47:[function(require,module,exports){
+'use strict';
+
+(function () {
+  if (document.getElementById('customer-dashboard')) {
+    console.log('hey');
+  }
+})();
+
+},{}],48:[function(require,module,exports){
 'use strict';
 
 var d3 = require('d3');

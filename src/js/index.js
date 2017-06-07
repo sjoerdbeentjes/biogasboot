@@ -33,6 +33,7 @@
 // }
 
 require('./modules/real-time-graph');
+require('./modules/customer-dashboard');
 
 // Include serviceworker
 // require('./serviceworker-index.js');

@@ -283,7 +283,9 @@ nav .user {
   stroke-width: 3px; }
 
 #customer-dashboard .card {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(236, 233, 230, 0.7);
+  /* fallback for old browsers */
+  border: 1px solid white;
   display: flex;
   flex: 0 0 calc(50% - 2em);
   flex-direction: column;
@@ -300,11 +302,21 @@ nav .user {
     height: 10em;
     display: block; }
 
+#customer-dashboard > header {
+  display: inline-block;
+  color: white;
+  margin: 0 2em; }
+  #customer-dashboard > header p {
+    text-align: end;
+    line-height: 0; }
+
 #customer-dashboard .card-dashboard {
+  border-top: 3px solid white;
+  margin: 0 2em;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   flex-direction: row;
-  height: 100%; }
+  max-height: 80vh; }
   #customer-dashboard .card-dashboard footer {
     display: none; }
