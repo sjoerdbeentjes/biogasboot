@@ -73,7 +73,7 @@ function getFTPfiles() {
     //   //     console.log('ALARM file copied successfully!');
     //   // });
     // });
-  }, 1000);
+  }, 180000);
 
 
 
