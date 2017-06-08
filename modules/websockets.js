@@ -7,24 +7,24 @@ function tileSatus(data) {
     phStatus: 0,
     tempStatus: 0,
     gasbagStatus: 0,
-    inputStatus: 0,
+    inputStatus: 0
   };
   const types = {
     ph: {
       low: 7,
-      high:8,
+      high: 8,
       warningLow: 5,
       warningHigh: 6
     },
     temp: {
       low: 34,
-      high:38,
+      high: 38,
       warningLow: 35,
       warningHigh: 36
     },
     gasbag: {
       low: 50,
-      high:150,
+      high: 150,
       warningLow: 50,
       warningHigh: 120
     },
@@ -39,7 +39,7 @@ function tileSatus(data) {
   // 0 = Good
   // 1 = Warning
   // 2 = Error
-  switch (true){
+  switch (true) {
     case data.ph_value >= types.ph.low && data.ph_value <= types.ph.high:
       // Good
       statusData.phStatus = 0;
@@ -77,7 +77,6 @@ function webSokets(app, io) {
           i = 1;
         }
         const tileStatus = tileSatus(output[i]);
-
         io.sockets.emit('dataPoint', output[i], tileStatus);
 
         i++;
