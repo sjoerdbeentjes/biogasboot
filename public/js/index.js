@@ -23421,7 +23421,7 @@ if (document.querySelector('#chart')) {
 
   var areaPath = chart.append('g').append('rect').attr('x', 0).attr('y', y(140)).attr('width', width).attr('height', 140).style('fill', '#3498db').style('opacity', 0.3);
 
-  var warningLine = chart.append('g').append('line').attr('x0', 0).attr('x1', width).attr('y', y(180));
+  var warningLine = chart.append('g').attr('class', 'warning-line').append('line').attr('x0', 0).attr('x1', width).attr('y1', y(180)).attr('y2', y(180));
 
   socket.on('dataPoint', function (points) {
     var lastIndex = points.length - 1;

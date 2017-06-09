@@ -83,10 +83,12 @@ if (document.querySelector('#chart')) {
 
   const warningLine = chart
     .append('g')
+    .attr('class', 'warning-line')
     .append('line')
     .attr('x0', 0)
     .attr('x1', width)
-    .attr('y', y(180))
+    .attr('y1', y(180))
+    .attr('y2', y(180));
 
   socket.on('dataPoint', points => {
     const lastIndex = points.length - 1;

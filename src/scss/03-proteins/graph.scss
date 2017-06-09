@@ -18,6 +18,11 @@
   display: none;
 }
 
+.warning-line {
+  stroke: #e74c3c;
+  stroke-width: 2;
+}
+
 .tick line {
   stroke: $lighter-grey;
 }
