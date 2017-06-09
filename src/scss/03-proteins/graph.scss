@@ -3,14 +3,9 @@
 }
 
 .line {
-  fill: none;
   stroke-width: 3px;
-  stroke: inherit;
-  display: none;
-}
-
-.show .line {
-  display: block;
+  stroke: #000;
+  fill: none;
 }
 
 .axis {
@@ -25,8 +20,4 @@
 
 .tick line {
   stroke: $lighter-grey;
-}
-
-.axis.y .tick text {
-  fill: inherit;
 }

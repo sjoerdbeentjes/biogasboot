@@ -12,7 +12,7 @@ if (document.getElementById('currentData')) {
     {
       id: 2,
       used: false,
-      hex: '#e67e22' // orange
+      hex: '#95a5a6' // grey
     }
   ];
 
@@ -71,116 +71,5 @@ if (document.getElementById('currentData')) {
       // 2 = Error
       document.getElementById('phCurrent').setAttribute('data-status', tileStatus.phStatus);
     }
-
-    // Get input value element
-    const inputElementValue = document.getElementById('inputCurrent').getElementsByClassName('value')[0];
-
-    // Get both temps
-    let currentInput = Number(point.input_value);
-
-    // Round to number
-    currentInput = Math.round(currentInput);
-
-    // Only updates the tile when the value is different
-    if (Number(inputElementValue.innerHTML) !== currentInput) {
-      // Update value
-      inputElementValue.innerHTML = currentInput;
-    }
-
-    // Get heater value element
-    const heaterElementValue = document.getElementById('heaterCurrent').getElementsByClassName('value')[0];
-
-    // Get both temps
-    const currentHeater = Number(point.heater_status);
-    // Change status text in tile, only when there is a change
-    if (currentHeater === 0) {
-      if (heaterElementValue.innerHTML !== 'Uit') {
-        heaterElementValue.innerHTML = 'Uit';
-      }
-    } else if (currentHeater === 1) {
-      if (heaterElementValue.innerHTML !== 'Aan') {
-        heaterElementValue.innerHTML = 'Aan';
-      }
-    }
-  });
-
-// Toggle tiles max 2 selected
-  const getButtons = document.querySelectorAll('#currentData > button');
-  let i;
-  let count = 0;
-
-// Loop through buttons
-  getButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      const type = this.getAttribute('data-type');
-
-      const line = document.querySelector(`.line-${type}`);
-
-      // select max of 2
-      if (count < 2) {
-        this.classList.toggle('active');
-
-        if (this.classList.contains('active')) {
-          count++;
-        } else {
-          count--;
-        }
-
-        if (line.parentNode.classList.contains('show')) {
-          const colorId = Number(this.getAttribute('data-color'));
-
-          line.parentNode.classList.remove('show');
-
-          colors.forEach(color => {
-            if (color.id === colorId) {
-              color.used = false;
-            }
-          });
-        } else {
-          let color;
-
-          if (colors[0].used) {
-            color = colors[1];
-            colors[1].used = true;
-
-            this.setAttribute('data-color', color.id);
-
-            console.log(this.querySelector('.indicator'));
-
-            this.querySelector('.indicator').style.background = color.hex;
-          } else {
-            color = colors[0];
-            colors[0].used = true;
-
-            this.setAttribute('data-color', color.id);
-
-            console.log(this.querySelector('.indicator'));
-
-            this.querySelector('.indicator').style.background = color.hex;
-          }
-
-          line.parentNode.classList.add('show');
-          line.parentNode.style.stroke = color.hex;
-        }
-      } else if (this.classList.contains('active')) {
-        // When 2 are selected this is the way to remove an active class
-        this.classList.remove('active');
-        count--;
-
-        if (line.parentNode.classList.contains('show')) {
-          const colorId = Number(this.getAttribute('data-color'));
-
-          line.parentNode.classList.remove('show');
-
-          colors.forEach(color => {
-            colors.forEach(color => {
-              if (color.id === colorId) {
-                color.used = false;
-              }
-            });
-          });
-        }
-      }
-    });
   });
 }

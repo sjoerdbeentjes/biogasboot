@@ -2,45 +2,23 @@
 
 <main>
   <section id="currentData">
+    <button id="bagCurrent" class="errorValue" data-type="hoogte" data-status="0">
+      <div class="inner">
+        <h3>Gaszak</h3>
+        <span class="value">DB</span> <span class="unit">cm</span>
+      </div>
+    </button>
     <button id="phCurrent" class="goodValue" data-type="ph" data-status="0">
       <div class="inner">
         <h3>PH waarde</h3>
         <span class="value">DB</span>
       </div>
-
-      <div class="indicator"></div>
     </button>
     <button id="tempCurrent" class="warningValue" data-type="temp" data-status="0">
       <div class="inner">
         <h3>Temperatuur</h3>
         <span class="value">DB</span> <span class="unit">&#8451;</span>
       </div>
-
-      <div class="indicator"></div>
-    </button>
-    <button id="bagCurrent" class="errorValue" data-type="hoogte" data-status="0">
-      <div class="inner">
-        <h3>Gaszak</h3>
-        <span class="value">DB</span> <span class="unit">cm</span>
-      </div>
-
-      <div class="indicator"></div>
-    </button>
-    <button id="inputCurrent" class="goodValue" data-type="input" data-status="0">
-      <div class="inner">
-        <h3>Input</h3>
-        <span class="value">DB</span> <span class="unit">kg</span>
-      </div>
-
-      <div class="indicator"></div>
-    </button>
-    <button id="heaterCurrent" class="goodValue" data-type="heater" data-status="0">
-      <div class="inner">
-        <h3>Heater</h3>
-        <span class="value">DB</span>
-      </div>
-
-      <div class="indicator"></div>
     </button>
     <section id="graph">
       <svg id="chart"></svg>

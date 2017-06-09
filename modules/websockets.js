@@ -39,7 +39,7 @@ function tileSatus(data) {
   // 0 = Good
   // 1 = Warning
   // 2 = Error
-  switch (true){
+  switch (true) {
     case data.ph_value >= types.ph.low && data.ph_value <= types.ph.high:
       // Good
       statusData.phStatus = 0;
@@ -71,17 +71,25 @@ function webSokets(app, io) {
       }
 
       let i = 1;
+      const sendItemsCount = 30;
 
       setInterval(() => {
-        if (!output[i]) {
+        if (!output[i + sendItemsCount]) {
           i = 1;
         }
+
+        const dataCollection = [];
+
+        for (let x = 1; x <= sendItemsCount; x++) {
+          dataCollection.push(output[x + i]);
+        }
+
+        i += 30;
+
         const tileStatus = tileSatus(output[i]);
 
-        io.sockets.emit('dataPoint', output[i], tileStatus);
-
-        i++;
-      }, 1000);
+        io.sockets.emit('dataPoint', dataCollection, tileStatus);
+      }, 2000);
     });
   });
 }
