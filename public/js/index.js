@@ -23350,24 +23350,22 @@ if (document.querySelector('#chart')) {
   var tick = function tick(points) {
     data = [].concat(_toConsumableArray(data), _toConsumableArray(points));
 
-    console.log(minDate, maxDate);
-
     // Remote old data (max 20 points)
     if (data.length > ticks + 1) {
       data.shift();
     }
 
-    // Draw new line
-    path.datum(data).attr('class', 'line line-hoogte').attr('d', line);
-
     // Shift the chart left
+    console.log(minDate, maxDate);
+
     x.domain([minDate, maxDate]);
 
-    line = d3.line().x(function (d) {
+    line.x(function (d) {
       return x(d.dateTime);
-    }).y(function (d) {
-      return y(d.Gaszak_hoogte_hu);
     });
+
+    // Draw new line
+    path.datum(data).attr('class', 'line line-hoogte').attr('d', line);
 
     axisY.call(yAxis);
 
@@ -23417,7 +23415,11 @@ if (document.querySelector('#chart')) {
 
   var axisY = chart.append('g').attr('class', 'y axis hoogte').call(yAxis);
 
-  var path = chart.append('g').attr('class', 'line').attr('transform', 'translate(' + x(d3.timeMinute.offset(minDate, 30)) + ')').append('path');
+  var clip = chart.append('svg:clipPath').attr('id', 'clip').append('svg:rect').attr('x', 0).attr('y', 0).attr('width', width).attr('height', height);
+
+  var path = chart.append('g').attr('class', 'line').attr('clip-path', function (d, i) {
+    return 'url(#clip)';
+  }).append('path');
 
   var areaPath = chart.append('g').append('rect').attr('x', 0).attr('y', y(140)).attr('width', width).attr('height', 140).style('fill', '#3498db').style('opacity', 0.3);
 
@@ -23449,22 +23451,12 @@ if (document.getElementById('currentData')) {
   var io = require('socket.io-client');
   var socket = io.connect();
 
-  var colors = [{
-    id: 1,
-    used: false,
-    hex: '#3498db' // blue
-  }, {
-    id: 2,
-    used: false,
-    hex: '#95a5a6' // grey
-  }];
-
-  socket.on('dataPoint', function (point, tileStatus) {
+  socket.on('dataPoint', function (points, tileStatus) {
     // Get bag value element
-    var bagElementValue = document.getElementById('bagCurrent').getElementsByClassName('value')[0];
+    var bagElementValue = document.querySelector('#bagCurrent .value');
 
     // Get current number of bag height
-    var currentBag = Number(point.Gaszak_hoogte_hu);
+    var currentBag = Number(points[points.length - 1].Gaszak_hoogte_hu);
 
     // Round to number
     currentBag = Math.round(currentBag);
@@ -23476,11 +23468,11 @@ if (document.getElementById('currentData')) {
     }
 
     // Get temp value element
-    var tempElementValue = document.getElementById('tempCurrent').getElementsByClassName('value')[0];
+    var tempElementValue = document.querySelector('#tempCurrent .value');
 
     // Get both temps
-    var currentTemp1 = Number(point.PT100_real_1);
-    var currentTemp2 = Number(point.PT100_real_2);
+    var currentTemp1 = Number(points[points.length - 1].PT100_real_1);
+    var currentTemp2 = Number(points[points.length - 1].PT100_real_2);
 
     // Average temp
     var currentTemp = (currentTemp1 + currentTemp2) / 2;
@@ -23495,10 +23487,10 @@ if (document.getElementById('currentData')) {
     }
 
     // Get PH value element
-    var phElementValue = document.getElementById('phCurrent').getElementsByClassName('value')[0];
+    var phElementValue = document.querySelector('#phCurrent .value');
 
     // Get both temps
-    var currentPh = Number(point.ph_value);
+    var currentPh = Number(points[points.length - 1].ph_value);
 
     // Round to 2 decimal
     currentPh = parseFloat(Math.round(currentPh * 100) / 100).toFixed(2);

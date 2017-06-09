@@ -3,25 +3,12 @@ if (document.getElementById('currentData')) {
   const io = require('socket.io-client');
   const socket = io.connect();
 
-  const colors = [
-    {
-      id: 1,
-      used: false,
-      hex: '#3498db' // blue
-    },
-    {
-      id: 2,
-      used: false,
-      hex: '#95a5a6' // grey
-    }
-  ];
-
-  socket.on('dataPoint', (point, tileStatus) => {
+  socket.on('dataPoint', (points, tileStatus) => {
     // Get bag value element
-    const bagElementValue = document.getElementById('bagCurrent').getElementsByClassName('value')[0];
+    const bagElementValue = document.querySelector('#bagCurrent .value');
 
     // Get current number of bag height
-    let currentBag = Number(point.Gaszak_hoogte_hu);
+    let currentBag = Number(points[points.length - 1].Gaszak_hoogte_hu);
 
     // Round to number
     currentBag = Math.round(currentBag);
@@ -33,11 +20,11 @@ if (document.getElementById('currentData')) {
     }
 
     // Get temp value element
-    const tempElementValue = document.getElementById('tempCurrent').getElementsByClassName('value')[0];
+    const tempElementValue = document.querySelector('#tempCurrent .value');
 
     // Get both temps
-    const currentTemp1 = Number(point.PT100_real_1);
-    const currentTemp2 = Number(point.PT100_real_2);
+    const currentTemp1 = Number(points[points.length - 1].PT100_real_1);
+    const currentTemp2 = Number(points[points.length - 1].PT100_real_2);
 
     // Average temp
     let currentTemp = (currentTemp1 + currentTemp2) / 2;
@@ -52,10 +39,10 @@ if (document.getElementById('currentData')) {
     }
 
     // Get PH value element
-    const phElementValue = document.getElementById('phCurrent').getElementsByClassName('value')[0];
+    const phElementValue = document.querySelector('#phCurrent .value');
 
     // Get both temps
-    let currentPh = Number(point.ph_value);
+    let currentPh = Number(points[points.length - 1].ph_value);
 
     // Round to 2 decimal
     currentPh = parseFloat(Math.round(currentPh * 100) / 100).toFixed(2);

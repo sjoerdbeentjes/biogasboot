@@ -65,10 +65,18 @@ if (document.querySelector('#chart')) {
     .attr('class', 'y axis hoogte')
     .call(yAxis);
 
+  const clip = chart.append('svg:clipPath')
+      .attr('id', 'clip')
+    .append('svg:rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', width)
+      .attr('height', height);
+
   const path = chart
     .append('g')
     .attr('class', 'line')
-    .attr('transform', `translate(${x(d3.timeMinute.offset(minDate, 30))})`)
+    .attr('clip-path', (d, i) => 'url(#clip)')
     .append('path');
 
   const areaPath = chart
@@ -111,25 +119,24 @@ if (document.querySelector('#chart')) {
   function tick(points) {
     data = [...data, ...points];
 
-    console.log(minDate, maxDate);
-
     // Remote old data (max 20 points)
     if (data.length > ticks + 1) {
       data.shift();
     }
 
+    // Shift the chart left
+    console.log(minDate, maxDate);
+
+    x
+      .domain([minDate, maxDate]);
+
+    line
+      .x(d => x(d.dateTime));
+
     // Draw new line
     path.datum(data)
       .attr('class', 'line line-hoogte')
       .attr('d', line);
-
-    // Shift the chart left
-    x
-      .domain([minDate, maxDate]);
-
-    line = d3.line()
-      .x(d => x(d.dateTime))
-      .y(d => y(d.Gaszak_hoogte_hu));
 
     axisY
       .call(yAxis);
