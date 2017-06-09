@@ -76,6 +76,7 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "jsftp": "^2.0.0",
     "line-by-line": "^0.1.5",
     "mongodb": "*",
     "mongoose": "^4.10.3",

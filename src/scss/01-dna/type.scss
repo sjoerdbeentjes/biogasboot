@@ -1,8 +1,40 @@
+@font-face {
+  font-family:'Nexa';
+  src: url('../fonts/nexa/Nexa-Rust-Sans-Black.woff2') format('woff2'),
+  url('../fonts/nexa/Nexa-Rust-Sans-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-00FE;
+}
+
+@font-face {
+  font-family:'Raleway';
+  src: url('../fonts/raleway/Raleway.woff2') format('woff2'),
+  url('../fonts/raleway/Raleway.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-00FE;
+}
+
+@font-face {
+  font-family:'Raleway';
+  src: url('../fonts/raleway/Raleway-Bold.woff2') format('woff2'),
+  url('../fonts/raleway/Raleway-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-00FE;
+}
+
+
 body {
-  font-family: sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 h1 {
+  font-family: 'Nexa', sans-serif;
   font-size: 2em;
   line-height: 1.25;
   margin-bottom: 0.2em;
