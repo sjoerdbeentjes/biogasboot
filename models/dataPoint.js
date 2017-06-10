@@ -8,9 +8,6 @@ const db = mongoose.connection;
 
 const DataPointSchema = mongoose.Schema({
   Date: {
-    type: String
-  },
-  Time: {
     type: Date
   },
   Temp_PT100_1: {
