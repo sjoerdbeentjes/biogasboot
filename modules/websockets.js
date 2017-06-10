@@ -78,7 +78,6 @@ function getFilesFromDirectory() {
 
 function checkLatestFileForNewData(path, file) {
   const formattedDate = moment(file.split('.')[0], 'YYMMDD').format('DD-MM-YYYY');
-  console.log(formattedDate);
   fs.readFile(path + file, (err, data) => {
     if (err) throw err;
     console.log(data);
@@ -125,12 +124,19 @@ function parseFileDataToJSON(data) {
     columns: ['Date', 'Time', 'Temp_PT100_1', 'Temp_PT100_2', 'pH_Value', 'Bag_Height']
   }, (err, parsedData) => {
     if (err) throw err;
+    parsedData.shift(); // Remove headers from arrays
+    parsedData = parsedData.map(dataPoint => {
+      dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY h:mm:ss').format('YYYY-MM-DD h:mm:ss');
+
+      // console.log(new Date(`${dataPoint.Date}T${dataPoint.Time}`))
+      delete dataPoint.Time;
+      return dataPoint
+    })
     addFileToMongo(parsedData);
   });
 }
 
 function addFileToMongo(data) {
-  data.shift(); // Remove headers from arrays
   dataPoint.insertMany(data)
     .then(mongooseDocuments => {})
     .catch(err => {
