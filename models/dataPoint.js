@@ -11,17 +11,25 @@ const DataPointSchema = mongoose.Schema({
     type: String
   },
   Time: {
+    type: Date
+  },
+  Temp_PT100_1: {
     type: String
   },
-  PT100_real_1: {
+  Temp_PT100_2: {
     type: String
   },
-  PT100_real_2: {
+  pH_Value: {
     type: String
   },
-  Gaszak_hoogte_hu: {
+  Bag_Height: {
     type: String
   }
 });
+
+module.exports.getAllUniqueDates = function (username, callback) {
+  const query = {username};
+  DataPointSchema.findOne(query, callback);
+};
 
 const DataPoint = module.exports = mongoose.model('DataPoint', DataPointSchema);
