@@ -32,6 +32,7 @@ function getFTPfiles() {
       // Get latest file name
       const totalFilesVALUE = res.length - 1;
       const latestFileVALUE = res[totalFilesVALUE].name;
+      console.log(res[totalFilesVALUE]);
       // Copy latest from FTP to this server
       ftpValue.get('/uploads/VALUE/VALUE/'+ latestFileVALUE, path.join(__dirname, `../data/ftp/VALUE/${latestFileVALUE}`), function(hadErr) {
         if (hadErr)
@@ -54,60 +55,7 @@ function getFTPfiles() {
           console.log('STATUS file copied successfully!');
       });
     });
-
-    // // Update ALARM dir
-    // ftpAlarm.ls("/uploads/ALARM/", function(err, res) {
-    //   res.forEach(function(file) {
-    //     console.log(file.time);
-    //   });
-    //
-    //   // Get latest file name
-    //   // const totalFilesALARM = res.length - 1;
-    //   // const latestFileALARM = res[totalFilesALARM];
-    //   // console.log(latestFileALARM);
-    //   // Copy latest from FTP to this server
-    //   // ftpAlarm.get('/uploads/ALARM/'+ latestFileALARM, path.join(__dirname, `../data/ftp/ALARM/${latestFileALARM}`), function(hadErr) {
-    //   //   if (hadErr)
-    //   //     console.error(hadErr);
-    //   //   else
-    //   //     console.log('ALARM file copied successfully!');
-    //   // });
-    // });
-  }, 180000);
-
-
-
-  // setInterval(() => {
-  //   const recentData = '';
-  //   Ftp.ls("/uploads/VALUE/VALUE/", function(err, res) {
-  //     let totalFiles = res.length - 1;
-  //     let latestFile = res[totalFiles].name;
-  //
-  //     let str = ""; // Will store the contents of the file
-  //     Ftp.get('/uploads/VALUE/VALUE/'+ latestFile, function(err, socket) {
-  //       if (err) return;
-  //
-  //       socket.on("data", function(d) {
-  //         str += d.toString();
-  //         //
-  //         //
-  //         //
-  //         //
-  //         //
-  //         //
-  //         //
-  //         //
-  //
-  //         console.log(str);
-  //       });
-  //       socket.on("close", function(hadErr) {
-  //         if (hadErr)
-  //           console.error('There was an error retrieving the file.');
-  //       });
-  //       socket.resume();
-  //     });
-  //   });
-  // }, 1000);
+  }, 10000000);
 
 }
 
