@@ -1,5 +1,5 @@
-const JSFtp = require("jsftp");
 const path = require('path');
+const JSFtp = require('jsftp');
 require('dotenv').config();
 
 function getFTPfiles() {
@@ -30,19 +30,20 @@ function getFTPfiles() {
   setInterval(() => {
     console.log('-----New update from FTP server-----');
     // Update VALUE dir
-    ftpValue.ls("/uploads/VALUE/VALUE/", function(err, res) {
-
+    ftpValue.ls('/uploads/VALUE/VALUE/', (err, res) => {
+      // Log error
+      if (err) {
+        console.log(err);
+      }
       // Sort by filename
       const byName = res.slice(0);
-      byName.sort(function(a,b) {
-        return a.name - b.name;
-      });
+      byName.sort((a, b) => a.name - b.name);
 
       // Get latest file name (by name)
       const totalFilesVALUE = byName.length - 1;
       const latestFileVALUE = byName[totalFilesVALUE].name;
         // Copy latest from FTP to this server
-      ftpValue.get('/uploads/VALUE/VALUE/'+ latestFileVALUE, path.join(__dirname, `../data/ftp/VALUE/${latestFileVALUE}`), function(hadErr) {
+      ftpValue.get(`/uploads/VALUE/VALUE/${latestFileVALUE}`, path.join(__dirname, `../data/ftp/VALUE/${latestFileVALUE}`), hadErr => {
         if (hadErr)
           console.error(hadErr);
         else
@@ -51,19 +52,20 @@ function getFTPfiles() {
     });
 
     // Update STATUS dir
-    ftpStatus.ls("/uploads/STATUS/STATUS/", function(err, res) {
-
+    ftpStatus.ls('/uploads/STATUS/STATUS/', (err, res) => {
+      // Log error
+      if (err) {
+        console.log(err);
+      }
       // Sort by filename
       const byName = res.slice(0);
-      byName.sort(function(a,b) {
-        return a.name - b.name;
-      });
+      byName.sort((a, b) => a.name - b.name);
 
       // Get latest file name (by name)
       const totalFilesSTATUS = byName.length - 1;
       const latestFileSTATUS = byName[totalFilesSTATUS].name;
       // Copy latest from FTP to this server
-      ftpStatus.get('/uploads/STATUS/STATUS/'+ latestFileSTATUS, path.join(__dirname, `../data/ftp/STATUS/${latestFileSTATUS}`), function(hadErr) {
+      ftpStatus.get(`/uploads/STATUS/STATUS/${latestFileSTATUS}`, path.join(__dirname, `../data/ftp/STATUS/${latestFileSTATUS}`), hadErr => {
         if (hadErr)
           console.error(hadErr);
         else
@@ -72,18 +74,20 @@ function getFTPfiles() {
     });
 
     // // Update ALARM dir
-    ftpAlarm.ls("/uploads/ALARM/", function(err, res) {
+    ftpAlarm.ls('/uploads/ALARM/', (err, res) => {
+      // Log error
+      if (err) {
+        console.log(err);
+      }
       // Sort by timestamp
       const byDate = res.slice(0);
-      byDate.sort(function(a,b) {
-        return a.time - b.time;
-      });
+      byDate.sort((a, b) => a.time - b.time);
 
       // Get latest file name
       const totalFilesALARM = byDate.length - 1;
       const latestFileALARM = byDate[totalFilesALARM].name;
       // Copy latest from FTP to this server
-      ftpAlarm.get('/uploads/ALARM/'+ latestFileALARM, path.join(__dirname, `../data/ftp/ALARM/${latestFileALARM}`), function(hadErr) {
+      ftpAlarm.get(`/uploads/ALARM/${latestFileALARM}`, path.join(__dirname, `../data/ftp/ALARM/${latestFileALARM}`), hadErr => {
         if (hadErr)
           console.error(hadErr);
         else
@@ -91,7 +95,6 @@ function getFTPfiles() {
       });
     });
   }, 1800000);
-
 }
 
 module.exports = getFTPfiles;
