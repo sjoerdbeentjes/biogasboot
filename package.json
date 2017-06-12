@@ -78,6 +78,7 @@
     "express-validator": "*",
     "jsftp": "^2.0.0",
     "line-by-line": "^0.1.5",
+    "moment": "^2.18.1",
     "mongodb": "*",
     "mongoose": "^4.10.3",
     "morgan": "~1.8.1",
@@ -87,7 +88,9 @@
     "passport-local": "*",
     "socket.io": "^2.0.2",
     "socket.io-client": "^2.0.2",
+    "ssh2": "^0.5.5",
     "web-push": "^3.2.2",
+    "wget": "0.0.1",
     "xo": "^0.18.2"
   },
   "devDependencies": {
