@@ -99,7 +99,6 @@ if (document.querySelector('#chart')) {
     .attr('y2', y(180));
 
   socket.on('dataPoint', points => {
-    console.log(points);
     const lastIndex = points.length - 1;
 
     const dateTime = `${points[lastIndex].Date} ${points[lastIndex].Time}`;
@@ -124,9 +123,6 @@ if (document.querySelector('#chart')) {
     if (data.length > ticks + 1) {
       data.shift();
     }
-
-    // Shift the chart left
-    console.log(minDate, maxDate);
 
     x
       .domain([minDate, maxDate]);

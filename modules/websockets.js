@@ -146,17 +146,16 @@ function addFileToMongo(data) {
 
 getFilesFromDirectory();
 
-function webSokets(app, io) {
+function webSockets(app, io) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
     if (err) {
       throw err;
     }
-    parse(data, {
-      columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Gaszak_hoogte_hu', 'ph_value', 'input_value', 'heater_status']
-    }, (error, output) => {
+    parse(data, {columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Gaszak_hoogte_hu', 'ph_value', 'input_value', 'heater_status']}, (error, output) => {
       if (error) {
         throw error;
       }
+
       let i = 1;
       const sendItemsCount = 30;
 
@@ -174,12 +173,11 @@ function webSokets(app, io) {
         i += 30;
 
         const tileStatus = tileSatus(output[i]);
-        io.sockets.emit('dataPoint', output[i], tileStatus);
 
-        i++;
+        io.sockets.emit('dataPoint', dataCollection, tileStatus);
       }, 1000);
     });
   });
 }
 
-module.exports = webSokets;
+module.exports = webSockets;
