@@ -99,6 +99,7 @@ if (document.querySelector('#chart')) {
     .attr('y2', y(180));
 
   socket.on('dataPoint', points => {
+    console.log(points);
     const lastIndex = points.length - 1;
 
     const dateTime = `${points[lastIndex].Date} ${points[lastIndex].Time}`;

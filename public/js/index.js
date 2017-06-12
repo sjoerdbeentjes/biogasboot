@@ -23426,6 +23426,7 @@ if (document.querySelector('#chart')) {
   var warningLine = chart.append('g').attr('class', 'warning-line').append('line').attr('x0', 0).attr('x1', width).attr('y1', y(180)).attr('y2', y(180));
 
   socket.on('dataPoint', function (points) {
+    console.log(points);
     var lastIndex = points.length - 1;
 
     var dateTime = points[lastIndex].Date + ' ' + points[lastIndex].Time;
@@ -23446,67 +23447,50 @@ if (document.querySelector('#chart')) {
 },{"d3":10,"socket.io-client":35}],49:[function(require,module,exports){
 'use strict';
 
-if (document.getElementById('currentData')) {
+var maxBagValue = 200;
+var bagValues = [130, // warning
+160 // error
+];
 
+if (document.getElementById('currentData')) {
   var io = require('socket.io-client');
   var socket = io.connect();
 
   socket.on('dataPoint', function (points, tileStatus) {
-    // Get bag value element
-    var bagElementValue = document.querySelector('#bagCurrent .value');
-
     // Get current number of bag height
     var currentBag = Number(points[points.length - 1].Gaszak_hoogte_hu);
-
-    // Round to number
-    currentBag = Math.round(currentBag);
-
-    // Only updates the tile when the value is different
-    if (Number(bagElementValue.innerHTML) !== currentBag) {
-      // Update value
-      bagElementValue.innerHTML = currentBag;
-    }
-
-    // Get temp value element
-    var tempElementValue = document.querySelector('#tempCurrent .value');
-
-    // Get both temps
-    var currentTemp1 = Number(points[points.length - 1].PT100_real_1);
-    var currentTemp2 = Number(points[points.length - 1].PT100_real_2);
-
-    // Average temp
-    var currentTemp = (currentTemp1 + currentTemp2) / 2;
-
-    // Round to 1 decimal
-    currentTemp = parseFloat(Math.round(currentTemp * 10) / 10).toFixed(1);
-
-    // Only updates the tile when the value is different
-    if (Number(tempElementValue.innerHTML) !== currentTemp) {
-      // Update value
-      tempElementValue.innerHTML = currentTemp;
-    }
-
-    // Get PH value element
-    var phElementValue = document.querySelector('#phCurrent .value');
-
-    // Get both temps
+    var currentTemp = (Number(points[points.length - 1].PT100_real_1) + Number(points[points.length - 1].PT100_real_2)) / 2;
     var currentPh = Number(points[points.length - 1].ph_value);
 
-    // Round to 2 decimal
-    currentPh = parseFloat(Math.round(currentPh * 100) / 100).toFixed(2);
+    setValue('#bagCurrent', Math.round(currentBag));
+    setValue('#tempCurrent', parseFloat(Math.round(currentTemp * 10) / 10).toFixed(1));
+    setValue('#phCurrent', Math.round(currentPh));
 
-    // Only updates the tile when the value is different
-    if (Number(phElementValue.innerHTML) !== currentPh) {
-      // Update value
-      phElementValue.innerHTML = currentPh;
-      // Indicator
-      // Explain number meanings
-      // 0 = Good
-      // 1 = Warning
-      // 2 = Error
-      document.getElementById('phCurrent').setAttribute('data-status', tileStatus.phStatus);
-    }
+    setMeterBar(tileStatus.gasbagStatus, currentBag);
   });
+}
+
+function setValue(selector, value) {
+  var valueEl = document.querySelector(selector + ' .value');
+
+  if (Number(valueEl.innerHTML) !== value) {
+    // Update value
+    valueEl.innerHTML = value;
+  }
+}
+
+function setMeterBar(status, value) {
+  var el = document.querySelector('#currentData .meter .meter-inner');
+  var color = void 0;
+
+  if (status === 1) {
+    color = '#e67e22';
+  } else if (status === 2) {
+    color = '#e74c3c';
+  }
+
+  el.style.width = value / maxBagValue * 100 + '%';
+  el.style.backgroundColor = color;
 }
 
 },{"socket.io-client":35}]},{},[46]);

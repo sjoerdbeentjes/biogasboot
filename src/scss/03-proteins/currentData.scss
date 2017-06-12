@@ -124,3 +124,24 @@
   width: calc(100% + 0.6em);
   background-color: #e67e22;
 }
+
+#currentData > button .meter {
+  width: 98%;
+  width: calc(100% - 1em);
+  height: 1em;
+  position: relative;
+  background-color: #fff;
+  bottom: 0.5em;
+  left: 0.5em;
+  border-radius: 0.15em;
+
+  .meter-inner {
+    position: absolute;
+    height: calc(100% - 0.5em);
+    width: 0;
+    left: 0.25em;
+    top: 0.25em;
+    background-color: $success-theme-color;
+    border-radius: 0.15em;
+  }
+}

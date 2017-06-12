@@ -89,7 +89,7 @@ function webSokets(app, io) {
         const tileStatus = tileSatus(output[i]);
 
         io.sockets.emit('dataPoint', dataCollection, tileStatus);
-      }, 500);
+      }, 1000);
     });
   });
 }
