@@ -1,39 +1,8 @@
 <%- include ../partials/head.ejs %>
 
 <main>
-  <section id="historyData">
-    <input name="showFilters" id="showFilters" type="checkbox">
-    <aside id="filters">
-      <div id="filterInput">
-        <label>
-          Gaszak <input type="checkbox" name="bag" value="Gaszak">
-        </label>
-        <label>
-          PH waarde <input type="checkbox" name="ph" value="PH waarde">
-        </label>
-        <label>
-          Temperatuur <input type="checkbox" name="temp" value="Temperatuur">
-        </label>
-      </div>
-      <label for="showFilters">
-        Filters
-      </label>
-    </aside>
-    <div class="inner">
-      <section id="datePicker">
-        <label>
-          Datum 1
-          <input type="date" name="dateOne">
-        </label>
-        <label>
-          Datum 2
-          <input type="date" name="dateTwo">
-        </label>
-      </section>
-      <section id="graphHistory">
-        Graph
-      </section>
-    </div>
+  <section id="graph">
+    <svg id="history-graph"></svg>
   </section>
 </main>
 

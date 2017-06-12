@@ -1,3 +1,3 @@
 /**
- * SILANCE IS GOLDEN
+ * SILENCE IS GOLDEN
  */
