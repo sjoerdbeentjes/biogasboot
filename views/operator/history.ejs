@@ -1,8 +1,78 @@
 <%- include ../partials/head.ejs %>
-
 <main>
-  <section id="graph">
-    <svg id="history-graph"></svg>
+  <section id="historyData">
+      <aside>
+        <section id="datePickers">
+          PICKER
+        </section>
+        <section id="compareDates">
+          <table>
+            <tr>
+              <th>
+                Param
+              </th>
+              <th id="dateFirst">
+                Deze maand 1
+              </th>
+              <th id="dateSecond">
+                Deze maand 2
+              </th>
+            </tr>
+            <tr>
+              <td>
+                Heater
+              </td>
+              <td>
+                600 min
+              </td>
+              <td>
+                544 min
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Compressor
+              </td>
+              <td>
+                444 min
+              </td>
+              <td>
+                666 min
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Gaspomp
+              </td>
+              <td>
+                1337 min
+              </td>
+              <td>
+                1226 min
+              </td>
+            </tr>
+          </table>
+        </section>
+      </aside>
+      <section id="graphSection">
+        <section id="filters">
+          <input type="radio" name="filter" value="ph_value" id="ph_value">
+          <label for="ph_value">
+            PH waarde
+          </label>
+          <input type="radio" name="filter" value="bag_height" id="bag_height">
+          <label for="bag_height">
+            Gaszak
+          </label>
+          <input type="radio" name="filter" value="temp" id="temp">
+          <label for="temp">
+            Temperatuur
+          </label>
+        </section>
+        <section id="graph">
+          <svg id="history-graph"></svg>
+        </section>
+      </section>
   </section>
 </main>
 

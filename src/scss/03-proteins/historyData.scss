@@ -6,118 +6,76 @@
  justify-content: space-around;
  height: 100%;
  position: relative;
- padding-top: 5.5em;
+ padding-top: 0;
  box-sizing: border-box;
-}
 
-#historyData > .inner {
- flex-basis: 100%;
- max-width: 100%;
- padding: 0;
-}
+ & > aside {
+  max-width: 36%;
+  flex-basis: 36%;
+  margin: 2%;
 
-#historyData #filters {
- flex-basis: 100%;
- max-width: 100%;
- text-align: left;
- position: absolute;
- overflow: hidden;
- display: flex;
- flex-direction: row;
- flex-wrap: wrap;
- right: 65%;
- width: 100%;
- transition: right .3s ease;
- height: 50px;
- top:0;
- bottom: 0;
-}
+  & > #datePickers {
+   display: block;
+   border: 0.1em solid #e9e9e9;
+   background-color: #ffffff;
+   padding: 1em;
+   margin-bottom: 1em;
+  }
 
-#historyData #filterInput {
- height: 100%;
- text-align: left;
- background-color: rgba(52, 73, 94,1.0);
- color: #ffffff;
- width: 65%;
+  & > #compareDates {
+   display: block;
+   border: 0.1em solid #e9e9e9;
+   background-color: #ffffff;
+   padding: 1em;
 
- input {
-  width: auto;
+   & > table {
+    width: 100%;
+   }
+  }
  }
- label {
-  margin: 1em 1em;
-  border-bottom: 1px solid #ffffff;
+
+ & > #graphSection {
+  max-width: 56%;
+  flex-basis: 56%;
+  margin: 2%;
+
+  & > #filters {
+   border: 0.1em solid #e9e9e9;
+   background-color: #ffffff;
+   padding: 1em;
+   margin-bottom: 1em;
+
+   label {
+    display: inline-block;
+    padding: 1em;
+    cursor: pointer;
+    margin-bottom: 0;
+    border: 1px solid #333333;
+   }
+   input[type="radio"] {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    margin: 0 .5em 0 0;
+   }
+   input[type="radio"]:checked + label {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 1em;
+   }
+  }
  }
 }
 
-label[for="showFilters"]{
- cursor: pointer;
- align-self: flex-start;
- box-sizing: border-box;
- width: 35%;
- padding: 1em;
- background-color: #3498db;
- color: #ffffff;
-}
-
-label[for="showFilters"]::after {
- content: 'SHOW';
-}
-
-#showFilters:checked + #filters {
- height: 100%;
-}
-
-#showFilters:checked + #filters > label[for="showFilters"]::after {
- content: 'HIDE';
-}
-
-@media screen and (min-width: 768px) {
- #historyData {
-  padding-top: 0;
- }
- #historyData > .inner {
-  flex-basis: 70%;
-  max-width: 70%;
- }
- label[for="showFilters"] {
+@media screen and (max-width: 768px) {
+ #filters,
+ #graphSection{
   display: none;
  }
- #historyData #filters {
-  position: static;
-  flex-basis: 30%;
-  max-width: 30%;
-  height: 100%;
+
+ #historyData > aside {
+  max-width: 98%;
+  flex-basis: 98%;
+  margin: 1%;
+  align-self: flex-start;
  }
- #historyData #filterInput {
-  width: 100%;
- }
-}
-
-#showFilters {
- display: none;
-}
-
-#showFilters:checked + #filters {
- right: 0;
-}
-
-#datePicker {
- display: block;
- flex-basis: 98%;
- max-width: 98%;
- margin: 1%;
- input[type="date"] {
-  width: 100%;
- }
-}
-
-#graphHistory {
- display: block;
- flex-basis: 98%;
- max-width: 98%;
- margin: 1%;
- height: 38em;
- border: 0.1em solid #e9e9e9;
- background-color: #ffffff;
- padding: 1em;
 }
