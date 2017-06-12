@@ -33,8 +33,23 @@ function setData(req, res) {
 
 /* GET home page. */
 router.get('/all', (req, res, next) => {
+  // Check for parameters and use them for serving data
+  // console.log(req.param('format'))
+  if(req.param('dateStart') && req.param('dateEnd')) {
+    let filteredData = {};
+    DataPoint.find((err, data) => {
+      data.forEach(function(point) {
+        const thisDate = new Date(point.Date);
+        const startDate = new Date(Number(req.param('dateStart')));
+        const endDate = new Date(req.param('dateEnd'));
+        console.log(startDate)
+      })
+    })
+  }
+
   // uncomment this function if the sample data needs to be reset (first delete collection in database)
   // setData(req, res);
+  // console.log(DataPoint)
 
   DataPoint.find((err, data) => {
     res.send(data);
