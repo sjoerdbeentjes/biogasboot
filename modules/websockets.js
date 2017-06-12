@@ -69,7 +69,9 @@ function tileSatus(data) {
 
 function getFilesFromDirectory() {
   const directoryPath = path.join(__dirname, '../data/sd-card/VALUE/VALUE/');
+  const regex = /^[0-9]{6}.csv$/i;
   fs.readdir(directoryPath, (err, files) => {
+    files = files.filter(file => regex.test(file));
     if (err) throw err;
     checkDirectoryForNewData(directoryPath, files);
     // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
