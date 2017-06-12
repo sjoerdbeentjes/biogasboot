@@ -72,7 +72,7 @@ function getFilesFromDirectory() {
   fs.readdir(directoryPath, (err, files) => {
     if (err) throw err;
     checkDirectoryForNewData(directoryPath, files);
-    checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
+    // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
   });
 }
 
@@ -130,8 +130,8 @@ function parseFileDataToJSON(data) {
 
       // console.log(new Date(`${dataPoint.Date}T${dataPoint.Time}`))
       delete dataPoint.Time;
-      return dataPoint
-    })
+      return dataPoint;
+    });
     addFileToMongo(parsedData);
   });
 }
@@ -158,21 +158,11 @@ function webSokets(app, io) {
         throw error;
       }
       let i = 1;
-      const sendItemsCount = 30;
 
       setInterval(() => {
-        if (!output[i + sendItemsCount]) {
+        if (!output[i]) {
           i = 1;
         }
-
-        const dataCollection = [];
-
-        for (let x = 1; x <= sendItemsCount; x++) {
-          dataCollection.push(output[x + i]);
-        }
-
-        i += 30;
-
         const tileStatus = tileSatus(output[i]);
         io.sockets.emit('dataPoint', output[i], tileStatus);
 
