@@ -110,6 +110,18 @@ if (document.querySelector('#history-graph')) {
     });
   }
 
+  function showWeek(weekNumber, yearNumber) {
+    const year = parseYear(yearNumber);
+    const yearUnix = year / 1000;
+
+    const weekNumberUnix = yearUnix + ((7 * weekNumber) * 86400);
+    const weekNumberFromWeekNumberUnix = weekNumberUnix + (7 * 86400);
+
+    const url = `/api/all?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
+
+    updateData(url);
+  }
+
   function showMonth(monthNumber, yearNumber) {
     const month = parseMonth(`${yearNumber}-${monthNumber}`);
     const monthFromMonth = parseMonth(`${yearNumber}-${monthNumber + 1}`);
@@ -136,6 +148,7 @@ if (document.querySelector('#history-graph')) {
     updateData(url);
   }
 
+  showWeek(10, 2017);
   showMonth(3, 2017);
   showYear(2017);
 }
