@@ -505,13 +505,5 @@ label[for="showFilters"]::after {
   background-color: #ffffff;
   padding: 1em; }
 
-#customer-dashboard .card-dashboard {
-  border-top: 3px solid white;
-  margin: 0 2em;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  flex-direction: row;
-  max-height: 80vh; }
-  #customer-dashboard .card-dashboard footer {
-    display: none; }
+.customer-dashboard {
+  padding: 2em; }
