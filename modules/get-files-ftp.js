@@ -16,98 +16,30 @@ const settingsFTP = {
 };
 
 
-
-// // Gets latest file from FTP server and place it on this server (every 30 min, 1800 seconds)
-// console.log('-----New update from FTP server-----');
-// // Update VALUE dir
-// ftpValue.ls('/uploads/VALUE/VALUE/', (err, res) => {
-//   // Log error
-//   if (err) {
-//     console.log(err);
-//   }
-//   // Sort by filename
-//   const byName = res.slice(0);
-//   byName.sort((a, b) => a.name - b.name);
-
-//   // Get latest file name (by name)
-//   const totalFilesVALUE = byName.length - 1;
-//   const latestFileVALUE = byName[totalFilesVALUE].name;
-//   // Copy latest from FTP to this server
-// ftpValue.get(`/uploads/VALUE/VALUE/${latestFileVALUE}`, path.join(__dirname, `../data/ftp/VALUE/${latestFileVALUE}`), hadErr => {
-//   if (hadErr)
-//     console.error(hadErr);
-//   else
-//     console.log('VALUE file copied successfully! Filename: ' + latestFileVALUE);
-// });
-// });
-
-// // Update STATUS dir
-// ftpStatus.ls('/uploads/STATUS/STATUS/', (err, res) => {
-//   // Log error
-//   if (err) {
-//     console.log(err);
-//   }
-//   // Sort by filename
-//   const byName = res.slice(0);
-//   byName.sort((a, b) => a.name - b.name);
-
-//   // Get latest file name (by name)
-//   const totalFilesSTATUS = byName.length - 1;
-//   const latestFileSTATUS = byName[totalFilesSTATUS].name;
-//   // Copy latest from FTP to this server
-//   ftpStatus.get(`/uploads/STATUS/STATUS/${latestFileSTATUS}`, path.join(__dirname, `../data/ftp/STATUS/${latestFileSTATUS}`), hadErr => {
-//     if (hadErr)
-//       console.error(hadErr);
-//     else
-//       console.log('STATUS file copied successfully! Filename: ' + latestFileSTATUS);
-//   });
-// });
-
-// // // Update ALARM dir
-// ftpAlarm.ls('/uploads/ALARM/', (err, res) => {
-//   // Log error
-//   if (err) {
-//     console.log(err);
-//   }
-//   // Sort by timestamp
-//   const byDate = res.slice(0);
-//   byDate.sort((a, b) => a.time - b.time);
-
-//   // Get latest file name
-//   const totalFilesALARM = byDate.length - 1;
-//   const latestFileALARM = byDate[totalFilesALARM].name;
-//   // Copy latest from FTP to this server
-//   ftpAlarm.get(`/uploads/ALARM/${latestFileALARM}`, path.join(__dirname, `../data/ftp/ALARM/${latestFileALARM}`), hadErr => {
-//     if (hadErr)
-//       console.error(hadErr);
-//     else
-//       console.log('ALARM file copied successfully! Filename: ' + latestFileALARM);
-//   });
-// });
-// };
-
 module.exports.getValueFileNames = function () {
   new JSFtp(settingsFTP).ls('/uploads/VALUE/VALUE/', (err, res) => {
-    const fileNames = [];
-    res.map(fileData => {
-      fileNames.push(fileData.name);
+    const fileNames = res.map(fileData => {
+      return fileData.name;
     });
-    // checkDirectoryForNewData(fileNames);
-    checkLatestFileForNewData(fileNames.splice(-1)[0]);
+    checkDirectoryForNewData(fileNames);
+    checkLatestFileForNewData(fileNames[fileNames.length-1]);
   });
 };
 
 function checkLatestFileForNewData(file) {
   const formattedDate = moment(file.split('.')[0], 'YYMMDD');
-  console.log(formattedDate);
+
   dataPoint.find({
     Date: {
       $gte: formattedDate.toDate(),
       $lt: formattedDate.add(1, 'days').toDate()
     }
-  }, (err, data) => {
-    console.log(data.length);
-    console.log(err);
+  }, (err, dataForDate) => {
+    console.log(dataForDate)
+    if (dataForDate.length > 0) {
+      console.log(dataForDate);
+      console.log(dataForDate.length);
+    }
   });
   // const formattedDate = moment(file.split('.')[0], 'YYMMDD').format('DD-MM-YYYY');
   // fs.readFile(path + file, (err, data) => {
@@ -117,6 +49,7 @@ function checkLatestFileForNewData(file) {
 
 function checkDirectoryForNewData(files) {
   dataPoint.distinct('Date', (err, uniqueDates) => {
+
     if (err) throw err;
     uniqueDates = formatDates(uniqueDates);
     getFileData(findMissingDataFiles(uniqueDates, files));
@@ -127,12 +60,16 @@ function formatDates(dates) {
   /**
    * format dates from DD-MM-YYYY to YYMMDD
    */
-  return dates.map(date => {
+  const formattedDates = dates.map(date => {
     return moment(date, 'DD-MM-YYYY').format('YYMMDD');
+  });
+  return formattedDates.filter((item, i, ar) => {
+    return ar.indexOf(item) === i;
   });
 }
 
 function findMissingDataFiles(uniqueDates, files) {
+  // console.log(uniqueDates)
   /**
    * If unique dates does include the file don't filter it from files.
    */
