@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
-const moment = require('moment');
-
 const parse = require('csv-parse');
-const dataPoint = require('../models/dataPoint');
 
-let latestFile;
+const dataPoint = require('../models/dataPoint');
+const ftp = require('./get-files-ftp');
+
+
 
 function tileSatus(data) {
   // values when attention is required or not.
@@ -67,86 +67,18 @@ function tileSatus(data) {
   return statusData;
 }
 
-function getFilesFromDirectory() {
-  const directoryPath = path.join(__dirname, '../data/sd-card/VALUE/VALUE/');
-  const regex = /^[0-9]{6}.csv$/i;
-  fs.readdir(directoryPath, (err, files) => {
-    files = files.filter(file => regex.test(file));
-    if (err) throw err;
-    checkDirectoryForNewData(directoryPath, files);
-    // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
-  });
+function getValueFilesFromFTP() {
+  const files = ftp.getValueFileNames();
+  // checkDirectoryForNewData(files);
+  // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
 }
 
-function checkLatestFileForNewData(path, file) {
-  const formattedDate = moment(file.split('.')[0], 'YYMMDD').format('DD-MM-YYYY');
-  fs.readFile(path + file, (err, data) => {
-    if (err) throw err;
-    console.log(data);
-  });
-}
 
-function checkDirectoryForNewData(path, files) {
-  dataPoint.distinct('Date', (err, uniqueDates) => {
-    if (err) throw err;
-    uniqueDates = formatDates(uniqueDates);
-    getFileData(path, findMissingDataFiles(uniqueDates, files));
-  });
-}
 
-function findMissingDataFiles(uniqueDates, files) {
-  /**
-   * If unique dates does include the file don't filter it from files.
-   */
-  return files.filter(file => {
-    return !uniqueDates.includes(file.split('.')[0]);
-  });
-}
 
-function formatDates(dates) {
-  /**
-   * format dates from DD-MM-YYYY to YYMMDD
-   */
-  return dates.map(date => {
-    return moment(date, 'DD-MM-YYYY').format('YYMMDD');
-  });
-}
 
-function getFileData(path, files) {
-  files.forEach(file => {
-    fs.readFile(path + file, (err, data) => {
-      if (err) throw err;
-      parseFileDataToJSON(data);
-    });
-  });
-}
 
-function parseFileDataToJSON(data) {
-  parse(data, {
-    columns: ['Date', 'Time', 'Temp_PT100_1', 'Temp_PT100_2', 'pH_Value', 'Bag_Height']
-  }, (err, parsedData) => {
-    if (err) throw err;
-    parsedData.shift(); // Remove headers from arrays
-    parsedData = parsedData.map(dataPoint => {
-      dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY h:mm:ss').format('YYYY-MM-DD h:mm:ss');
-
-      // console.log(new Date(`${dataPoint.Date}T${dataPoint.Time}`))
-      delete dataPoint.Time;
-      return dataPoint;
-    });
-    addFileToMongo(parsedData);
-  });
-}
-
-function addFileToMongo(data) {
-  dataPoint.insertMany(data)
-    .then(mongooseDocuments => {})
-    .catch(err => {
-      console.log(err);
-    });
-}
-
-getFilesFromDirectory();
+getValueFilesFromFTP();
 
 function webSokets(app, io) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
