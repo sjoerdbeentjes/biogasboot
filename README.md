@@ -33,10 +33,37 @@ Administrators can register new accounts for other admins and operators. Soon a 
 - Dashboard with live visualizations for in Café de Ceuvel
 
 
-### Single feature (Name of developer)
-Single feature description
+### Single features
+
+***API: Filter data from the API***
+This function gets all the data from the API and filters and formats it according to the date and format parameters. For example: Get the average per day in a specific range.
 ```javascript
-  // Example JS code
+function filterData(format, date, data) {
+  const returnData = [];
+  // Create a new dataObject
+  const dataObject = {
+    Date: new Date(Number(date) * 1000),
+    'Temp_PT100_1': 0,
+    'Temp_PT100_2': 0,
+    pH_Value: 0,
+    Bag_Height: 0,
+    count: 0
+  };
+  const parsedDate = parseDate(new Date(Number(date) * 1000));
+  // Fill the dataObject with the data of that day
+  data.forEach(function(point) {
+    let thisDate = parseDate(point.Date);
+    if (thisDate == parsedDate) {
+      dataObject['Temp_PT100_1'] = dataObject['Temp_PT100_1'] + Number(point['Temp_PT100_1']);
+      dataObject['Temp_PT100_2'] = dataObject['Temp_PT100_2'] + Number(point['Temp_PT100_2']);
+      dataObject['pH_Value'] = dataObject['pH_Value'] + Number(point['pH_Value']);
+      dataObject['Bag_Height'] = dataObject['Bag_Height'] + Number(point['Bag_Height']);
+      dataObject['count'] = dataObject['count'] + 1;
+    }
+  });
+  returnData.push(dataObject);
+  return returnData;
+}
 ```
 
 ## Screenshots
