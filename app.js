@@ -28,6 +28,7 @@ require('dotenv').config();
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const user = require('./routes/user');
 const api = require('./routes/api');
 const error = require('./routes/error');
 const customerDashboard = require('./routes/customer-dashboard');
@@ -119,6 +120,7 @@ io.on('connection', socket => {
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/user', user);
 app.use('/api', api);
 app.use('/operator/dashboard', operatorDashboard);
 app.use('/operator/dashboard/history', operatorDashboardHistory);
