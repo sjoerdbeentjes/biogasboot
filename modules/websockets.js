@@ -174,7 +174,7 @@ function addFileToMongo(data) {
     });
 }
 
-getFilesFromDirectory();
+//getFilesFromDirectory();
 
 function webSockets(app, io) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
