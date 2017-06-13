@@ -13,54 +13,84 @@ function tileSatus(data) {
   const statusData = {
     phStatus: 0,
     tempStatus: 0,
-    gasbagStatus: 0,
-    inputStatus: 0
+    gasbagStatus: 0
   };
+  // Define low and high values for indicator, optional: min and max
   const types = {
     ph: {
       low: 7,
-      high: 8,
-      warningLow: 5,
-      warningHigh: 6
+      high: 7.5,
+      min: 1,
+      max: 14
     },
     temp: {
-      low: 34,
-      high: 38,
-      warningLow: 35,
-      warningHigh: 36
+      low: 34.6,
+      high: 38
     },
     gasbag: {
-      low: 50,
-      high: 150,
-      warningLow: 50,
-      warningHigh: 120
-    },
-    input: {
-      low: 10,
-      high: 150,
-      warningLow: 10,
-      warningHigh: 40
+      low: 145,
+      high: 160,
+      min: 10,
+      max: 200
     }
   };
   // Explain number meanings
   // 0 = Good
-  // 1 = Warning
-  // 2 = Error
+  // 1 = Error
+  // Gasbag indicator
+  switch (true) {
+    case data.Gaszak_hoogte_hu >= types.gasbag.low && data.Gaszak_hoogte_hu <= types.gasbag.high:
+      // Good
+      statusData.gasbagStatus = 0;
+      break;
+    case data.Gaszak_hoogte_hu > types.gasbag.high:
+      // ADD NOTIFICATION FUNCTION HERE
+      // Error + bag is almost full
+      statusData.gasbagStatus = 1;
+      break;
+    case data.Gaszak_hoogte_hu < types.gasbag.low:
+      // ADD NOTIFICATION FUNCTION HERE
+      // Error + bag is almost empty
+      statusData.gasbagStatus = 1;
+      break;
+    default:
+      statusData.gasbagStatus = 0;
+      break;
+  }
+  // PH indicator
   switch (true) {
     case data.ph_value >= types.ph.low && data.ph_value <= types.ph.high:
       // Good
       statusData.phStatus = 0;
       break;
-    case data.ph_value >= types.ph.warningLow && data.ph_value <= types.ph.warningHigh:
-      // Warning
+    case data.ph_value > types.ph.high:
+      // Error + ph to high
       statusData.phStatus = 1;
       break;
-    case data.ph_value < types.ph.low && data.ph_value > types.ph.high:
-      // Error
-      statusData.phStatus = 2;
+    case data.ph_value < types.ph.low:
+      // Error + bag to low
+      statusData.phStatus = 1;
       break;
     default:
       statusData.phStatus = 0;
+      break;
+  }
+  // Temp indicator
+  switch (true) {
+    case data.PT100_real_1 >= types.temp.low && data.PT100_real_1 <= types.temp.high:
+      // Good
+      statusData.tempStatus = 0;
+      break;
+    case data.PT100_real_1 > types.temp.high:
+      // Error + temp to high
+      statusData.tempStatus = 1;
+      break;
+    case data.PT100_real_1 < types.temp.low:
+      // Error + temp to low
+      statusData.tempStatus = 1;
+      break;
+    default:
+      statusData.tempStatus = 0;
       break;
   }
 
@@ -171,6 +201,7 @@ function webSockets(app, io) {
         }
 
         i += 30;
+        //console.log(output[i]);
 
         const tileStatus = tileSatus(output[i]);
 

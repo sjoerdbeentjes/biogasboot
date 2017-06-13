@@ -11,6 +11,8 @@ if (document.querySelector('#history-graph')) {
 
   // Parse the date / time
   const parseDate = d3.timeParse('%d-%b-%y');
+  const parseYear = d3.timeParse('%Y');
+  const parseMonth = d3.timeParse('%Y-%m');
 
   // Set the ranges
   const x = d3
@@ -55,10 +57,7 @@ if (document.querySelector('#history-graph')) {
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    y.domain([
-      0,
-      d3.max(data, d => d.Bag_Height)
-    ]);
+    y.domain([0, 400]);
 
     // Add the valueline path.
     svg.append('path').attr('class', 'line').attr('d', valueline(data));
@@ -71,12 +70,16 @@ if (document.querySelector('#history-graph')) {
   });
 
   // ** Update data section (Called from the onclick)
-  function updateData() {
+  function updateData(url) {
     // Get the data again
-    d3.json('http://localhost:3000/api/all?dateStart=1489714560&dateEnd=1489716600', (error, data) => {
+    d3.json(url, (error, data) => {
       data.forEach(d => {
+        if (d.count) {
+          d.Bag_Height = +d.Bag_Height / d.count;
+        } else {
+          d.Bag_Height = +d.Bag_Height;
+        }
         d.date = new Date(d['Date']);
-        d.Bag_Height = +d.Bag_Height;
       });
 
       console.log(data);
@@ -86,12 +89,7 @@ if (document.querySelector('#history-graph')) {
         return d.date;
       }));
 
-      y.domain([
-        0,
-        d3.max(data, d => {
-          return d.Bag_Height;
-        })
-      ]);
+      y.domain([0, 400]);
 
       // Select the section we want to apply our changes to
       const svg = d3.select('body').transition();
@@ -108,7 +106,45 @@ if (document.querySelector('#history-graph')) {
     });
   }
 
-  setTimeout(() => {
-    updateData();
-  }, 1000);
+  function showWeek(weekNumber, yearNumber) {
+    const year = parseYear(yearNumber);
+    const yearUnix = year / 1000;
+
+    const weekNumberUnix = yearUnix + ((7 * weekNumber) * 86400);
+    const weekNumberFromWeekNumberUnix = weekNumberUnix + (7 * 86400);
+
+    const url = `/api/all?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
+
+    console.log('week', url);
+
+    updateData(url);
+  }
+
+  function showMonth(monthNumber, yearNumber) {
+    const month = parseMonth(`${yearNumber}-${monthNumber}`);
+    const monthFromMonth = parseMonth(`${yearNumber}-${monthNumber + 1}`);
+
+    const monthUnix = month / 1000;
+    const monthFromMonthUnix = monthFromMonth / 1000;
+
+    const url = `/api/all?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
+
+    console.log('month', url);
+
+    updateData(url);
+  }
+
+  function showYear(yearNumber) {
+    const year = parseYear(yearNumber);
+    const yearFromYear = parseYear(yearNumber + 1);
+
+    const yearUnix = year / 1000;
+    const yearFromYearUnix = yearFromYear / 1000;
+
+    const url = `/api/all?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
+
+    console.log('year', url);
+
+    updateData(url);
+  }
 }
