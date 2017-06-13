@@ -57,10 +57,7 @@ if (document.querySelector('#history-graph')) {
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    y.domain([
-      0,
-      d3.max(data, d => d.Bag_Height)
-    ]);
+    y.domain([0, 400]);
 
     // Add the valueline path.
     svg.append('path').attr('class', 'line').attr('d', valueline(data));
@@ -77,8 +74,12 @@ if (document.querySelector('#history-graph')) {
     // Get the data again
     d3.json(url, (error, data) => {
       data.forEach(d => {
+        if (d.count) {
+          d.Bag_Height = +d.Bag_Height / d.count;
+        } else {
+          d.Bag_Height = +d.Bag_Height;
+        }
         d.date = new Date(d['Date']);
-        d.Bag_Height = +d.Bag_Height;
       });
 
       console.log(data);
@@ -88,12 +89,7 @@ if (document.querySelector('#history-graph')) {
         return d.date;
       }));
 
-      y.domain([
-        0,
-        d3.max(data, d => {
-          return d.Bag_Height;
-        })
-      ]);
+      y.domain([0, 400]);
 
       // Select the section we want to apply our changes to
       const svg = d3.select('body').transition();
@@ -119,6 +115,8 @@ if (document.querySelector('#history-graph')) {
 
     const url = `/api/all?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
 
+    console.log('week', url);
+
     updateData(url);
   }
 
@@ -131,6 +129,8 @@ if (document.querySelector('#history-graph')) {
 
     const url = `/api/all?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
 
+    console.log('month', url);
+
     updateData(url);
   }
 
@@ -138,17 +138,13 @@ if (document.querySelector('#history-graph')) {
     const year = parseYear(yearNumber);
     const yearFromYear = parseYear(yearNumber + 1);
 
-    console.log(year, yearFromYear);
-
     const yearUnix = year / 1000;
     const yearFromYearUnix = yearFromYear / 1000;
 
     const url = `/api/all?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
 
+    console.log('year', url);
+
     updateData(url);
   }
-
-  showWeek(10, 2017);
-  showMonth(3, 2017);
-  showYear(2017);
 }
