@@ -97,15 +97,6 @@ function tileSatus(data) {
   return statusData;
 }
 
-function getFilesFromDirectory() {
-  const directoryPath = path.join(__dirname, '../data/sd-card/VALUE/VALUE/');
-  fs.readdir(directoryPath, (err, files) => {
-    if (err) throw err;
-    checkDirectoryForNewData(directoryPath, files);
-    checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
-  });
-}
-
 function checkLatestFileForNewData(path, file) {
   const formattedDate = moment(file.split('.')[0], 'YYMMDD').format('DD-MM-YYYY');
   fs.readFile(path + file, (err, data) => {
@@ -173,8 +164,6 @@ function addFileToMongo(data) {
       console.log(err);
     });
 }
-
-getFilesFromDirectory();
 
 function webSockets(app, io) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
