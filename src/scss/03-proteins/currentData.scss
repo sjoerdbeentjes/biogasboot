@@ -82,7 +82,6 @@
 // Explain number meanings
 // 0 = Good
 // 1 = Warning
-// 2 = Error
 
 #currentData > button[data-status="0"] {
   background-color: $success-theme-color;
@@ -94,17 +93,8 @@
   }
 }
 
+
 #currentData > button[data-status="1"] {
-  background-color: $warning-theme-color;
-  border: 0.3em solid $warning-theme-color;
-  color: rgba(236, 240, 241,1.0);
-
-  &.active {
-    border: 0.3em solid darken($warning-theme-color, 10%);
-  }
-}
-
-#currentData > button[data-status="2"] {
   background-color: $error-theme-color;
   border: 0.3em solid $error-theme-color;
   color: rgba(236, 240, 241,1.0);
