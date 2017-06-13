@@ -82,8 +82,6 @@ if (document.querySelector('#history-graph')) {
         d.date = new Date(d['Date']);
       });
 
-      console.log(data);
-
       // Scale the range of the data again
       x.domain(d3.extent(data, d => {
         return d.date;
@@ -115,8 +113,6 @@ if (document.querySelector('#history-graph')) {
 
     const url = `/api/all?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
 
-    console.log('week', url);
-
     updateData(url);
   }
 
@@ -128,8 +124,6 @@ if (document.querySelector('#history-graph')) {
     const monthFromMonthUnix = monthFromMonth / 1000;
 
     const url = `/api/all?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
-
-    console.log('month', url);
 
     updateData(url);
   }
@@ -143,8 +137,16 @@ if (document.querySelector('#history-graph')) {
 
     const url = `/api/all?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
 
-    console.log('year', url);
-
     updateData(url);
   }
+
+  showWeek(10, 2017);
+
+  setTimeout(() => {
+    showMonth(3, 2017);
+  }, 1000);
+
+  setTimeout(() => {
+    showYear(2017);
+  }, 2000);
 }
