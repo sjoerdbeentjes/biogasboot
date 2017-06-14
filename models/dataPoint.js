@@ -24,9 +24,4 @@ const DataPointSchema = mongoose.Schema({
   }
 });
 
-module.exports.getAllUniqueDates = function (username, callback) {
-  const query = {username};
-  DataPointSchema.findOne(query, callback);
-};
-
 const DataPoint = module.exports = mongoose.model('DataPoint', DataPointSchema);
