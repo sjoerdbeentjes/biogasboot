@@ -5,13 +5,6 @@ const Subscription = require('../models/subscription');
 
 function serviceWorker(app) {
 
-// Store subscriptions
-  //const subscriptions = [];
-  const payload = 'TESTEN';
-
-// Push interval (10 seconds)
-  const pushInterval = 10;
-
 // Setting the Google Cloud Messaging API Key.
   if (!process.env.GCM_API_KEY) {
     console.error('If you want Chrome to work, you need to set the ' +
@@ -21,35 +14,42 @@ function serviceWorker(app) {
   }
 
 // Send notification
-  function sendNotification(data) {
+  function sendNotification(subscription, payload) {
+    // Set notification settings in promise
     webPush.sendNotification({
-      endpoint: data[0].endpoint,
+      endpoint: subscription.endpoint,
       keys: {
-        p256dh: data[0].p256dh,
-        auth: data[0].auth
+        p256dh: subscription.p256dh,
+        auth: subscription.auth
       }
     }, payload).then(() => {
-      console.log('Push Application Server - Notification sent to ' + data[0]);
+      console.log('Push Application Server - Notification sent to ' + subscription.endpoint);
     }).catch((err) => {
-      console.log('ERROR in sending Notification, endpoint removed ' + data[0]);
-      subscriptions.splice(subscriptions.indexOf(data[0]), 1);
+      // Remove from subscription list in DB when there is a error
+      Subscription.findOneAndRemove({endpoint: subscription.endpoint}, function (err, docs) {});
+      console.log('ERROR in sending Notification, endpoint removed ' + subscription.endpoint);
       console.log(err);
     });
   }
-
-//Simulate send notifications needs to be disabled
-//   setInterval(() => {
-//     subscriptions.forEach(sendNotification);
-//   }, pushInterval * 1000);
+  // Get all subscriptions and push message
+  Subscription.find((err, subscriptions) => {
+    // Message payload (now static but needs to be dynamic)
+    const payload = 'Nog een test 3';
+    // Loop trough all the subscriptions
+    for (let i = 0; i < subscriptions.length; i++) {
+      sendNotification(subscriptions[i], payload);
+    }
+  });
 
   // Check if device is already subscribed
   function checkSubscription(endpoint) {
+    // Check if subscriptions already exist in DB
     return Subscription.find({endpoint: endpoint}, function (err, docs) {
       return docs;
     });
   }
 
-// Register a subscription by adding an endpoint to the `subscriptions`
+// Register a subscription by adding it to the DB Scheme
   app.post('/operator/register-serviceworker', (req, res) => {
     // Get parameters to save device
     const endpoint = req.body.endpoint;
@@ -66,7 +66,7 @@ function serviceWorker(app) {
     res.type('js').send('{"success":true}');
   });
 
-  // Unregister a subscription by removing it from the `subscriptions` array
+  // Unregister a subscription by removing it from the DB Scheme
   app.post('/operator/unregister-serviceworker', (req, res) => {
     const endpoint = req.body.endpoint;
     if (checkSubscription(endpoint)) {
