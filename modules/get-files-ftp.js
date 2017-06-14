@@ -15,33 +15,34 @@ const settingsFTP = {
   pass: process.env.FTP_PASS
 };
 
-
 module.exports.getValueFileNames = function () {
   new JSFtp(settingsFTP).ls('/uploads/VALUE/VALUE/', (err, res) => {
     const fileNames = res.map(fileData => {
       return fileData.name;
     });
-    checkDirectoryForNewData(fileNames);
-    checkLatestFileForNewData(fileNames[fileNames.length-1]);
+    // checkDirectoryForNewData(fileNames);
+    checkLatestFileForNewData(fileNames[fileNames.length - 1]);
   });
 };
 
 function checkLatestFileForNewData(file) {
   const formattedDate = moment(file.split('.')[0], 'YYMMDD');
-
   dataPoint.find({
     Date: {
       $gte: formattedDate.toDate(),
       $lt: formattedDate.add(1, 'days').toDate()
     }
-  }, (err, dataForDate) => {
-    console.log(dataForDate)
-    if (dataForDate.length > 0) {
-      console.log(dataForDate);
-      console.log(dataForDate.length);
-    }
+  })
+  .sort('-Date')
+  .limit(1)
+  .exec((err, latestDataPoint) => {
+    console.log(latestDataPoint);
+    // TODO: Get ${file} from FTP
+
+    // TODO: Get datapoints after ${latestDataPoint}
+
+    // TODO: Put dataPoimts in mongo
   });
-  // const formattedDate = moment(file.split('.')[0], 'YYMMDD').format('DD-MM-YYYY');
   // fs.readFile(path + file, (err, data) => {
   // if (err) throw err;
   // });
@@ -49,7 +50,6 @@ function checkLatestFileForNewData(file) {
 
 function checkDirectoryForNewData(files) {
   dataPoint.distinct('Date', (err, uniqueDates) => {
-
     if (err) throw err;
     uniqueDates = formatDates(uniqueDates);
     getFileData(findMissingDataFiles(uniqueDates, files));
