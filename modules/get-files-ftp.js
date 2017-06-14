@@ -20,8 +20,8 @@ module.exports.getValueFileNames = function () {
     const fileNames = res.map(fileData => {
       return fileData.name;
     });
-    // checkDirectoryForNewData(fileNames);
-    checkLatestFileForNewData(fileNames[fileNames.length - 1]);
+    checkDirectoryForNewData(fileNames);
+    setInterval(() => checkLatestFileForNewData(fileNames[fileNames.length - 1]), 10000); // Interval for new data check
   });
 };
 
@@ -33,19 +33,30 @@ function checkLatestFileForNewData(file) {
       $lt: formattedDate.add(1, 'days').toDate()
     }
   })
-  .sort('-Date')
-  .limit(1)
-  .exec((err, latestDataPoint) => {
-    console.log(latestDataPoint);
-    // TODO: Get ${file} from FTP
-
-    // TODO: Get datapoints after ${latestDataPoint}
-
-    // TODO: Put dataPoimts in mongo
-  });
-  // fs.readFile(path + file, (err, data) => {
-  // if (err) throw err;
-  // });
+    .sort('-Date')
+    .limit(1)
+    .exec((err, latestDataPoint) => {
+      new JSFtp(settingsFTP).get(`/uploads/VALUE/VALUE/${file}`, path.join(__dirname, `../data/ftp/VALUE/${file}`), hadErr => {
+        if (hadErr) throw hadErr;
+        fs.readFile(path.join(__dirname, `../data/ftp/VALUE/${file}`), (err, data) => {
+          if (err) throw err;
+          parse(data, {
+            columns: ['Date', 'Time', 'Temp_PT100_1', 'Temp_PT100_2', 'pH_Value', 'Bag_Height']
+          }, (err, parsedData) => {
+            if (err) throw err;
+            parsedData.shift(); // Remove headers from arrays
+            parsedData = parsedData.map(dataPoint => {
+              dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY HH:mm:ss').toDate();
+              delete dataPoint.Time;
+              return dataPoint;
+            });
+            parsedData = parsedData.filter(dataPoint => dataPoint.Date > latestDataPoint[0].Date);
+            if (parsedData.length > 0)
+              addFileToMongo(parsedData);
+          });
+        });
+      });
+    });
 }
 
 function checkDirectoryForNewData(files) {
@@ -108,7 +119,7 @@ function parseFileDataToJSON(data) {
     if (err) throw err;
     parsedData.shift(); // Remove headers from arrays
     parsedData = parsedData.map(dataPoint => {
-      dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY h:mm:ss').format('YYYY-MM-DD h:mm:ss');
+      dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
 
       // console.log(new Date(`${dataPoint.Date}T${dataPoint.Time}`))
       delete dataPoint.Time;
