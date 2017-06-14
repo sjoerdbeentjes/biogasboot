@@ -1,3 +1,0 @@
-/**
- * SILENCE IS GOLDEN
- */

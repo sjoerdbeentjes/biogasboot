@@ -48,9 +48,9 @@ const getFTPfiles = require('./modules/get-files-ftp');
 getFTPfiles();
 
 // websockets
-const webSockets = require('./modules/websockets');
-
-webSockets(app, io);
+// const webSockets = require('./modules/websockets');
+//
+// webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
