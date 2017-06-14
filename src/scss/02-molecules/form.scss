@@ -1,8 +1,14 @@
-form {
+form.login {
   max-width: 20em;
   margin: 0 auto;
   background-color: $lighter-grey;
   padding: 1.5em;
+}
+
+form {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
 input, textarea {

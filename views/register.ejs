@@ -1,6 +1,6 @@
 <%- include partials/head.ejs %>
 <main>
-  <form method="post" action="/auth/register">
+  <form class="login" method="post" action="/auth/register">
     <% if (locals.errors) {%>
       <% errors.forEach(error => { %>
         <div class="error"><%= error.msg %></div>

@@ -15,6 +15,12 @@
       <td><%= user.email %></td>
     </tr>
   </table>
+
+  <form method="post" action="/user/bag-height">
+    <label for="max-bag-height">Hoogte waarbij ik notificaties wil ontvangen:</label>
+    <input name="bag-height" id="max-bag-height" type="text">
+    <input type="submit" value="opslaan">
+  </form>
 </main>
 
 <%- include partials/foot.ejs %>

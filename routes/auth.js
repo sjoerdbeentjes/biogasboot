@@ -53,7 +53,8 @@ router.post('/register', (req, res) => {
       email,
       username,
       role,
-      password
+      password,
+      warningValue: 150
     });
 
     User.find({name: username}, (err, user) => {
