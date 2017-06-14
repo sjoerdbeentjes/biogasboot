@@ -20,7 +20,6 @@ function serviceWorker(app) {
 
 // Send notification
   function sendNotification(data) {
-    console.log(data[0]);
     webPush.sendNotification({
       endpoint: data[0].endpoint,
       keys: {
@@ -42,19 +41,62 @@ function serviceWorker(app) {
   }, pushInterval * 1000);
 
   function isSubscribed(endpoint) {
-    return (Object.keys(subscriptions).indexOf(endpoint) >= 0);
-  }
+    // let i;
+    // for( i = subscriptions.length; i >= 0; i++) {
+    //   if( subscriptions[i].endpoint === endpoint){
+    //     return console.log(subscriptions[i]);
+    //     //return subscriptions[i].endpoint;
+    //   }
+    // }
+    // return (Object.keys(subscriptions).indexOf(endpoint) >= 0);
+    //return (subscriptions.indexOf(endpoint) >= 0);
+    // for (let key in subscriptions) {
+    //   let value = subscriptions[key].endpoint;
+    //   return (value.indexOf(endpoint) >= 0);
+    // }
+    // const result = subscriptions.filter(function( obj ) {
+    //   return obj.endpoint === endpoint;
+    // });
+    // return result;
+    // const indexes = subscriptions.map(function(obj, index) {
+    //   if(obj.endpoint === endpoint) {
+    //     return index;
+    //   }
+    // }).filter(isFinite);
+    // return (indexes >= 0);
+    // const index = subscriptions.findIndex(endpoint);
+    // return index;
+    // let check = subscriptions.filter(function( obj, idx ) {
+    //   if( obj.endpoint === endpoint ) {
+    //     const index = idx;
+    //     return true;
+    //   } else {
+    //     return false
+    //   }
+    // });
+    // return check;
+    // for (var i = 0; i < subscriptions.length - 1; i++) {
+    //
+    //     if (subscriptions[i].endpoint === endpoint) {
+    //       return true;
+    //     }
+    // }
+    //   return false
+    const index = subscriptions.findIndex(x => x.endpoint==endpoint);
+    return index;
+
+    }
+
+    //return (subscriptions.indexOf(endpoint) >= 0);
 
 // Register a subscription by adding an endpoint to the `subscriptions`
   app.post('/operator/register-serviceworker', (req, res) => {
-    //console.log(req.body);
     const endpoint = req.body.endpoint;
     const p256dh = req.body.key;
     const auth = req.body.authSecret;
+    console.log('r: ' + isSubscribed(endpoint));
     if (!isSubscribed(endpoint)) {
-      //console.log('Subscription registered ' + endpoint);
       subscriptions.push( [{endpoint: endpoint, p256dh:p256dh, auth:auth}]);
-      console.log(Object.keys(subscriptions));
     }
     res.type('js').send('{"success":true}');
   });
@@ -62,11 +104,20 @@ function serviceWorker(app) {
   // Unregister a subscription by removing it from the `subscriptions` array
   app.post('/operator/unregister-serviceworker', (req, res) => {
     const endpoint = req.body.endpoint;
-
+    //console.log(subscriptions);
+    console.log('u: ' + isSubscribed(endpoint));
     if (isSubscribed(endpoint)) {
+      //console.log(endpoint);
       console.log('Subscription unregistered ' + endpoint);
-      subscriptions.splice(Object.keys(subscriptions).indexOf(endpoint), 1);
-      //console.log(subscriptions);
+      //subscriptions.splice(subscriptions.findIndex(x => x.endpoint === endpoint), 1);
+      // let i;
+      // for( i = subscriptions.length; i>=0; i--) {
+      //   if( subscriptions[i].endpoint === endpoint){
+      //     subscriptions.splice(i,1);
+      //     console.log('test: ' + subscriptions);
+      //   }
+      // }
+      // console.log(subscriptions);
     }
     res.type('js').send('{"success":true}');
   });
