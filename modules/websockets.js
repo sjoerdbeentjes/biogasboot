@@ -122,16 +122,16 @@ function webSokets(app, io) {
 
       let i = 1;
 
-      setInterval(() => {
-        if (!output[i]) {
-          i = 1;
-        }
-        const tileStatus = tileSatus(output[i]);
+      // setInterval(() => {
+      //   if (!output[i]) {
+      //     i = 1;
+      //   }
+      //   const tileStatus = tileSatus(output[i]);
 
-        io.sockets.emit('dataPoint', dataCollection, tileStatus);
-      }, 1000);
+      //   io.sockets.emit('dataPoint', dataCollection, tileStatus);
+      // }, 1000);
     });
   });
 }
 
-module.exports = webSockets;
+module.exports = webSokets;
