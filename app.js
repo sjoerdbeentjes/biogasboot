@@ -42,10 +42,6 @@ const serviceWorker = require('./modules/server-service-worker');
 
 serviceWorker(app);
 
-// Get files/data from FTP
-const getFTPfiles = require('./modules/get-files-ftp');
-
-getFTPfiles();
 
 // websockets
 // const webSockets = require('./modules/websockets');
