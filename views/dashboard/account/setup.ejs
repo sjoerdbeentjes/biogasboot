@@ -1,0 +1,25 @@
+<%- include('../partials/head.ejs') %>
+
+<section class="logreg_header">
+  <div>
+    <h1>Setup your account</h1
+    <span>It's the first time your Twitter account has been used.</span>
+    <span>Please fill in all the fields to setup your account.</span>
+  </div>
+</section>
+
+<section class="logreg_form">
+  <form method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" value="<%= data.screen_name %>" disabled />
+    <label for="hometown">Full name</label>
+    <input type="text" placeholder="Your full name" name="fullname" required />
+    <label for="hometown">Hometown</label>
+    <input type="text" placeholder="Your hometown" name="hometown" required />
+    <label for="hometown">E-mail Address</label>
+    <input type="email" placeholder="Your E-mail Address" name="email" required />
+    <input type="submit" value="Confirm" />
+  </form>
+</section>
+
+  <%- include('../partials/foot.ejs') %>

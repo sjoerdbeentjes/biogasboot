@@ -34,7 +34,7 @@ if (document.querySelector('#chart')) {
 
   const y = d3
     .scaleLinear()
-    .domain([0, 200])
+    .domain([0, 400])
     .range([height, 0]);
 
   let line = d3.line()
@@ -128,7 +128,7 @@ if (document.querySelector('#chart')) {
       .domain([minDate, maxDate]);
 
     line
-      .x(d => x(d.dateTime));
+      .x(d =>  x(d.dateTime));
 
     // Draw new line
     path.datum(data)
@@ -141,4 +141,29 @@ if (document.querySelector('#chart')) {
     axisX
       .call(xAxis);
   }
+
+  function init() {
+    d3.json('http://localhost:3000/api/all', (err, points) => {
+      if (err) throw err;
+
+      const lastIndex = points.length - 1;
+
+      const dateTime = points[lastIndex]['Date'];
+
+      const parsedDateTime = new Date(dateTime);
+
+      maxDate = parsedDateTime;
+      minDate = d3.timeMinute.offset(maxDate, -ticks);
+
+      points.forEach(point => {
+        point.dateTime = new Date(point['Date']);
+      });
+
+      console.log(points);
+
+      tick(points);
+    });
+  }
+
+  init();
 }
