@@ -40,4 +40,4 @@ require('./modules/customer-dashboard');
 require('./modules/real-time-tiles');
 
 // Include serviceworker
-// require('./serviceworker-index.js');
+require('./serviceworker-index.js');

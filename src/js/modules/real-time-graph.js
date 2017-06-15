@@ -39,7 +39,7 @@ if (document.querySelector('#chart')) {
 
   let line = d3.line()
     .x(d => x(d.dateTime))
-    .y(d => y(d.Gaszak_hoogte_hu || d.Bag_Height));
+    .y(d => y(d.Bag_Height));
 
   // Draw the axis
   const xAxis = d3
