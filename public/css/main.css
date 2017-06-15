@@ -361,17 +361,12 @@ nav .user {
   #currentData > button[data-status="0"].active {
     border: 0.3em solid #25a25a; }
 
-#currentData > button[data-status="1"] {
-  background-color: #f39c12;
-  border: 0.3em solid #f39c12;
-  color: #ecf0f1; }
-  #currentData > button[data-status="1"].active {
-    border: 0.3em solid #c87f0a; }
-
+#currentData > button[data-status="1"],
 #currentData > button[data-status="2"] {
   background-color: #e74c3c;
   border: 0.3em solid #e74c3c;
   color: #ecf0f1; }
+  #currentData > button[data-status="1"].active,
   #currentData > button[data-status="2"].active {
     border: 0.3em solid #d62c1a; }
 
