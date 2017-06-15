@@ -10,7 +10,7 @@ if (document.getElementById('currentData')) {
 
   socket.on('dataPoint', (points, tileStatus) => {
     // Get current number of bag height
-    const currentBag = Number(points[points.length - 1].Gaszak_hoogte_hu);
+    const currentBag = Number(points[points.length - 1].Bag_Height);
     const currentTemp = (Number(points[points.length - 1].PT100_real_1) + Number(points[points.length - 1].PT100_real_2)) / 2;
     const currentPh = Number(points[points.length - 1].ph_value);
 
@@ -43,7 +43,7 @@ function setMeterBar(status, value) {
 
   if (status === 0) {
     color = '#2ecc71';
-  } else if (status === 1) {
+  } else if (status === 1 || status === 2) {
     color = '#e74c3c';
   }
 

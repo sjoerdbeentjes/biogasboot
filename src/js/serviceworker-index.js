@@ -1,7 +1,7 @@
 // subscription button for notifications
 const subscriptionButton = document.getElementById('subscriptionButton');
-var key;
-var authSecret;
+let key;
+let authSecret;
 
 if (subscriptionButton) {
   // Get the subscription
@@ -43,11 +43,13 @@ if (subscriptionButton) {
       });
     }).then(subscription => {
       console.log('Subscribed', subscription.endpoint);
-      var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
+      // Generate keys
+      // Source: https://serviceworke.rs/push-payload_index_doc.html
+      let rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
       key = rawKey ?
         btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) :
         '';
-      var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
+      let rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
       authSecret = rawAuthSecret ?
         btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) :
         '';
@@ -64,7 +66,6 @@ if (subscriptionButton) {
       });
     }).then(setUnsubscribeButton);
   }
-
 
   // Post to /unregister-serviceworker to remove from subscription list and change button state
   function unsubscribe() {
