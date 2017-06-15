@@ -121,9 +121,9 @@ app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
-const serviceWorker = require('./modules/server-service-worker');
-
-serviceWorker(app);
+// const serviceWorker = require('./modules/server-service-worker');
+//
+// serviceWorker(app);
 
 
 // Service worker push notifications
