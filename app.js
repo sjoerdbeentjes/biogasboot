@@ -38,9 +38,9 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 mongoose.connect(process.env.DB_URL);
 
 // Get files/data from FTP
-const getFTPfiles = require('./modules/get-files-ftp');
-
-getFTPfiles();
+// const getFTPfiles = require('./modules/get-files-ftp');
+//
+// getFTPfiles();
 
 // websockets
 // const webSockets = require('./modules/websockets');
@@ -123,9 +123,6 @@ app.use('*', error);
 // Service worker push notifications
 // const serviceWorker = require('./modules/server-service-worker');
 //
-// serviceWorker(app);
-
-// Service worker push notifications
 // serviceWorker(app);
 
 // catch 404 and forward to error handler
