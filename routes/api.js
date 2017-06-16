@@ -111,6 +111,7 @@ router.get('/all', (req, res, next) => {
       for(key in averageObject) {
         filteredData.push(averageObject[key])
       }
+      // Send the filtered data to the view
       res.send(filteredData)
     });
   } else {

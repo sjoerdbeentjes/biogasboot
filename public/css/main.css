@@ -501,4 +501,25 @@ label[for="showFilters"]::after {
   padding: 1em; }
 
 .customer-dashboard {
-  padding: 2em; }
+  padding: 1em;
+  background-color: #CFDED1; }
+  .customer-dashboard header {
+    padding-top: 1em; }
+    .customer-dashboard header h1 {
+      text-align: center; }
+  .customer-dashboard main {
+    padding-top: 1.5em; }
+    .customer-dashboard main .overview {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around; }
+      .customer-dashboard main .overview section {
+        min-width: 45%;
+        height: 37.5vh;
+        padding: 1em;
+        margin-bottom: 2.5em;
+        background-color: #EEEEEE;
+        text-align: center; }
+    .customer-dashboard main .boat-view, .customer-dashboard main .announcements {
+      display: none; }
