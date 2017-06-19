@@ -63,69 +63,73 @@ function parseDate(date) {
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  // Check for parameters and use them for serving data
-  // console.log(req.param('format'))
-  if (req.param('dateStart') && req.param('dateEnd')) {
-    let filteredData = [];
-    let averageObject = {};
-    DataPoint.find((err, data) => {
-      data.forEach(function(point) {
-        const thisDate = new Date(point.Date);
-        const startDate = new Date(Number(req.param('dateStart')) * 1000);
-        const endDate = new Date(req.param('dateEnd') * 1000);
-        // Check if the actual date is in between the start- & end date
-        if (thisDate >= startDate && thisDate <= endDate) {
-          // Check if the data has to be formatted
-          if (req.param('format')) {
-            const format = req.param('format');
-            const date = parseDate(point.Date);
-            // Check if the actual date has a instance in the averageObject allready
-            if (averageObject[date]) {
-              // Update de averageObject data with the actual data
-              averageObject[date] = {
-                Date: averageObject[date]['Date'],
-                'Temp_PT100_1': Number(point['Temp_PT100_1']) + averageObject[date]['Temp_PT100_1'],
-                'Temp_PT100_2': Number(point['Temp_PT100_2']) + averageObject[date]['Temp_PT100_2'],
-                pH_Value: Number(point['pH_Value']) + averageObject[date]['pH_Value'],
-                Bag_Height: Number(point['Bag_Height']) + averageObject[date]['Bag_Height'],
-                count: + averageObject[date]['count'] + 1
-              };
+  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    // Check for parameters and use them for serving data
+    // console.log(req.param('format'))
+    if (req.param('dateStart') && req.param('dateEnd')) {
+      let filteredData = [];
+      let averageObject = {};
+      DataPoint.find((err, data) => {
+        data.forEach(function(point) {
+          const thisDate = new Date(point.Date);
+          const startDate = new Date(Number(req.param('dateStart')) * 1000);
+          const endDate = new Date(req.param('dateEnd') * 1000);
+          // Check if the actual date is in between the start- & end date
+          if (thisDate >= startDate && thisDate <= endDate) {
+            // Check if the data has to be formatted
+            if (req.param('format')) {
+              const format = req.param('format');
+              const date = parseDate(point.Date);
+              // Check if the actual date has a instance in the averageObject allready
+              if (averageObject[date]) {
+                // Update de averageObject data with the actual data
+                averageObject[date] = {
+                  Date: averageObject[date]['Date'],
+                  'Temp_PT100_1': Number(point['Temp_PT100_1']) + averageObject[date]['Temp_PT100_1'],
+                  'Temp_PT100_2': Number(point['Temp_PT100_2']) + averageObject[date]['Temp_PT100_2'],
+                  pH_Value: Number(point['pH_Value']) + averageObject[date]['pH_Value'],
+                  Bag_Height: Number(point['Bag_Height']) + averageObject[date]['Bag_Height'],
+                  count: + averageObject[date]['count'] + 1
+                };
+              } else {
+                // If there is no instance in the averageObject yet, create one
+                averageObject[date] = {
+                  Date: point.Date,
+                  'Temp_PT100_1': Number(point['Temp_PT100_1']),
+                  'Temp_PT100_2': Number(point['Temp_PT100_2']),
+                  pH_Value: Number(point['pH_Value']),
+                  Bag_Height: Number(point['Bag_Height']),
+                  count: 1
+                };
+              }
             } else {
-              // If there is no instance in the averageObject yet, create one
-              averageObject[date] = {
-                Date: point.Date,
-                'Temp_PT100_1': Number(point['Temp_PT100_1']),
-                'Temp_PT100_2': Number(point['Temp_PT100_2']),
-                pH_Value: Number(point['pH_Value']),
-                Bag_Height: Number(point['Bag_Height']),
-                count: 1
-              };
+              // Push the filtered data if there is no format option declared
+              filteredData.push(point)
             }
-          } else {
-            // Push the filtered data if there is no format option declared
-            filteredData.push(point)
-          }
-        };
+          };
+        });
+        // Loop trough average values in averageObject and push to the filteredData array
+        for(key in averageObject) {
+          filteredData.push(averageObject[key])
+        }
+        // Send the filtered data to the view
+        res.send(filteredData)
       });
-      // Loop trough average values in averageObject and push to the filteredData array
-      for(key in averageObject) {
-        filteredData.push(averageObject[key])
-      }
-      // Send the filtered data to the view
-      res.send(filteredData)
-    });
+    } else {
+      // uncomment this function if the sample data needs to be reset (first delete collection in database)
+      // setData(req, res);
+      // console.log(DataPoint)
+      DataPoint.find((err, data) => {
+        if (req.param('format') && req.param('date')) {
+          const formattedData = filterData(req.param('format'), req.param('date'), data);
+          res.send(formattedData);
+        } else {
+          res.send('No valid parameters');
+        }
+      });
+    }
   } else {
-    // uncomment this function if the sample data needs to be reset (first delete collection in database)
-    // setData(req, res);
-    // console.log(DataPoint)
-    DataPoint.find((err, data) => {
-      if (req.param('format') && req.param('date')) {
-        const formattedData = filterData(req.param('format'), req.param('date'), data);
-        res.send(formattedData);
-      } else {
-        res.send('No valid parameters');
-      }
-    });
+    res.send('No valid API key')
   }
 });
 
