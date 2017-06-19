@@ -111,7 +111,7 @@ if (document.querySelector('#history-graph')) {
     const weekNumberUnix = yearUnix + ((7 * weekNumber) * 86400);
     const weekNumberFromWeekNumberUnix = weekNumberUnix + (7 * 86400);
 
-    const url = `/api/all?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
+    const url = `/api?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
 
     updateData(url);
   }
@@ -123,7 +123,7 @@ if (document.querySelector('#history-graph')) {
     const monthUnix = month / 1000;
     const monthFromMonthUnix = monthFromMonth / 1000;
 
-    const url = `/api/all?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
+    const url = `/api?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
 
     updateData(url);
   }
@@ -135,7 +135,7 @@ if (document.querySelector('#history-graph')) {
     const yearUnix = year / 1000;
     const yearFromYearUnix = yearFromYear / 1000;
 
-    const url = `/api/all?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
+    const url = `/api?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
 
     updateData(url);
   }
