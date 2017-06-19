@@ -129,22 +129,30 @@ router.get('/', (req, res, next) => {
       });
     }
   } else {
-    res.send('No valid API key')
+    res.send('No valid API key');
   }
 });
 
 /* GET home page. */
 router.get('/latest', (req, res, next) => {
-  DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
-    res.send(point);
-  });
+  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
+      res.send(point);
+    });
+  } else {
+    res.send('No valid API key');
+  }
 });
 
 /* GET home page. */
 router.get('/status', (req, res, next) => {
-  DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
-    res.send(tileSatus(point));
-  });
+  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
+      res.send(tileSatus(point));
+    });
+  } else {
+    res.send('No valid API key');
+  }
 });
 
 function tileSatus(data) {
