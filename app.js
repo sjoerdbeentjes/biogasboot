@@ -42,7 +42,7 @@ const FTP = require('./modules/getFTPFiles');
 // console.log(getFTPfiles)
 FTP.checkForNewFilesIn('value');
 FTP.checkForNewFilesIn('status');
-FTP.checkForNewFilesIn('alarm');
+// FTP.checkForNewFilesIn('alarm'); // does not work with current filenames
 
 // websockets
 // const webSockets = require('./modules/websockets');

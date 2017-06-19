@@ -26,12 +26,12 @@ const FTP = module.exports = {
     fileColumns: ['Date', 'Time', 'Storagetank_Mixe', 'Storagetank_Feed', 'Digester_Mixer', 'Digester_Heater_1', 'Digester_Heater_2', 'Gaspump', 'Mode_Stop', 'Mode_Manual', 'Mode_Auto', 'System_Started', 'Additive_Pump']
 
   },
-  alarm: {
-    directory: '/uploads/ALARM/',
-    downloadDir: '../data/ftp/ALARM/',
-    schema: require('../models/dataPoint'),
-    fileColumns: ['Date', 'Event', 'Group', 'AlarmName']
-  },
+  // alarm: {
+  //   directory: '/uploads/ALARM/',
+  //   downloadDir: '../data/ftp/ALARM/',
+  //   schema: require('../models/dataPoint'),
+  //   fileColumns: ['Date','Time', 'Event', 'Group', 'AlarmName']
+  // },
   checkForNewFilesIn(directoryKey) {
     new JSFtp(this.setup).ls(this[directoryKey].directory, (err, res) => {
       const ftpFiles = res.map(dataPoint => dataPoint.name);
@@ -73,13 +73,17 @@ function downloadMissingData(directoryKey, filesNotInMongo) {
         fs.readFile(path.join(__dirname, `${FTP[directoryKey].downloadDir}${file}`), (err, data) => {
           if (err) throw err;
           parseFileDataToJSON(data, directoryKey);
+          removeDownloadedFTPFile(file, directoryKey);
         });
     });
   });
 }
 
+function removeDownloadedFTPFile(file, directoryKey) {
+  fs.unlink(path.join(__dirname, `.${FTP[directoryKey].downloadDir}${file}`));
+}
+
 function parseFileDataToJSON(data, directoryKey) {
-  console.log(directoryKey)
   parse(data, {
     columns: FTP[directoryKey].fileColumns
   }, (err, parsedData) => {
