@@ -9,10 +9,10 @@
     "build-js": "mkdir -p public/js && browserify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
     "build-css": "mkdir -p public/css && node-sass --include-path scss src/scss/main.scss ./public/css/main.css",
     "build-webp": "node ./npm-scripts/webp.js",
-    "build": "npm run build-js && npm run build-css",
+    "build": "mkdir -p public/js && mkdir -p public/css && npm run build-js && npm run build-css",
     "watch-js": "mkdir -p public/js && watchify ./src/js/index.js -o ./public/js/index.js -t [ babelify --presets es2015 ]",
     "watch-css": "mkdir -p public/css && nodemon -e scss -x \"npm run build-css\"",
-    "watch": " && mkdir -p public/css && concurrently --kill-others \"npm run watch-js\" \"npm run watch-css\""
+    "watch": "mkdir -p public/js && mkdir -p public/css && concurrently --kill-others \"npm run watch-js\" \"npm run watch-css\""
   },
   "repository": {
     "type": "git",
