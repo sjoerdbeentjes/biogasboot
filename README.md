@@ -35,6 +35,12 @@ Administrators can register new accounts for other admins and operators. Soon a 
 
 ### Single features
 
+***Data Flow: From Boat to Mongo***
+
+The flow has been simulated with test data. The Bio-gas boat is not capable yet to send data in real-time.
+
+![Data flow](md-media/flow-chart-data.png)
+
 ***API: Filter data from the API***
 This function gets all the data from the API and filters and formats it according to the date and format parameters. For example: Get the average per day in a specific range.
 ```javascript

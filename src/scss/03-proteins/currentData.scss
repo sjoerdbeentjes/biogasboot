@@ -94,7 +94,8 @@
 }
 
 
-#currentData > button[data-status="1"] {
+#currentData > button[data-status="1"],
+#currentData > button[data-status="2"]{
   background-color: $error-theme-color;
   border: 0.3em solid $error-theme-color;
   color: rgba(236, 240, 241,1.0);
