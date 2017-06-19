@@ -9,6 +9,18 @@ if (document.querySelector('#history-graph')) {
   const width = containerWidth - margin.left - margin.right - 32;
   const height = containerHeight - margin.top - margin.bottom - 16;
 
+  const firstYear = document.querySelector('#firstYear');
+  const secondYear = document.querySelector('#secondYear');
+  const firstMonth = document.querySelector('#firstMonth');
+  const secondMonth = document.querySelector('#secondMonth');
+
+  const range = {
+    firstYear: firstYear.value,
+    secondYear: secondYear.value,
+    firstMonth: firstMonth.value,
+    secondMonth: secondMonth.value
+  };
+
   // Parse the date / time
   const parseDate = d3.timeParse('%d-%b-%y');
   const parseYear = d3.timeParse('%Y');
@@ -48,7 +60,9 @@ if (document.querySelector('#history-graph')) {
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
   // Get the data
-  d3.json('http://localhost:3000/api/all?dateStart=1489720179&dateEnd=1490268059', (error, data) => {
+  d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
+    console.log(data);
+
     data.forEach(d => {
       d.date = new Date(d['Date']);
       d.Bag_Height = +d.Bag_Height;
@@ -73,6 +87,8 @@ if (document.querySelector('#history-graph')) {
   function updateData(url) {
     // Get the data again
     d3.json(url, (error, data) => {
+      console.log(data);
+
       data.forEach(d => {
         if (d.count) {
           d.Bag_Height = +d.Bag_Height / d.count;
@@ -104,49 +120,68 @@ if (document.querySelector('#history-graph')) {
     });
   }
 
-  function showWeek(weekNumber, yearNumber) {
-    const year = parseYear(yearNumber);
-    const yearUnix = year / 1000;
-
-    const weekNumberUnix = yearUnix + ((7 * weekNumber) * 86400);
-    const weekNumberFromWeekNumberUnix = weekNumberUnix + (7 * 86400);
-
-    const url = `/api?dateStart=${weekNumberUnix}&dateEnd=${weekNumberFromWeekNumberUnix}&format=d`;
-
-    updateData(url);
+  function updateCompareData(url) {
+    d3.json(url, (error, data) => {
+      console.log(data);
+    });
   }
 
   function showMonth(monthNumber, yearNumber) {
     const month = parseMonth(`${yearNumber}-${monthNumber}`);
-    const monthFromMonth = parseMonth(`${yearNumber}-${monthNumber + 1}`);
+    const monthFromMonth = parseMonth(`${yearNumber}-${Number(monthNumber) + 1}`);
 
     const monthUnix = month / 1000;
     const monthFromMonthUnix = monthFromMonth / 1000;
 
     const url = `/api?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
 
-    updateData(url);
+    return url;
   }
 
-  function showYear(yearNumber) {
-    const year = parseYear(yearNumber);
-    const yearFromYear = parseYear(yearNumber + 1);
+  if (firstYear && secondYear && firstMonth && secondMonth) {
+    firstYear.addEventListener('change', e => {
+      const value = e.target.value;
 
-    const yearUnix = year / 1000;
-    const yearFromYearUnix = yearFromYear / 1000;
+      range.firstYear = value;
 
-    const url = `/api?dateStart=${yearUnix}&dateEnd=${yearFromYearUnix}&format=d`;
+      getRange();
+    });
 
-    updateData(url);
+    secondYear.addEventListener('change', e => {
+      const value = e.target.value;
+
+      range.secondYear = value;
+
+      getRange();
+    });
+
+    firstMonth.addEventListener('change', e => {
+      const value = e.target.value;
+      const year = firstYear.value;
+
+      range.firstMonth = value;
+      range.firstYear = year;
+
+      getRange();
+    });
+
+    secondMonth.addEventListener('change', e => {
+      const value = e.target.value;
+      const year = secondYear.value;
+
+      range.secondMonth = value;
+      range.secondYear = year;
+
+      getRange();
+    });
   }
 
-  showWeek(10, 2017);
-
-  setTimeout(() => {
-    showMonth(3, 2017);
-  }, 1000);
-
-  setTimeout(() => {
-    showYear(2017);
-  }, 2000);
+  function getRange() {
+    if (range.secondYear === '0' || range.secondMonth === '0') {
+      updateData(showMonth(range.firstMonth, range.firstYear));
+    } else {
+      updateData(showMonth(range.firstMonth, range.firstYear));
+      updateCompareData(showMonth(range.secondMonth, range.secondYear));
+    }
+  }
 }
