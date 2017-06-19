@@ -3,6 +3,8 @@ const path = require('path');
 const parse = require('csv-parse');
 const moment = require('moment');
 
+// const Statuspoints = require('../models/statuspoints');
+
 function usageCalculation() {
   // (watt * hours) * price = costs
   // watt == Joules per second
