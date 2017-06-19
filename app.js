@@ -38,9 +38,9 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 mongoose.connect(process.env.DB_URL);
 
 // Get files/data from FTP
-// const getFTPfiles = require('./modules/get-files-ftp');
-//
-// getFTPfiles();
+const getFTPfiles = require('./modules/get-files-ftp');
+console.log(getFTPfiles)
+getFTPfiles.getValueFileNames();
 
 // websockets
 // const webSockets = require('./modules/websockets');
