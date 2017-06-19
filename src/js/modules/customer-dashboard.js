@@ -1,6 +1,6 @@
 (function () {
   if (document.getElementsByClassName('customer-dashboard')[0]) {
-    const elements = [document.getElementsByClassName('boat-view')[0],
+    const elements = [document.getElementsByClassName('start')[0],
                       document.getElementsByClassName('overview')[0],
                       document.getElementsByClassName('announcements')[0]];
     let counter = 0;
