@@ -37,11 +37,12 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 // mongoose setup
 mongoose.connect(process.env.DB_URL);
 
-// Service worker push notifications
-const serviceWorker = require('./modules/server-service-worker');
-
-serviceWorker(app);
-
+// Get files/data from FTP
+const FTP = require('./modules/getFTPFiles');
+// console.log(getFTPfiles)
+FTP.checkForNewFilesIn('value');
+FTP.checkForNewFilesIn('status');
+FTP.checkForNewFilesIn('alarm');
 
 // websockets
 // const webSockets = require('./modules/websockets');
@@ -121,9 +122,9 @@ app.use('/operator/dashboard/history', operatorDashboardHistory);
 app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
-
-
 // Service worker push notifications
+// const serviceWorker = require('./modules/server-service-worker');
+//
 // serviceWorker(app);
 
 // catch 404 and forward to error handler
