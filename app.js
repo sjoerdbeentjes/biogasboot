@@ -38,7 +38,7 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 mongoose.connect(process.env.DB_URL);
 
 // Get files/data from FTP
-const FTP = require('./modules/getFTPFiles');
+// const FTP = require('./modules/getFTPFiles');
 // console.log(getFTPfiles)
 FTP.checkForNewFilesIn('value');
 FTP.checkForNewFilesIn('status');
