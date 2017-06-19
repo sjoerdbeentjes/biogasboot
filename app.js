@@ -40,8 +40,8 @@ mongoose.connect(process.env.DB_URL);
 // Get files/data from FTP
 // const FTP = require('./modules/getFTPFiles');
 // console.log(getFTPfiles)
-FTP.checkForNewFilesIn('value');
-FTP.checkForNewFilesIn('status');
+// FTP.checkForNewFilesIn('value');
+// FTP.checkForNewFilesIn('status');
 // FTP.checkForNewFilesIn('alarm'); // does not work with current filenames
 
 // websockets
