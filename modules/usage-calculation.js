@@ -130,14 +130,14 @@ function usageCalculation() {
                 // Added new seconds to object
                 deviceCollection[key].timeON = deviceCollection[key].timeON + (currentTime - beforeTime);
                 // kWh = time in seconds / 3600 (is hours) * watts / 1000
-                deviceCollection[key].kWh = ((deviceCollection[key].timeON / 3600) * deviceCollection[key].watts / 1000 * 30).toFixed(5);
+                deviceCollection[key].kWh = ((deviceCollection[key].timeON / 3600) * deviceCollection[key].watts / 1000).toFixed(5);
                 console.log(deviceCollection);
               }
             });
           }
         }
       }
-      getByrange();
+      //getByrange();
 
     });
   });
