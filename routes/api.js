@@ -71,6 +71,7 @@ router.get('/', (req, res, next) => {
       let filteredData = [];
       let averageObject = {};
       DataPoint.find((err, data) => {
+        console.log(data);
         data.forEach(function(point) {
           const thisDate = new Date(point.Date);
           const startDate = new Date(Number(req.param('dateStart')) * 1000);

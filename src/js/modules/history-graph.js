@@ -105,7 +105,7 @@ if (document.querySelector('#history-graph')) {
 
   // Get the data
   d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
-    console.log('hoi');
+    console.log(data);
 
     data.forEach(d => {
       d.date = new Date(d['Date']);
@@ -193,7 +193,7 @@ if (document.querySelector('#history-graph')) {
     const monthUnix = month / 1000;
     const monthFromMonthUnix = monthFromMonth / 1000;
 
-    const url = `/api?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d`;
+    const url = `/api?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d&api_key=CMD17`;
 
     return url;
   }
