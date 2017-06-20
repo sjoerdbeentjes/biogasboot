@@ -1,0 +1,64 @@
+.range-selector {
+  background-color: #fff;
+  border: 0.1em solid #e9e9e9;
+}
+
+fieldset {
+  width: 100%;
+}
+
+.range-selector form {
+  width: 100%;
+  max-width: 100%;
+  background: none;
+
+  .compare {
+    display: inline;
+    float: left;
+    width: auto;
+  }
+
+  #compare-checkbox {
+    display: inline;
+    width: auto;
+    float: left;
+  }
+
+  #compare-checkbox + fieldset {
+    display: none;
+  }
+
+  #compare-checkbox:checked ~ fieldset {
+    display: block;
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  h2 {
+    flex: 0 0 100%;
+    font-size: 1.2em;
+  }
+
+  label {
+    width: auto;
+    margin-right: 0.5em;
+    float: left;
+
+    span {
+      width: 100%;
+      font-size: 1em;
+    }
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 1em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    border-radius: 0;
+  }
+}

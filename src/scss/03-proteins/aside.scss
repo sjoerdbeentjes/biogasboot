@@ -1,0 +1,58 @@
+aside {
+  flex: 0 0 25em;
+}
+
+#compare {
+  background-color: #fff;
+  border: 0.1em solid #e9e9e9;
+  padding: 1em;
+  &.loading {
+    position: relative;
+    &::before {
+      content: "";
+      background-color: rgba(255,255,255,0.7);
+      display: block;
+      position: absolute;
+      top:0;
+      left:0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    &::after {
+      content: "";
+      background-color: #2ecc71;
+      display: block;
+      position: absolute;
+      top: calc(50% - 2.5em);
+      left: calc(50% - 2.5em);
+      border-radius: 100%;
+      width: 5em;
+      height: 5em;
+      animation: spinner-in-out 1.2s infinite linear;
+      z-index: 2;
+    }
+  }
+  > table {
+    width: 100%;
+  }
+}
+
+#indicatorsTable {
+  font-weight: bold;
+}
+
+@keyframes spinner-in-out {
+  0% {
+    opacity:1;
+    transform: scale(1, 1);
+  }
+  50% {
+    opacity:.2;
+    transform: scale(.5, .5);
+  }
+  100% {
+    opacity:1;
+    transform: scale(1, 1);
+  }
+}
