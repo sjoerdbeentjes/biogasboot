@@ -93,12 +93,13 @@ if (document.querySelector('#history-graph')) {
     .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-  usedValues.forEach(value => {
+  usedValues.forEach((value, i) => {
     const el = document.createElement('button');
     el.innerHTML = value.title;
     el.setAttribute('name', value.name);
+    el.setAttribute('data-index', i);
     el.addEventListener('click', e => {
-      console.log(e);
+      handleFilterClick(e);
     });
     filters.appendChild(el);
   });
@@ -115,13 +116,32 @@ if (document.querySelector('#history-graph')) {
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
-    y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+    if (drawnValues[0] >= 0) {
+      y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+    }
+
+    if (drawnValues[1]) {
+      y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+    }
 
     // Add the valueline path.
-    svg.append('path')
-      .attr('class', 'line')
-      .attr('d', valueline(data));
+    if (drawnValues[0] >= 0) {
+      svg.append('path')
+        .attr('class', 'line')
+        .attr('d', valueline(data));
+    } else {
+      svg.append('path')
+        .attr('class', 'line');
+    }
+
+    if (drawnValues[1]) {
+      svg.append('path')
+        .attr('class', 'line')
+        .attr('d', compareValueline(data));
+    } else {
+      svg.append('path')
+        .attr('class', 'line');
+    }
 
     // Add the X Axis
     svg.append('g')
@@ -130,14 +150,25 @@ if (document.querySelector('#history-graph')) {
       .call(xAxis);
 
     // Add the Y Axis
-    svg.append('g')
-      .attr('class', 'y axis')
-      .call(yAxis);
+    if (drawnValues[0] >= 0) {
+      svg.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis);
+    } else {
+      svg.append('g')
+        .attr('class', 'y axis');
+    }
 
-    svg.append('g')
-      .attr('class', 'y axis right')
-      .attr('transform', `translate(${width})`)
-      .call(y1Axis);
+    if (drawnValues[0] >= 0) {
+      svg.append('g')
+        .attr('class', 'y axis right')
+        .attr('transform', `translate(${width})`)
+        .call(y1Axis);
+    } else {
+      svg.append('g')
+        .attr('class', 'y axis right')
+        .attr('transform', `translate(${width})`);
+    }
   });
 
   // ** Update data section (Called from the onclick)
@@ -154,24 +185,41 @@ if (document.querySelector('#history-graph')) {
         return d.date;
       }));
 
-      y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
-      y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+      if (drawnValues[0] >= 0) {
+        y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+      }
+
+      if (drawnValues[1]) {
+        y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+      }
 
       // Select the section we want to apply our changes to
       const svg = d3.select('body').transition();
 
       // Make the changes
-      svg.select('.line')
-        .duration(750).attr('d', valueline(data));
+      if (drawnValues[0] >= 0) {
+        svg.select('.line')
+          .duration(750).attr('d', valueline(data));
+      } else {
+        svg.select('.line').node().innerHMTL = '';
+      }
 
       svg.select('.x.axis')
         .duration(750).call(xAxis);
 
-      svg.select('.y.axis')
-        .duration(750).call(yAxis);
+      if (drawnValues[0] >= 0) {
+        svg.select('.y.axis')
+          .duration(750).call(yAxis);
+      } else {
+        svg.select('.y.axis').node().innerHMTL = '';
+      }
 
-      svg.select('.y.axis.right')
-        .duration(750).call(y1Axis);
+      if (drawnValues[1]) {
+        svg.select('.y.axis.right')
+          .duration(750).call(y1Axis);
+      } else {
+        svg.select('.y.axis.right').node().innerHTML = '';
+      }
     });
   }
 
@@ -288,5 +336,28 @@ if (document.querySelector('#history-graph')) {
       updateCompareData(showMonth(range.secondMonth, range.secondYear));
       updateCompareUsage(showMonthUsage(range.secondMonth, range.secondYear), 1);
     }
+  }
+
+  function handleFilterClick(e) {
+    const index = Number(e.target.attributes['data-index'].value);
+
+    if (drawnValues.length < 2 && drawnValues.indexOf(index) === -1) {
+      drawnValues.push(index);
+    } else if (drawnValues.indexOf(index) > -1) {
+      drawnValues.splice(drawnValues.indexOf(index));
+    }
+
+    document.querySelectorAll('.filters button').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    drawnValues.forEach(value => {
+      const el = document.querySelector(`[data-index='${value}']`);
+      el.classList.add('active');
+    });
+
+    console.log(drawnValues);
+
+    updateData(showMonth(firstMonth.value, firstYear.value));
   }
 }
