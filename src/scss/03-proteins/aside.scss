@@ -34,12 +34,75 @@ aside {
     }
   }
   > table {
+    display: block;
     width: 100%;
+    overflow-x: auto;
+    font-size: 0.7em;
+    tbody {
+      width: 100%;
+      * {
+        width: 100%;
+      }
+    }
   }
 }
 
 #indicatorsTable {
   font-weight: bold;
+}
+
+.history {
+  padding-left: 1em;
+  padding-right: 1em;
+  aside {
+    flex-basis: calc(35% - 0.5em);;
+    max-width: calc(35% - 0.5em);;
+    margin-right: 0.5em;
+    .range-selector {
+      margin-bottom: 1em;
+      position: relative;
+      input[type="checkbox"] {
+        position: absolute;
+        clip: rect(0,0,0,0);
+        &:checked + .compare {
+          display: inline-block;
+          font-size: 1em;
+          background-color: #3498db;
+          border: 1px solid #3498db;
+          padding: 1em;
+          text-decoration: none;
+          color: #FFFFFF;
+        }
+      }
+      .compare {
+        display: inline-block;
+        font-size: 1em;
+        background-color: #fff;
+        border: 1px solid #3498db;
+        padding: 1em;
+        margin: 0.5em 0;
+        text-decoration: none;
+        color: #3498db;
+        float: none;
+        position: relative;
+        cursor: pointer;
+        + fieldset {
+          display: none;
+        }
+      }
+    }
+  }
+  .graph-group {
+    flex-basis: calc(65% - 0.5em);;
+    max-width: calc(65% - 0.5em);;
+    margin-left: 0.5em;
+    .filters {
+      margin-bottom: 1em;
+      button {
+        margin-right: 1em;
+      }
+    }
+  }
 }
 
 @keyframes spinner-in-out {
