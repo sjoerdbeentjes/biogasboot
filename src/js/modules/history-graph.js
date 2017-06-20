@@ -236,12 +236,62 @@ if (document.querySelector('#history-graph')) {
     });
   }
 
+  // Get month for usage
+  function showMonthUsage(monthNumber, yearNumber) {
+    const month = parseMonth(`${yearNumber}-${monthNumber}`);
+
+    const monthUnix = month / 1000;
+    //const monthFromMonthUnix = monthFromMonth / 1000;
+    const url = `/api/status/range/${monthUnix}?api_key=CMD17`;
+
+    return url;
+  }
+  // Update usage table
+  function updateCompareUsage(url, indicator) {
+    const compareContainer = document.querySelector('#compare');
+    compareContainer.classList.add('loading');
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        // First date
+        if (indicator === 0) {
+          let response = xhttp.responseText;
+          response = JSON.parse(response);
+          const compareTable = document.querySelector('#compareTable');
+          Object.keys(response).map(function (key, index) {
+            let getIDtd = document.getElementById(key);
+            // Fill in the table
+            getIDtd.getElementsByClassName('timeON')[0].innerHTML = (Number(response[key].timeON) / 60).toFixed(2);
+            getIDtd.getElementsByClassName('kWh')[0].innerHTML = response[key].kWh;
+          });
+          compareContainer.classList.remove('loading');
+        } // Second date
+        else if (indicator === 1) {
+          let response = xhttp.responseText;
+          response = JSON.parse(response);
+          const compareTable = document.querySelector('#compareTable');
+          Object.keys(response).map(function (key, index) {
+            let getIDtd = document.getElementById(key);
+            // Fill in the table
+            getIDtd.getElementsByClassName('timeON')[1].innerHTML = (Number(response[key].timeON) / 60).toFixed(2);
+            getIDtd.getElementsByClassName('kWh')[1].innerHTML = response[key].kWh;
+          });
+          compareContainer.classList.remove('loading');
+        }
+      }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+  }
+
   function getRange() {
     if (range.secondYear === '0' || range.secondMonth === '0') {
       updateData(showMonth(range.firstMonth, range.firstYear));
+      updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 0);
     } else {
       updateData(showMonth(range.firstMonth, range.firstYear));
       updateCompareData(showMonth(range.secondMonth, range.secondYear));
+      updateCompareUsage(showMonthUsage(range.secondMonth, range.secondYear), 1);
     }
   }
 }
