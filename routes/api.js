@@ -3,6 +3,7 @@ const parse = require('csv-parse');
 const express = require('express');
 const DataPoint = require('../models/dataPoint');
 const router = express.Router();
+const usageCalculation = require('../modules/usage-calculation');
 
 function setData(req, res) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
@@ -150,6 +151,23 @@ router.get('/status', (req, res, next) => {
     DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
       res.send(tileSatus(point));
     });
+  } else {
+    res.send('No valid API key');
+  }
+});
+
+router.get('/status/:range', (req, res, next) => {
+  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    const range = req.params.range;
+    usageCalculation.init(range, req, res);
+  } else {
+    res.send('No valid API key');
+  }
+});
+
+router.get('/status/all', (req, res, next) => {
+  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    usageCalculation.init(req, res);
   } else {
     res.send('No valid API key');
   }

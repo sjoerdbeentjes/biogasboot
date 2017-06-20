@@ -127,8 +127,8 @@ app.use('*', error);
 //
 // serviceWorker(app);
 
-const usageCalculation = require('./modules/usage-calculation');
-usageCalculation();
+// const usageCalculation = require('./modules/usage-calculation');
+// usageCalculation();
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
