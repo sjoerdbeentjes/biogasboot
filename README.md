@@ -158,6 +158,16 @@ Get the average per day in a specific range. Use a UNIX timestamp as date, follo
 npm install
 ```
 
+### Setup environment variables (.env)
+```
+DB_URL=YOUR_MONGODB_URL
+GCM_API_KEY=YOUR_GCM_API_KEY_FROM_GOOGLE
+FTP_SERVER=YOUR_FTP_SERVER_IP
+FTP_USER=YOUR_FTP_LOGIN_USERNAME
+FTP_PASS=YOUR_FTP_LOGIN_PASSWORD
+API_KEY=YOUR_API_KEY
+```
+
 ### Build CSS and JS
 This will build the minified and cleaned CSS and JavaScript files.
 ```

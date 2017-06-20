@@ -1,7 +1,9 @@
 const fs = require('fs');
 const parse = require('csv-parse');
 const express = require('express');
+const moment = require('moment');
 const DataPoint = require('../models/dataPoint');
+const StatusPoint = require('../models/statusPoint');
 const router = express.Router();
 const usageCalculation = require('../modules/usage-calculation');
 
@@ -29,107 +31,107 @@ function setData(req, res) {
   });
 }
 
-// Function for getting the average value per day (UNIX timestamp as parameter in URL)
-function filterData(format, date, data) {
-  const returnData = [];
-  // Create a new dataObject
-  const dataObject = {
-    Date: new Date(Number(date) * 1000),
-    'Temp_PT100_1': 0,
-    'Temp_PT100_2': 0,
-    pH_Value: 0,
-    Bag_Height: 0,
-    count: 0
-  };
-  const parsedDate = parseDate(new Date(Number(date) * 1000));
-  // Fill the dataObject with the data of that day
-  data.forEach(function(point) {
-    let thisDate = parseDate(point.Date);
-    if (thisDate == parsedDate) {
-      dataObject['Temp_PT100_1'] = dataObject['Temp_PT100_1'] + Number(point['Temp_PT100_1']);
-      dataObject['Temp_PT100_2'] = dataObject['Temp_PT100_2'] + Number(point['Temp_PT100_2']);
-      dataObject['pH_Value'] = dataObject['pH_Value'] + Number(point['pH_Value']);
-      dataObject['Bag_Height'] = dataObject['Bag_Height'] + Number(point['Bag_Height']);
-      dataObject['count'] = dataObject['count'] + 1;
-    }
-  });
-  returnData.push(dataObject);
-  return returnData;
-}
+router.get('/range', (req, res, next) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    const startDate = moment(Number(req.param('dateStart') * 1000));
+    const endDate = moment(Number(req.param('dateEnd') * 1000));
+    DataPoint.find({
+      Date: {
+        $gte: startDate.toDate(),
+        $lt: endDate.toDate()
+      }
+    }).exec((err, data) => {
+      res.send(data);
+    });
+  } else {
+    res.send('No valid API key');
+  }
+});
 
-// Parse the date for object Key name
-function parseDate(date) {
-  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-}
-
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
-    // Check for parameters and use them for serving data
-    // console.log(req.param('format'))
-    if (req.param('dateStart') && req.param('dateEnd')) {
-      let filteredData = [];
-      let averageObject = {};
-      DataPoint.find((err, data) => {
-        console.log(data);
-        data.forEach(function(point) {
-          const thisDate = new Date(point.Date);
-          const startDate = new Date(Number(req.param('dateStart')) * 1000);
-          const endDate = new Date(req.param('dateEnd') * 1000);
-          // Check if the actual date is in between the start- & end date
-          if (thisDate >= startDate && thisDate <= endDate) {
-            // Check if the data has to be formatted
-            if (req.param('format')) {
-              const format = req.param('format');
-              const date = parseDate(point.Date);
-              // Check if the actual date has a instance in the averageObject allready
-              if (averageObject[date]) {
-                // Update de averageObject data with the actual data
-                averageObject[date] = {
-                  Date: averageObject[date]['Date'],
-                  'Temp_PT100_1': Number(point['Temp_PT100_1']) + averageObject[date]['Temp_PT100_1'],
-                  'Temp_PT100_2': Number(point['Temp_PT100_2']) + averageObject[date]['Temp_PT100_2'],
-                  pH_Value: Number(point['pH_Value']) + averageObject[date]['pH_Value'],
-                  Bag_Height: Number(point['Bag_Height']) + averageObject[date]['Bag_Height'],
-                  count: + averageObject[date]['count'] + 1
-                };
-              } else {
-                // If there is no instance in the averageObject yet, create one
-                averageObject[date] = {
-                  Date: point.Date,
-                  'Temp_PT100_1': Number(point['Temp_PT100_1']),
-                  'Temp_PT100_2': Number(point['Temp_PT100_2']),
-                  pH_Value: Number(point['pH_Value']),
-                  Bag_Height: Number(point['Bag_Height']),
-                  count: 1
-                };
-              }
-            } else {
-              // Push the filtered data if there is no format option declared
-              filteredData.push(point)
-            }
-          };
-        });
-        // Loop trough average values in averageObject and push to the filteredData array
-        for(key in averageObject) {
-          filteredData.push(averageObject[key])
+router.get('/range/average', (req, res, next) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    const startDate = moment(Number(req.param('dateStart') * 1000));
+    const endDate = moment(Number(req.param('dateEnd') * 1000));
+    DataPoint.aggregate([{
+      $match: {
+          Date: {
+            $gte: startDate.toDate(),
+            $lt: endDate.toDate()
+          }
         }
-        // Send the filtered data to the view
-        res.send(filteredData)
-      });
-    } else {
-      // uncomment this function if the sample data needs to be reset (first delete collection in database)
-      // setData(req, res);
-      // console.log(DataPoint)
-      DataPoint.find((err, data) => {
-        if (req.param('format') && req.param('date')) {
-          const formattedData = filterData(req.param('format'), req.param('date'), data);
-          res.send(formattedData);
-        } else {
-          res.send('No valid parameters');
+    },
+    {
+      $group: {
+          _id: null,
+          Temp_PT100_1: {
+            $avg: '$Temp_PT100_1'
+          },
+          Temp_PT100_2: {
+            $avg: '$Temp_PT100_2'
+          },
+          pH_Value: {
+            $avg: '$pH_Value'
+          },
+          Bag_Height: {
+            $avg: '$Bag_Height'
+          },
+          count: {
+            $sum: 1
+          }
         }
-      });
     }
+    ], (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+  } else {
+    res.send('No valid API key');
+  }
+});
+
+
+//http://localhost:3000/api/range/monthperday?dateStart=1470002400&dateEnd=1472680800&api_key=CMD17
+router.get('/range/monthperday/', (req, res, next) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    const startDate = moment(Number(req.param('dateStart') * 1000));
+    const endDate = moment(Number(req.param('dateEnd') * 1000));
+    DataPoint.aggregate([{
+      $match: {
+          Date: {
+            $gte: startDate.toDate(),
+            $lt: endDate.toDate()
+          }
+        }
+    }, {$group: {_id: {
+        year: {$year: '$Date'},
+        month: {$month: '$Date'},
+        day: {$dayOfMonth: '$Date'}
+       }, Temp_PT100_1: {
+            $avg: '$Temp_PT100_1'
+          },
+          Temp_PT100_2: {
+            $avg: '$Temp_PT100_2'
+          },
+          pH_Value: {
+            $avg: '$pH_Value'
+          },
+          Bag_Height: {
+            $avg: '$Bag_Height'
+          },
+          count: {
+            $sum: 1
+          },}
+      }
+    ], (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
   } else {
     res.send('No valid API key');
   }
@@ -137,8 +139,12 @@ router.get('/', (req, res, next) => {
 
 /* GET home page. */
 router.get('/latest', (req, res, next) => {
-  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
-    DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    DataPoint.findOne({}, {}, {
+      sort: {
+        Date: -1
+      }
+    }, (err, point) => {
       res.send(point);
     });
   } else {
@@ -148,8 +154,12 @@ router.get('/latest', (req, res, next) => {
 
 /* GET home page. */
 router.get('/status', (req, res, next) => {
-  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
-    DataPoint.findOne({}, {}, {sort: {Date: -1}}, (err, point) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    DataPoint.findOne({}, {}, {
+      sort: {
+        Date: -1
+      }
+    }, (err, point) => {
       res.send(tileSatus(point));
     });
   } else {
@@ -158,7 +168,7 @@ router.get('/status', (req, res, next) => {
 });
 
 router.get('/status/range/:range', (req, res, next) => {
-  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
     const range = req.params.range;
     usageCalculation.init(req, res, range);
   } else {
@@ -166,8 +176,16 @@ router.get('/status/range/:range', (req, res, next) => {
   }
 });
 
+router.get('/status/test', (req, res, next) => {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+    console.log(StatusPoint);
+  } else {
+    res.send('No valid API key');
+  }
+});
+
 router.get('/status/all', (req, res, next) => {
-  if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
+  if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
     usageCalculation.init(req, res);
   } else {
     res.send('No valid API key');
@@ -262,5 +280,9 @@ function tileSatus(data) {
 
   return statusData;
 }
+
+const checkForKey = (req, res) => {
+  console.log('hola');
+};
 
 module.exports = router;

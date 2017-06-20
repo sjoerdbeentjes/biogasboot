@@ -37,6 +37,17 @@ const FTP = module.exports = {
       const ftpFiles = res.map(dataPoint => dataPoint.name);
       syncFTPwithMongoDatabase(directoryKey, ftpFiles);
     });
+  },
+  checkForNewLocalFiles(directoryKey) {
+    fs.readdir(path.join(__dirname, this[directoryKey].downloadDir), (err, files) => {
+      files.forEach(file => {
+        fs.readFile(path.join(__dirname, `${this[directoryKey].downloadDir}${file}`), (err, data) => {
+          if (err) throw err;
+          console.log(path.join(__dirname, `${this[directoryKey].downloadDir}${file}`))
+          parseFileDataToJSON(data, directoryKey);
+        });
+      });
+    });
   }
 };
 
@@ -101,7 +112,5 @@ function parseFileDataToJSON(data, directoryKey) {
 function addFileToMongo(data, directoryKey) {
   FTP[directoryKey].schema.insertMany(data)
     .then(mongooseDocuments => {})
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => {});
 }

@@ -11,16 +11,16 @@ const DataPointSchema = mongoose.Schema({
     type: Date
   },
   Temp_PT100_1: {
-    type: String
+    type: Number
   },
   Temp_PT100_2: {
-    type: String
+    type: Number
   },
   pH_Value: {
-    type: String
+    type: Number
   },
   Bag_Height: {
-    type: String
+    type: Number
   }
 });
 
