@@ -14,7 +14,9 @@ const mongoose = require('mongoose');
 const socketio = require('socket.io');
 
 const app = express();
-
+// Init modules
+// const FTP = require('./modules/getFTPFiles');
+// const webSockets = require('./modules/websockets');
 // const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
@@ -38,15 +40,13 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 mongoose.connect(process.env.DB_URL);
 
 // Get files/data from FTP
-// const FTP = require('./modules/getFTPFiles');
+const FTP = require('./modules/getFTPFiles');
 // console.log(getFTPfiles)
-// FTP.checkForNewFilesIn('value');
-// FTP.checkForNewFilesIn('status');
-// FTP.checkForNewFilesIn('alarm'); // does not work with current filenames
+// FTP.checkForNewLocalFiles('value');
+// FTP.checkForNewLocalFiles('status');
+// FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
-// websockets
-// const webSockets = require('./modules/websockets');
-//
+// WebSockets
 // webSockets(app, io);
 
 // view engine setup
@@ -123,12 +123,7 @@ app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
-// const serviceWorker = require('./modules/server-service-worker');
-//
 // serviceWorker(app);
-
-// const usageCalculation = require('./modules/usage-calculation');
-// usageCalculation();
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -12,37 +12,37 @@ const StatusPointSchema = mongoose.Schema({
     type: Date
   },
   Storagetank_Mixe: {
-    type: String
+    type: Number
   },
   Storagetank_Feed: {
-    type: String
+    type: Number
   },
   Digester_Mixer: {
-    type: String
+    type: Number
   },
   Digester_Heater_1: {
-    type: String
+    type: Number
   },
   Digester_Heater_2: {
-    type: String
+    type: Number
   },
   Gaspump: {
-    type: String
+    type: Number
   },
   Mode_Stop: {
-    type: String
+    type: Number
   },
   Mode_Manual: {
-    type: String
+    type: Number
   },
   Mode_Auto: {
-    type: String
+    type: Number
   },
   System_Started: {
-    type: String
+    type: Number
   },
   Additive_Pump: {
-    type: String
+    type: Number
   }
 });
 
