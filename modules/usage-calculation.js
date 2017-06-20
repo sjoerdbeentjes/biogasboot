@@ -93,7 +93,6 @@ const usageCalculation = {
     }
     // Returns when data is calculated
     if (i === output.length) {
-      console.log(deviceCollection)
       res.send(deviceCollection);
     }
   },
