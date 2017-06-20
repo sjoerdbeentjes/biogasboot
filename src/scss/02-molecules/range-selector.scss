@@ -3,12 +3,34 @@
   border: 0.1em solid #e9e9e9;
 }
 
+fieldset {
+  width: 100%;
+}
+
 .range-selector form {
   width: 100%;
   max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
   background: none;
+
+  .compare {
+    display: inline;
+    float: left;
+    width: auto;
+  }
+
+  #compare-checkbox {
+    display: inline;
+    width: auto;
+    float: left;
+  }
+
+  #compare-checkbox + fieldset {
+    display: none;
+  }
+
+  #compare-checkbox:checked ~ fieldset {
+    display: block;
+  }
 
   h2 {
     flex: 0 0 100%;
@@ -17,6 +39,7 @@
 
   label {
     width: 50%;
+    float: left;
 
     span {
       width: 100%;

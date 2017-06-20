@@ -14,12 +14,33 @@ if (document.querySelector('#history-graph')) {
   const firstMonth = document.querySelector('#firstMonth');
   const secondMonth = document.querySelector('#secondMonth');
 
+  const filters = document.querySelector('.filters');
+
+  const usedValues = [{
+    name: 'Bag_Height',
+    title: 'Gaszak-hoogte',
+    min: 0,
+    max: 400
+  }, {
+    name: 'pH_Value',
+    title: 'PH-waarde',
+    min: 5,
+    max: 10
+  }, {
+    name: 'Temp_PT100_1',
+    title: 'Temperatuur',
+    min: 0,
+    max: 100
+  }];
+
   const range = {
     firstYear: firstYear.value,
     secondYear: secondYear.value,
     firstMonth: firstMonth.value,
     secondMonth: secondMonth.value
   };
+
+  const drawnValues = [0, 1];
 
   // Parse the date / time
   const parseDate = d3.timeParse('%d-%b-%y');
@@ -35,22 +56,35 @@ if (document.querySelector('#history-graph')) {
     .scaleLinear()
     .range([height, 0]);
 
+  const y1 = d3
+    .scaleLinear()
+    .range([height, 0]);
+
   // Define the axes
   const xAxis = d3
     .axisBottom()
-    .scale(x)
-    .ticks(5);
+    .scale(x);
 
   const yAxis = d3
     .axisLeft()
     .scale(y)
-    .tickSize(-width)
-    .ticks(5);
+    .ticks(5)
+    .tickSize(-width);
+
+  const y1Axis = d3
+    .axisRight()
+    .scale(y1)
+    .ticks(5)
+    .tickSize(-width);
 
   // Define the line
   const valueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d.Bag_Height));
+    .y(d => y(d[usedValues[drawnValues[0]].name] / d.count));
+
+  const compareValueline = d3.line()
+    .x(d => x(d.date))
+    .y(d => y(d[usedValues[drawnValues[1]].name] / d.count));
 
   // Adds the svg canvas
   const svg = d3.select('#history-graph')
@@ -59,9 +93,19 @@ if (document.querySelector('#history-graph')) {
     .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+  usedValues.forEach(value => {
+    const el = document.createElement('button');
+    el.innerHTML = value.title;
+    el.setAttribute('name', value.name);
+    el.addEventListener('click', e => {
+      console.log(e);
+    });
+    filters.appendChild(el);
+  });
+
   // Get the data
   d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
-    console.log(data);
+    console.log('hoi');
 
     data.forEach(d => {
       d.date = new Date(d['Date']);
@@ -71,16 +115,29 @@ if (document.querySelector('#history-graph')) {
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    y.domain([0, 400]);
+    y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+    y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
 
     // Add the valueline path.
-    svg.append('path').attr('class', 'line').attr('d', valueline(data));
+    svg.append('path')
+      .attr('class', 'line')
+      .attr('d', valueline(data));
 
     // Add the X Axis
-    svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis);
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis);
 
     // Add the Y Axis
-    svg.append('g').attr('class', 'y axis').call(yAxis);
+    svg.append('g')
+      .attr('class', 'y axis')
+      .call(yAxis);
+
+    svg.append('g')
+      .attr('class', 'y axis right')
+      .attr('transform', `translate(${width})`)
+      .call(y1Axis);
   });
 
   // ** Update data section (Called from the onclick)
@@ -117,6 +174,9 @@ if (document.querySelector('#history-graph')) {
 
       svg.select('.y.axis')
         .duration(750).call(yAxis);
+
+      svg.select('.y.axis.right')
+        .duration(750).call(y1Axis);
     });
   }
 
