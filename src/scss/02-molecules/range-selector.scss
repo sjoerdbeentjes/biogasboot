@@ -32,13 +32,18 @@ fieldset {
     display: block;
   }
 
+  fieldset {
+    border: none;
+  }
+
   h2 {
     flex: 0 0 100%;
     font-size: 1.2em;
   }
 
   label {
-    width: 50%;
+    width: auto;
+    margin-right: 0.5em;
     float: left;
 
     span {
