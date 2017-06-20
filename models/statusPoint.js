@@ -26,6 +26,9 @@ const StatusPointSchema = mongoose.Schema({
   Digester_Heater_2: {
     type: String
   },
+  Gaspump: {
+    type: String
+  },
   Mode_Stop: {
     type: String
   },
