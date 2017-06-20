@@ -5,7 +5,7 @@ const StatusPoint = require('../models/statusPoint');
 
 
 const usageCalculation = {
-  init(range, req, res) {
+  init(req, res, range) {
     StatusPoint.find((err, statuspoints) => {
       if(range) {
         return usageCalculation.getByrange(statuspoints, range, req, res);
@@ -93,6 +93,7 @@ const usageCalculation = {
     }
     // Returns when data is calculated
     if (i === output.length) {
+      console.log(deviceCollection)
       res.send(deviceCollection);
     }
   },
@@ -158,7 +159,6 @@ const usageCalculation = {
     };
     let i;
     range = Number(range);
-    console.log(range)
     const inputRange = 1;
     const months = moment.duration(inputRange, 'months').valueOf() / 1000;
     const startCount = range;

@@ -156,10 +156,10 @@ router.get('/status', (req, res, next) => {
   }
 });
 
-router.get('/status/:range', (req, res, next) => {
+router.get('/status/range/:range', (req, res, next) => {
   if(req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
     const range = req.params.range;
-    usageCalculation.init(range, req, res);
+    usageCalculation.init(req, res, range);
   } else {
     res.send('No valid API key');
   }
