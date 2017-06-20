@@ -19,6 +19,7 @@
     const elements = [
       document.getElementsByClassName('start')[0],
       document.getElementsByClassName('overview')[0],
+      document.getElementsByClassName('stats')[0],
       document.getElementsByClassName('announcements')[0]
     ];
     let counter = 0;
@@ -33,7 +34,7 @@
         elements[counter].style.display = 'block';
       }
       counter++;
-      if (counter > 2) {
+      if (counter > 3) {
         counter = 0;
       }
     }, 15000)

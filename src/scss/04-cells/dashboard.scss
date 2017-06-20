@@ -11,9 +11,6 @@
         width: 100vw;
       }
     }
-    .start {
-      display: none;
-    }
     .overview {
       display: flex;
       flex-direction: row;
@@ -49,7 +46,8 @@
         }
       }
     }
-   .announcements {
+   .announcements, .overview,
+   .stats {
       display: none;
     }
   }
