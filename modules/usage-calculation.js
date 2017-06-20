@@ -2,15 +2,20 @@ const moment = require('moment');
 
 const StatusPoint = require('../models/statusPoint');
 
-function usageCalculation() {
 
-  StatusPoint.find((err, statuspoints) => {
-    console.log(getAll(statuspoints));
-    console.log(getByrange(statuspoints));
-  });
 
+const usageCalculation = {
+  init(req, res, range) {
+    StatusPoint.find((err, statuspoints) => {
+      if(range) {
+        return usageCalculation.getByrange(statuspoints, range, req, res);
+      } else {
+        return usageCalculation.getAll(statuspoints, req, res);
+      }
+    });
+  },
   // Get all the seconds
-  function getAll(output) {
+  getAll(output, req, res) {
     // Clean object for calculation
     let deviceCollection = {
       Storagetank_Mixe: {
@@ -88,11 +93,12 @@ function usageCalculation() {
     }
     // Returns when data is calculated
     if (i === output.length) {
-      return deviceCollection;
+      console.log(deviceCollection)
+      res.send(deviceCollection);
     }
-  }
+  },
   // Get by range of 1 month
-  function getByrange(output) {
+  getByrange(output, range, req, res) {
     // Clean object for calculation
     let deviceCollection = {
       Storagetank_Mixe: {
@@ -152,11 +158,11 @@ function usageCalculation() {
       }
     };
     let i;
-    const inputStart = '';
+    range = Number(range);
     const inputRange = 1;
-    const hours = moment.duration(inputRange, 'months').valueOf() / 1000;
-    const startCount = moment('07-06-2017 10:00:00', 'DD-MM-YYYY HH:mm:ss').valueOf() / 1000;
-    const endCount = startCount + hours;
+    const months = moment.duration(inputRange, 'months').valueOf() / 1000;
+    const startCount = range;
+    const endCount = startCount + months;
     for (i = 1; i < output.length; i++) {
       // Unix time in seconds
       let currentTime = moment(output[i].Date).valueOf() / 1000;
@@ -177,10 +183,9 @@ function usageCalculation() {
     }
     // Returns when data is calculated
     if (i === output.length) {
-      return deviceCollection;
+      res.send(deviceCollection)
     }
   }
-
 }
 
 module.exports = usageCalculation;
