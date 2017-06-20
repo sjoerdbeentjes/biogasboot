@@ -24,8 +24,8 @@ if (document.querySelector('#history-graph')) {
   }, {
     name: 'pH_Value',
     title: 'PH-waarde',
-    min: 5,
-    max: 10
+    min: 500,
+    max: 1000
   }, {
     name: 'Temp_PT100_1',
     title: 'Temperatuur',
@@ -40,10 +40,10 @@ if (document.querySelector('#history-graph')) {
     secondMonth: secondMonth.value
   };
 
-  const drawnValues = [0, 1];
+  const drawnValues = [];
 
   // Parse the date / time
-  const parseDate = d3.timeParse('%d-%b-%y');
+  const parseDate = d3.timeParse('%m-%d-%Y');
   const parseYear = d3.timeParse('%Y');
   const parseMonth = d3.timeParse('%Y-%m');
 
@@ -80,11 +80,11 @@ if (document.querySelector('#history-graph')) {
   // Define the line
   const valueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[0]].name] / d.count));
+    .y(d => y(d[usedValues[drawnValues[0]].name]));
 
   const compareValueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[1]].name] / d.count));
+    .y(d => y(d[usedValues[drawnValues[1]].name]));
 
   // Adds the svg canvas
   const svg = d3.select('#history-graph')
@@ -108,7 +108,7 @@ if (document.querySelector('#history-graph')) {
     console.log(data);
 
     data.forEach(d => {
-      d.date = new Date(d['Date']);
+      d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
       d.Bag_Height = +d.Bag_Height;
     });
 
@@ -144,15 +144,9 @@ if (document.querySelector('#history-graph')) {
   function updateData(url) {
     // Get the data again
     d3.json(url, (error, data) => {
-      console.log(data);
-
       data.forEach(d => {
-        if (d.count) {
-          d.Bag_Height = +d.Bag_Height / d.count;
-        } else {
-          d.Bag_Height = +d.Bag_Height;
-        }
-        d.date = new Date(d['Date']);
+        d.Bag_Height = +d.Bag_Height;
+        d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
       });
 
       // Scale the range of the data again
@@ -160,7 +154,8 @@ if (document.querySelector('#history-graph')) {
         return d.date;
       }));
 
-      y.domain([0, 400]);
+      y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+      y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
 
       // Select the section we want to apply our changes to
       const svg = d3.select('body').transition();
@@ -193,7 +188,7 @@ if (document.querySelector('#history-graph')) {
     const monthUnix = month / 1000;
     const monthFromMonthUnix = monthFromMonth / 1000;
 
-    const url = `/api?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&format=d&api_key=CMD17`;
+    const url = `/api/range/monthperday?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&api_key=CMD17`;
 
     return url;
   }
