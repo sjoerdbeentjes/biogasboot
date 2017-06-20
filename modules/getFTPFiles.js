@@ -86,7 +86,7 @@ function downloadMissingData(directoryKey, filesNotInMongo) {
           parseFileDataToJSON(data, directoryKey);
           removeDownloadedFTPFile(file, directoryKey);
         });
-    })
+    });
   });
 }
 
