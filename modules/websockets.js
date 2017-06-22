@@ -2,20 +2,8 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const parse = require('csv-parse');
-
 const dataPoint = require('../models/dataPoint');
 const tileStatus = require('./tile-status');
-const ftp = require('./get-files-ftp');
-
-
-
-function getValueFilesFromFTP() {
-  const files = ftp.getValueFileNames();
-  // checkDirectoryForNewData(files);
-  // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
-}
-
-getValueFilesFromFTP();
 
 function webSokets(app, io) {
   fs.readFile('./data/sample-data.csv', (err, data) => {
