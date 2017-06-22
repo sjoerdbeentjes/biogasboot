@@ -281,8 +281,4 @@ function tileSatus(data) {
   return statusData;
 }
 
-const checkForKey = (req, res) => {
-  console.log('hola');
-};
-
 module.exports = router;
