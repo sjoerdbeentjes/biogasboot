@@ -305,8 +305,8 @@ if (document.querySelector('#history-graph')) {
             let getIDtd = document.getElementById(key);
             // Fill in the table
             getIDtd.getElementsByClassName('timeON')[0].innerHTML = Math.round(Number((response[key].timeON) / 60));
-            getIDtd.getElementsByClassName('kWh')[0].innerHTML = response[key].kWh;
-            getIDtd.getElementsByClassName('Wh')[0].innerHTML = response[key].Wh;
+            getIDtd.getElementsByClassName('kWh')[0].innerHTML = Number(response[key].kWh);
+            getIDtd.getElementsByClassName('Wh')[0].innerHTML = Math.round(Number(response[key].Wh));
           });
           compareContainer.classList.remove('loading');
         } // Second date
@@ -318,8 +318,8 @@ if (document.querySelector('#history-graph')) {
             let getIDtd = document.getElementById(key);
             // Fill in the table
             getIDtd.getElementsByClassName('timeON')[1].innerHTML = Math.round(Number((response[key].timeON) / 60));
-            getIDtd.getElementsByClassName('kWh')[1].innerHTML = response[key].kWh;
-            getIDtd.getElementsByClassName('Wh')[1].innerHTML = response[key].Wh;
+            getIDtd.getElementsByClassName('kWh')[1].innerHTML = Number(response[key].kWh);
+            getIDtd.getElementsByClassName('Wh')[1].innerHTML = Math.round(Number(response[key].Wh));
           });
           compareContainer.classList.remove('loading');
         }
