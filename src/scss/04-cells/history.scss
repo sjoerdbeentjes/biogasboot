@@ -1,3 +1,15 @@
 main.history {
   display: flex;
 }
+
+main.history {
+  .line.compare {
+    stroke: #9b59b6;
+  }
+
+  .y.axis.right {
+    text {
+      fill: #9b59b6;
+    }
+  }
+}

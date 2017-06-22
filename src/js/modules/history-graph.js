@@ -21,16 +21,18 @@ if (document.querySelector('#history-graph')) {
     title: 'Gaszak-hoogte',
     min: 0,
     max: 400
-  }, {
-    name: 'pH_Value',
-    title: 'PH-waarde',
-    min: 500,
-    max: 1000
-  }, {
+  },
+  // {
+  //   name: 'pH_Value',
+  //   title: 'PH-waarde',
+  //   min: 500,
+  //   max: 1000
+  // },
+  {
     name: 'Temp_PT100_1',
     title: 'Temperatuur',
     min: 0,
-    max: 100
+    max: 20
   }];
 
   const range = {
@@ -84,7 +86,7 @@ if (document.querySelector('#history-graph')) {
 
   const compareValueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[1]].name]));
+    .y(d => y1(d[usedValues[drawnValues[1]].name]));
 
   // Adds the svg canvas
   const svg = d3.select('#history-graph')
@@ -136,11 +138,11 @@ if (document.querySelector('#history-graph')) {
 
     if (drawnValues[1]) {
       svg.append('path')
-        .attr('class', 'line')
+        .attr('class', 'line compare')
         .attr('d', compareValueline(data));
     } else {
       svg.append('path')
-        .attr('class', 'line');
+        .attr('class', 'line compare');
     }
 
     // Add the X Axis
@@ -201,7 +203,14 @@ if (document.querySelector('#history-graph')) {
         svg.select('.line')
           .duration(750).attr('d', valueline(data));
       } else {
-        svg.select('.line').node().innerHMTL = '';
+        svg.select('.line').node().setAttribute('d', '');
+      }
+
+      if (drawnValues[1]) {
+        svg.select('.line.compare')
+          .duration(750).attr('d', compareValueline(data));
+      } else {
+        svg.select('.line.compare').node().setAttribute('d', '');
       }
 
       svg.select('.x.axis')
@@ -275,6 +284,7 @@ if (document.querySelector('#history-graph')) {
       range.secondMonth = value;
       range.secondYear = year;
 
+      setSecondMonth();
       getRange();
     });
   }
@@ -323,7 +333,7 @@ if (document.querySelector('#history-graph')) {
         }
       }
     };
-    xhttp.open("GET", url, true);
+    xhttp.open('GET', url, true);
     xhttp.send();
   }
 
@@ -351,12 +361,12 @@ if (document.querySelector('#history-graph')) {
       button.classList.remove('active');
     });
 
+    console.log(drawnValues);
+
     drawnValues.forEach(value => {
       const el = document.querySelector(`[data-index='${value}']`);
       el.classList.add('active');
     });
-
-    console.log(drawnValues);
 
     updateData(showMonth(firstMonth.value, firstYear.value));
   }
