@@ -15,7 +15,7 @@ const socketio = require('socket.io');
 
 const app = express();
 // Init modules
-// const FTP = require('./modules/getFTPFiles');
+const FTP = require('./modules/getFTPFiles');
 const webSockets = require('./modules/websockets');
 // const serviceWorker = require('./modules/server-service-worker');
 
@@ -46,7 +46,7 @@ mongoose.connect(process.env.DB_URL);
 // FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
 // WebSockets
-webSockets(app, io);
+// webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
