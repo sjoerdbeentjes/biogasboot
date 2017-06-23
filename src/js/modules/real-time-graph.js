@@ -99,17 +99,16 @@ if (document.querySelector('#chart')) {
     .attr('y2', y(180));
 
   socket.on('dataPoint', points => {
+    console.log(points);
     const lastIndex = points.length - 1;
 
-    const dateTime = `${points[lastIndex].Date} ${points[lastIndex].Time}`;
-
-    const parsedDateTime = parseTime(dateTime);
+    const parsedDateTime = new Date(points[lastIndex]['Date']);
 
     maxDate = parsedDateTime;
     minDate = d3.timeMinute.offset(maxDate, -ticks);
-
     points.forEach(point => {
-      point.dateTime = parseTime(`${point.Date} ${point.Time}`);
+
+      point.dateTime = new Date(point['Date']);
     });
 
     tick(points);
@@ -128,7 +127,7 @@ if (document.querySelector('#chart')) {
       .domain([minDate, maxDate]);
 
     line
-      .x(d =>  x(d.dateTime));
+      .x(d => x(d.dateTime));
 
     // Draw new line
     path.datum(data)
@@ -142,28 +141,28 @@ if (document.querySelector('#chart')) {
       .call(xAxis);
   }
 
-  function init() {
-    d3.json('http://localhost:3000/api/all', (err, points) => {
-      if (err) throw err;
+  // function init() {
+  //   d3.json('http://localhost:3000/api/all', (err, points) => {
+  //     if (err) throw err;
 
-      const lastIndex = points.length - 1;
+  //     const lastIndex = points.length - 1;
 
-      const dateTime = points[lastIndex]['Date'];
+  //     const dateTime = points[lastIndex]['Date'];
 
-      const parsedDateTime = new Date(dateTime);
+  //     const parsedDateTime = new Date(dateTime);
 
-      maxDate = parsedDateTime;
-      minDate = d3.timeMinute.offset(maxDate, -ticks);
+  //     maxDate = parsedDateTime;
+  //     minDate = d3.timeMinute.offset(maxDate, -ticks);
 
-      points.forEach(point => {
-        point.dateTime = new Date(point['Date']);
-      });
+  //     points.forEach(point => {
+  //       point.dateTime = new Date(point['Date']);
+  //     });
 
-      console.log(points);
+  //     console.log(points);
 
-      tick(points);
-    });
-  }
+  //     tick(points);
+  //   });
+  // }
 
-  init();
+  // init();
 }
