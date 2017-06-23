@@ -74,6 +74,9 @@
       </form>
     </section>
     <section id="compare">
+      <label class="energyMargin">Energie verbruik eenheid:</label>
+      <input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh
+      <input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh
       <table id="compareTable">
         <thead>
           <tr class="tableHead">
@@ -84,9 +87,11 @@
           <tr id="indicatorsTable" class="tableHead">
             <td>Apparaat</td>
             <td>Min.</td>
-            <td>Wh</td>
+            <td class="WhHead">Wh</td>
+            <td class="kWhHead">kWh</td>
             <td>Min.</td>
-            <td>Wh</td>
+            <td class="WhHead">Wh</td>
+            <td class="kWhHead">kWh</td>
           </tr>
         </thead>
         <tbody>

@@ -240,6 +240,12 @@ const usageCalculation = {
       for(let key in deviceCollection) {
         // Skip all total to prevent duplicate counting
         if (deviceCollection[key] !== deviceCollection['All_total']) {
+          // Delete unused datapoints
+          delete deviceCollection['Mode_Auto'];
+          delete deviceCollection['Mode_Manual'];
+          delete deviceCollection['Mode_Stop'];
+          delete deviceCollection['System_Started'];
+          // Calculate totals
           deviceCollection['All_total'].timeON += Number(deviceCollection[key].timeON);
           deviceCollection['All_total'].kWh += Number(deviceCollection[key].kWh);
           deviceCollection['All_total'].Wh += Number(deviceCollection[key].Wh);

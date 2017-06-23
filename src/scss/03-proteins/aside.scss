@@ -63,10 +63,41 @@ aside {
         color: rgba(236, 240, 241,1.0);
       }
     }
+    .Wh {
+      display: none;
+    }
     .kWh {
       display: none;
     }
   }
+}
+
+.WhHead {
+  display: none;
+}
+.kWhHead {
+  display: none;
+}
+
+.energyMargin {
+  margin: 1em 1em 0;
+}
+input.energyMargin {
+  margin: 1em 0 1em 1em;
+}
+
+input[name="energy"] {
+  width: auto;
+}
+
+input[name="energy"]#WhCheck:checked + input[name="energy"] + table .Wh,
+input[name="energy"]#WhCheck:checked + input[name="energy"] + table .WhHead {
+  display: table-cell;
+}
+
+input[name="energy"]#kWhCheck:checked + table .kWh,
+input[name="energy"]#kWhCheck:checked + table .kWhHead{
+  display: table-cell;
 }
 
 #indicatorsTable {
@@ -144,4 +175,12 @@ aside {
     opacity:1;
     transform: scale(1, 1);
   }
+}
+
+/* Hidden status rows */
+#Mode_Auto,
+#Mode_Manual,
+#Mode_Stop,
+#System_Started {
+  display: none;
 }
