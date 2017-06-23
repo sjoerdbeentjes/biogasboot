@@ -49,15 +49,15 @@ function tileStatus(data) {
   }
   // PH indicator
   switch (true) {
-    case data.ph_value >= types.ph.low && data.ph_value <= types.ph.high:
+    case (data.ph_value / 100) >= types.ph.low && (data.ph_value / 100) <= types.ph.high:
       // Good
       statusData.phStatus = 0;
       break;
-    case data.ph_value > types.ph.high:
+    case (data.ph_value / 100) > types.ph.high:
       // Error + ph to high
       statusData.phStatus = 1;
       break;
-    case data.ph_value < types.ph.low:
+    case (data.ph_value / 100) < types.ph.low:
       // Error + bag to low
       statusData.phStatus = 1;
       break;
