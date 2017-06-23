@@ -33,38 +33,6 @@ function webSokets(app, io) {
         io.sockets.emit('dataPoint', dataCollection, tileStatus(dataPoints[i]));
       }, 1000);
     });
-
-  // fs.readFile('./data/sample-data.csv', (err, data) => {
-  //   if (err) {
-  //     throw err;
-  //   }
-  //   parse(data, {
-  //     columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Bag_Height', 'ph_value']
-  //   }, (error, output) => {
-  //     if (error) {
-  //       throw error;
-  //     }
-
-  //     let i = 1;
-  //     const sendItemsCount = 30;
-
-  //     setInterval(() => {
-  //       if (!output[i + sendItemsCount]) {
-  //         i = 1;
-  //       }
-
-  //       const dataCollection = [];
-
-  //       for (let x = 1; x <= sendItemsCount; x++) {
-  //         dataCollection.push(output[x + i]);
-  //       }
-
-  //       i += 30;
-
-  //       io.sockets.emit('dataPoint', dataCollection, tileStatus(output[i]));
-  //     }, 1000);
-  //   });
-  // });
 }
 
 module.exports = webSokets;

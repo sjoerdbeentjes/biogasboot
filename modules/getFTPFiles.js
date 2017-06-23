@@ -112,5 +112,5 @@ function parseFileDataToJSON(data, directoryKey) {
 function addFileToMongo(data, directoryKey) {
   FTP[directoryKey].schema.insertMany(data)
     .then(mongooseDocuments => {})
-    .catch(err => {});
+    .catch(err => {console.log(err)});
 }
