@@ -37,11 +37,14 @@ aside {
     display: block;
     width: 100%;
     overflow-x: auto;
-    font-size: 0.7em;
+    font-size: 1em;
     tbody {
       width: 100%;
       * {
         width: 100%;
+      }
+      .kWh {
+        display: none;
       }
     }
   }
