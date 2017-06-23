@@ -8,19 +8,21 @@ const usageCalculation = {
     const months = moment.duration(inputRange, 'months').valueOf();
     const startDate = moment(Number(range) * 1000);
     const endDate = moment(Number(startDate + months));
-    StatusPoint.find({
-        Date: {
-          $gte: startDate.toDate(),
-          $lt: endDate.toDate()
-        }
-      },
-      (err, statuspoints) => {
-        if (range) {
-          return usageCalculation.getByrange(statuspoints, range, req, res);
-        } else {
+    if (range){
+      StatusPoint.find({
+          Date: {
+            $gte: startDate.toDate(),
+            $lt: endDate.toDate()
+          }
+        },
+        (err, statuspoints) => {
+            return usageCalculation.getByrange(statuspoints, range, req, res);
+        });
+    } else {
+      StatusPoint.find((err, statuspoints) => {
           return usageCalculation.getAll(statuspoints, req, res);
-        }
       });
+    }
   },
   // Get all the seconds
   getAll(output, req, res) {
