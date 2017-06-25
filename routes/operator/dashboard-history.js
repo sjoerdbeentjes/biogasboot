@@ -6,16 +6,13 @@ const User = require('../../models/user');
 
 /* Operator | Dashboard */
 router.get('/', (req, res, next) => {
-  // if (res.locals.user) {
-  //   User.find((err, users) => {
-  //     // res.locals.users = users;
-  //     // console.log(res.locals.users);
-  //     res.render('operator/dashboard', {title: 'Operator | Dashboard'});
-  //   });
-  // } else {
-  //   res.status(404).render('404');
-  // }
-  res.render('operator/history', {title: 'Operator | Dashboard'});
+  if (res.locals.user) {
+    User.find((err, users) => {
+      res.render('operator/history', {title: 'Operator | Dashboard'});
+    });
+  } else {
+    res.status(404).render('login');
+  }
 });
 
 module.exports = router;

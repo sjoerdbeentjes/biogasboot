@@ -36,14 +36,9 @@
   <input name="showMenu" id="showMenu" type="checkbox">
   <ul>
     <li><a href="/">Home</a></li>
-    <li class="history"><a href="/operator/dashboard/history">History data</a></li>
-    <li class="customer"><a href="/customer/dashboard">Customer</a></li>
-    <% if (!locals.user) { %>
-      <li class="user"><a href="/auth/login">Inloggen</a></li>
-    <% } %>
-
     <% if (locals.user) { %>
       <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
+      <li class="history"><a href="/operator/dashboard/history">History data</a></li>
 
       <li class="user"><a href=""><%= user.name %> (<%= user.role %>)</a></li>
 
@@ -51,6 +46,11 @@
         <li><a href="/users">Gebruikers</a></li>
       <% } %>
 
+    <% } %>
+    <li class="customer"><a href="/customer/dashboard">Customer</a></li>
+    <% if (!locals.user) { %>
+      <li class="user"><a href="/auth/login">Inloggen</a></li>
+    <% } else { %>
       <li><a href="/auth/logout">Uitloggen</a></li>
     <% } %>
   </ul>
