@@ -15,8 +15,8 @@ const socketio = require('socket.io');
 
 const app = express();
 // Init modules
-// const FTP = require('./modules/getFTPFiles');
-// const webSockets = require('./modules/websockets');
+const FTP = require('./modules/getFTPFiles');
+const webSockets = require('./modules/websockets');
 // const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;

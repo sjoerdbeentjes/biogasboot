@@ -1,52 +1,38 @@
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 require('dotenv').config();
 const parse = require('csv-parse');
-
+const config = require('./config');
 const dataPoint = require('../models/dataPoint');
-const tileStatus = require('./tile-status');
-const ftp = require('./get-files-ftp');
-
-
-
-function getValueFilesFromFTP() {
-  const files = ftp.getValueFileNames();
-  // checkDirectoryForNewData(files);
-  // checkLatestFileForNewData(directoryPath, files.splice(-1)[0]); // Splice array get last item
-}
-
-getValueFilesFromFTP();
 
 function webSokets(app, io) {
-  fs.readFile('./data/sample-data.csv', (err, data) => {
-    if (err) {
-      throw err;
-    }
-    parse(data, {columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Bag_Height', 'ph_value', 'input_value', 'heater_status']}, (error, output) => {
-      if (error) {
-        throw error;
+  dataPoint.find({
+      Date: {
+        $gte: moment('1484906400000', 'x').toDate(),
+        $lt: moment('1484906400000', 'x').add('days', 6).toDate()
       }
-
+    },
+    (err, dataPoints) => {
       let i = 1;
       const sendItemsCount = 30;
 
       setInterval(() => {
-        if (!output[i + sendItemsCount]) {
+        if (!dataPoints[i + sendItemsCount]) {
           i = 1;
         }
 
         const dataCollection = [];
 
         for (let x = 1; x <= sendItemsCount; x++) {
-          dataCollection.push(output[x + i]);
+          dataCollection.push(dataPoints[x + i]);
         }
 
         i += 30;
 
-        io.sockets.emit('dataPoint', dataCollection, tileStatus(output[i]));
+        io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
       }, 1000);
     });
-  });
 }
 
 module.exports = webSokets;

@@ -52,3 +52,18 @@
     }
   }
 }
+
+.interactive-dashboard {
+  padding: 1em;
+  .interactive {
+    position: absolute;
+    width: 100vw;
+    padding: 1em;
+    img {
+      max-width: 100%;
+    }
+    map {
+      max-width: 100%;
+    }
+  }
+}

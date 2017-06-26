@@ -5,6 +5,10 @@
   flex-wrap: wrap;
   height: 100%;
   padding: 1em;
+  .icon {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 #currentData > button {

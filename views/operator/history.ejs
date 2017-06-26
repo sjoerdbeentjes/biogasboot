@@ -10,27 +10,27 @@
           <label>
             <div>Jaar</div>
             <select name="firstYear" id="firstYear">
-              <option value='2015'>2015</option>
-              <option selected value='2016'>2016</option>
-              <option value='2017'>2017</option>
+              <option value="2015">2015</option>
+              <option selected value="2016">2016</option>
+              <option value="2017">2017</option>
             </select>
           </label>
 
           <label>
             <div>Maand</div>
             <select name="firstMonth" id="firstMonth">
-              <option value='1'>Janaury</option>
-              <option value='2'>February</option>
-              <option value='3'>March</option>
-              <option value='4'>April</option>
-              <option value='5'>May</option>
-              <option selected value='6'>June</option>
-              <option value='7'>July</option>
-              <option value='8'>August</option>
-              <option value='9'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option selected value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
             </select>
           </label>
         </fieldset>
@@ -45,9 +45,9 @@
           <label>
             <div>Jaar</div>
             <select name="secondYear" id="secondYear">
-              <option value='2015'>2015</option>
-              <option selected value='2016'>2016</option>
-              <option value='2017'>2017</option>
+              <option value="2015">2015</option>
+              <option selected value="2016">2016</option>
+              <option value="2017">2017</option>
             </select>
           </label>
 
@@ -55,115 +55,155 @@
             <div>Maand</div>
 
             <select name="secondMonth" id="secondMonth">
-              <option selected value='0'>Selecteer maand</option>
-              <option value='1'>Janaury</option>
-              <option value='2'>February</option>
-              <option value='3'>March</option>
-              <option value='4'>April</option>
-              <option value='5'>May</option>
-              <option value='6'>June</option>
-              <option value='7'>July</option>
-              <option value='8'>August</option>
-              <option value='9'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <option selected value="0">Selecteer maand</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
             </select>
           </label>
         </fieldset>
       </form>
     </section>
     <section id="compare">
+      <label class="energyMargin">Energie verbruik eenheid:</label>
+      <input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh
+      <input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh
       <table id="compareTable">
-        <tr>
-          <th></th>
-          <th colspan="2">Eerste maand</th>
-          <th colspan="2">Tweede maand</th>
-        </tr>
-        <tr id="indicatorsTable">
-          <td>Apparaat</td>
-          <td>Min.</td>
-          <td>kWH</td>
-          <td>Min.</td>
-          <td>kWH</td>
-        </tr>
-        <tr id="Storagetank_Mixe">
-          <td>Storagetank_Mixe</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Storagetank_Feed">
-          <td>Storagetank_Feed</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Digester_Mixer">
-          <td>Digester_Mixer</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Digester_Heater_1">
-          <td>Digester_Heater_1</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Digester_Heater_2">
-          <td>Digester_Heater_2</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Gaspump">
-          <td>Gaspump</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Mode_Auto">
-          <td>Mode_Auto</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Mode_Manual">
-          <td>Mode_Manual</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Mode_Stop">
-          <td>Mode_Stop</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="System_Started">
-          <td>System_Started</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
-        <tr id="Additive_Pump">
-          <td>Additive_Pump</td>
-          <td class="first timeON">-</td>
-          <td class="first kWh">-</td>
-          <td class="second timeON">-</td>
-          <td class="second kWh">-</td>
-        </tr>
+        <thead>
+          <tr class="tableHead">
+            <th></th>
+            <th colspan="2">Eerste maand</th>
+            <th colspan="2">Tweede maand</th>
+          </tr>
+          <tr id="indicatorsTable" class="tableHead">
+            <td>Apparaat</td>
+            <td>Min.</td>
+            <td class="WhHead">Wh</td>
+            <td class="kWhHead">kWh</td>
+            <td>Min.</td>
+            <td class="WhHead">Wh</td>
+            <td class="kWhHead">kWh</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="Storagetank_Mixe">
+            <td>Storagetank Mixe</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Storagetank_Feed">
+            <td>Storagetank Feed</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Digester_Mixer">
+            <td>Digester Mixer</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Digester_Heater_1">
+            <td>Digester Heater 1</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Digester_Heater_2">
+            <td>Digester Heater 2</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Gaspump">
+            <td>Gaspump</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Mode_Auto">
+            <td>Mode Auto</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Mode_Manual">
+            <td>Mode Manual</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Mode_Stop">
+            <td>Mode Stop</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="System_Started">
+            <td>System Started</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="Additive_Pump">
+            <td>Additive Pump</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+          <tr id="All_total">
+            <td>Total</td>
+            <td class="first timeON">-</td>
+            <td class="first kWh">-</td>
+            <td class="first Wh">-</td>
+            <td class="second timeON">-</td>
+            <td class="second kWh">-</td>
+            <td class="second Wh">-</td>
+          </tr>
+        </tbody>
       </table>
     </section>
   </aside>
