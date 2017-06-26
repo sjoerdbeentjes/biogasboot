@@ -128,8 +128,8 @@ input.energyMargin {
   padding-right: 1em;
 
   aside {
-    flex-basis: calc(35% - 0.5em);
-    max-width: calc(35% - 0.5em);
+    flex-basis: 100%;
+    max-width: 100%;
     margin-right: 0.5em;
 
     .range-selector {
@@ -207,4 +207,13 @@ input.energyMargin {
 #Mode_Stop,
 #System_Started {
   display: none;
+}
+
+@media (min-width: 50em) {
+  .history {
+    aside {
+      flex-basis: calc(35% - 0.5em);
+      max-width: calc(35% - 0.5em);
+    }
+  }
 }
