@@ -1,31 +1,49 @@
-let allMaps = [];
+const config = {
+  allMaps: [],
+  actualMap: document.getElementsByTagName('map')[0],
+  allAreas: false,
+  areaCoords: [],
+  vector: false,
+  timer: false
+};
+
+const RecalculateImageMap = {
+  init() {
+    if (config.actualMap.newSize) {
+      // Still on this
+    } else {
+      RecalculateImageMap.start();
+    }
+  },
+  start() {
+    config.allAreas = config.actualMap.getElementsByTagName('area');
+    config.vector = document.getElementById('interactive_vector');
+    for (let i = 0; i < config.allAreas.length; i++) {
+      const coords = config.allAreas[i].coords;
+      config.areaCoords.push(coords.replace(/ *, */g, ',').replace(/ +/g, ','));
+    }
+    RecalculateImageMap.resize();
+  },
+  resize() {
+    config.areaCoords.forEach(function (area, i) {
+      config.allAreas[i] = area.split(',').map(RecalculateImageMap.scale).join(',');
+    });
+  },
+  scale(coordinate) {
+    let totalScale = config.vector.width / config.vector.naturalWidth;
+    let result = Math.round(Number(coordinate) * totalScale);
+    console.log(result)
+  }
+};
 
 const ImageMapSetup = {
-  target: document.getElementsByTagName('map')[0],
   init() {
-    const targetType = typeof(ImageMapSetup.target);
-    if(targetType != 'object') {
-      console.log(targetType)
-      ImageMapSetup.start(document.querySelector('map'));
-    } else {
-      console.log(targetType)
-      ImageMapSetup.start(ImageMapSetup.target);
-    }
+    ImageMapSetup.start(config.actualMap);
   },
   start(element) {
     if (element) {
-      ImageMapSetup.checkMap(element);
-      // scaleImageMap.call(element);
-      allMaps.push(element);
-    }
-  },
-  checkMap(element) {
-    if (!element.tagName) {
-      console.log('Element niet gevonden');
-    } else if ('MAP' !== element.tagName.toUpperCase()) {
-      console.log('Verkeerde element geselecteerd');
+      RecalculateImageMap.init(element);
+      config.allMaps.push(element);
     }
   }
-}
-
-// window.ImageMapSetup = ImageMapSetup.init();
+};
