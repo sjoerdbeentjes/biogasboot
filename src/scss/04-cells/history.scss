@@ -3,13 +3,23 @@ main.history {
 }
 
 main.history {
+  .line {
+    stroke: #2ecc71;
+  }
+
   .line.compare {
-    stroke: #9b59b6;
+    stroke: #3498db;
+  }
+
+  .y.axis {
+    text {
+      fill: #2ecc71;
+    }
   }
 
   .y.axis.right {
     text {
-      fill: #9b59b6;
+      fill: #3498db;
     }
   }
 }
