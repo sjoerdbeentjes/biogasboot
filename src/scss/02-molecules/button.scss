@@ -16,4 +16,9 @@ button, [role='button'] {
     border: 1px solid $warning-theme-color;
     color: $warning-theme-color;
   }
+
+  &.active {
+    background-color: $primary-theme-color;
+    color: #fff;
+  }
 }

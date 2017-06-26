@@ -50,3 +50,24 @@ function setMeterBar(status, value) {
   el.style.width = `${(value / maxBagValue) * 100}%`;
   el.style.backgroundColor = color;
 }
+
+const weatherApi = {
+  value: document.querySelector(`#tempCurrentOutside .value`),
+  icon: document.querySelector(`#tempCurrentOutside .icon`),
+  url: 'http://api.openweathermap.org/data/2.5/weather',
+  key: 'APPID=3e418cff30ae27d7220280cdf07d7a86',
+  location: {
+    lat: 'lat=52.394063',
+    lon: 'lon=4.911307'
+  },
+  checkTemperature() {
+    fetch(`${this.url}?${this.location.lat}&${this.location.lon}&${this.key}&units=metric`)
+      .then(data => data.json())
+      .then(data => {
+        this.value.innerHTML = data.main.temp;
+        this.icon.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+      });
+  }
+};
+
+if (document.getElementById('tempCurrentOutside')) weatherApi.checkTemperature();

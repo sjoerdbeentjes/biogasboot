@@ -15,6 +15,7 @@ if (document.querySelector('#history-graph')) {
   const secondMonth = document.querySelector('#secondMonth');
 
   const filters = document.querySelector('.filters');
+  const compareButton = document.querySelector('label.compare');
 
   const usedValues = [{
     name: 'Bag_Height',
@@ -30,7 +31,7 @@ if (document.querySelector('#history-graph')) {
     name: 'Temp_PT100_1',
     title: 'Temperatuur',
     min: 0,
-    max: 100
+    max: 20
   }];
 
   const range = {
@@ -40,7 +41,10 @@ if (document.querySelector('#history-graph')) {
     secondMonth: secondMonth.value
   };
 
-  const drawnValues = [];
+  let drawnValues = [];
+
+  let maxSelected = 2;
+  let singleMonth = false;
 
   // Parse the date / time
   const parseDate = d3.timeParse('%m-%d-%Y');
@@ -63,6 +67,7 @@ if (document.querySelector('#history-graph')) {
   // Define the axes
   const xAxis = d3
     .axisBottom()
+    .tickFormat(d => d.getDate())
     .scale(x);
 
   const yAxis = d3
@@ -80,11 +85,11 @@ if (document.querySelector('#history-graph')) {
   // Define the line
   const valueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[0]].name]));
+    .y(d => y(d[usedValues[drawnValues[0] - 1].name]));
 
   const compareValueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[1]].name]));
+    .y(d => singleMonth ? y(d[usedValues[drawnValues[0] - 1].name]) : y1(d[usedValues[drawnValues[1] - 1].name]));
 
   // Adds the svg canvas
   const svg = d3.select('#history-graph')
@@ -97,50 +102,57 @@ if (document.querySelector('#history-graph')) {
     const el = document.createElement('button');
     el.innerHTML = value.title;
     el.setAttribute('name', value.name);
-    el.setAttribute('data-index', i);
+    el.setAttribute('data-index', i + 1);
     el.addEventListener('click', e => {
       handleFilterClick(e);
     });
     filters.appendChild(el);
   });
 
+  compareButton.addEventListener('click', e => {
+    maxSelected === 2 ? maxSelected = 1 : maxSelected = 2;
+
+    singleMonth = !singleMonth;
+
+    if (drawnValues[1]) {
+      drawnValues.splice(1, 1);
+    }
+
+    activateButtons();
+  });
+
   // Get the data
   d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
-    console.log(data);
-
-    data.forEach(d => {
-      d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
-      d.Bag_Height = +d.Bag_Height;
-    });
+    data = cleanData(data);
 
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    if (drawnValues[0] >= 0) {
-      y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+    if (drawnValues[0]) {
+      y.domain([usedValues[drawnValues[0] - 1].min, usedValues[drawnValues[0] - 1].max]);
     }
 
     if (drawnValues[1]) {
-      y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+      y1.domain([usedValues[drawnValues[1] - 1].min, usedValues[drawnValues[1] - 1].max]);
     }
 
     // Add the valueline path.
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[0]) {
       svg.append('path')
-        .attr('class', 'line')
+        .attr('class', 'line first')
         .attr('d', valueline(data));
     } else {
       svg.append('path')
-        .attr('class', 'line');
+        .attr('class', 'line first');
     }
 
     if (drawnValues[1]) {
       svg.append('path')
-        .attr('class', 'line')
+        .attr('class', 'line compare')
         .attr('d', compareValueline(data));
     } else {
       svg.append('path')
-        .attr('class', 'line');
+        .attr('class', 'line compare');
     }
 
     // Add the X Axis
@@ -150,7 +162,7 @@ if (document.querySelector('#history-graph')) {
       .call(xAxis);
 
     // Add the Y Axis
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[0]) {
       svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
@@ -159,7 +171,7 @@ if (document.querySelector('#history-graph')) {
         .attr('class', 'y axis');
     }
 
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[1]) {
       svg.append('g')
         .attr('class', 'y axis right')
         .attr('transform', `translate(${width})`)
@@ -167,7 +179,7 @@ if (document.querySelector('#history-graph')) {
     } else {
       svg.append('g')
         .attr('class', 'y axis right')
-        .attr('transform', `translate(${width})`);
+        .attr('transform', `translate(${width})`)
     }
   });
 
@@ -175,57 +187,66 @@ if (document.querySelector('#history-graph')) {
   function updateData(url) {
     // Get the data again
     d3.json(url, (error, data) => {
-      data.forEach(d => {
-        d.Bag_Height = +d.Bag_Height;
-        d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
-      });
+      if (!data) {
+        data = [];
+      }
+
+      data = cleanData(data);
 
       // Scale the range of the data again
       x.domain(d3.extent(data, d => {
         return d.date;
       }));
 
-      if (drawnValues[0] >= 0) {
-        y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+      if (drawnValues[0]) {
+        y.domain([usedValues[drawnValues[0] - 1].min, usedValues[drawnValues[0] - 1].max]);
       }
 
       if (drawnValues[1]) {
-        y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+        y1.domain([usedValues[drawnValues[1] - 1].min, usedValues[drawnValues[1] - 1].max]);
       }
 
       // Select the section we want to apply our changes to
-      const svg = d3.select('body').transition();
+      const svg = d3.select('body');
 
       // Make the changes
-      if (drawnValues[0] >= 0) {
+      if (drawnValues[0]) {
         svg.select('.line')
-          .duration(750).attr('d', valueline(data));
+          .attr('d', valueline(data));
       } else {
-        svg.select('.line').node().innerHMTL = '';
+        svg.select('.line').node().setAttribute('d', '');
+      }
+
+      if (drawnValues[1] && !singleMonth) {
+        svg.select('.line.compare')
+          .attr('d', compareValueline(data));
+      } else if (singleMonth) {
+        d3.json(showMonth(range.secondMonth, range.secondYear), compareData => {
+          compareData = cleanData(compareData);
+
+          svg.select('.line.compare')
+            .attr('d', compareValueline(compareData));
+        });
+      } else {
+        svg.select('.line.compare').node().setAttribute('d', '');
       }
 
       svg.select('.x.axis')
-        .duration(750).call(xAxis);
+        .call(xAxis);
 
-      if (drawnValues[0] >= 0) {
+      if (drawnValues[0]) {
         svg.select('.y.axis')
-          .duration(750).call(yAxis);
+          .call(yAxis);
       } else {
         svg.select('.y.axis').node().innerHMTL = '';
       }
 
       if (drawnValues[1]) {
         svg.select('.y.axis.right')
-          .duration(750).call(y1Axis);
+          .call(y1Axis);
       } else {
         svg.select('.y.axis.right').node().innerHTML = '';
       }
-    });
-  }
-
-  function updateCompareData(url) {
-    d3.json(url, (error, data) => {
-      console.log(data);
     });
   }
 
@@ -275,7 +296,7 @@ if (document.querySelector('#history-graph')) {
       range.secondMonth = value;
       range.secondYear = year;
 
-      getRange();
+      setSecondMonth();
     });
   }
 
@@ -289,6 +310,7 @@ if (document.querySelector('#history-graph')) {
 
     return url;
   }
+
   // Update usage table
   function updateCompareUsage(url, indicator) {
     const compareContainer = document.querySelector('#compare');
@@ -325,7 +347,7 @@ if (document.querySelector('#history-graph')) {
         }
       }
     };
-    xhttp.open("GET", url, true);
+    xhttp.open('GET', url, true);
     xhttp.send();
   }
   updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 0);
@@ -336,31 +358,57 @@ if (document.querySelector('#history-graph')) {
       updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 0);
     } else {
       updateData(showMonth(range.firstMonth, range.firstYear));
-      updateCompareData(showMonth(range.secondMonth, range.secondYear));
       updateCompareUsage(showMonthUsage(range.secondMonth, range.secondYear), 1);
     }
+  }
+
+  function setSecondMonth() {
+    maxSelected = 1;
+
+    activateButtons();
+    updateData(showMonth(firstMonth.value, firstYear.value));
   }
 
   function handleFilterClick(e) {
     const index = Number(e.target.attributes['data-index'].value);
 
-    if (drawnValues.length < 2 && drawnValues.indexOf(index) === -1) {
+    if (singleMonth) {
+      drawnValues = [index];
+    } else if (drawnValues.length < maxSelected && drawnValues.indexOf(index) === -1) {
       drawnValues.push(index);
     } else if (drawnValues.indexOf(index) > -1) {
-      drawnValues.splice(drawnValues.indexOf(index));
+      drawnValues.splice(drawnValues.indexOf(index), 1);
     }
 
-    document.querySelectorAll('.filters button').forEach(button => {
-      button.classList.remove('active');
-    });
-
-    drawnValues.forEach(value => {
-      const el = document.querySelector(`[data-index='${value}']`);
-      el.classList.add('active');
-    });
-
-    console.log(drawnValues);
+    activateButtons();
 
     updateData(showMonth(firstMonth.value, firstYear.value));
+  }
+
+  function cleanData(data) {
+    return data.map(d => {
+      d.date = parseDate(`01-${d._id.day}-1970`);
+      d.Bag_Height = +d.Bag_Height;
+
+      return d;
+    });
+  }
+
+  function activateButtons() {
+    document.querySelectorAll('.filters button').forEach(button => {
+      button.classList.remove('active');
+      button.classList.remove('first');
+      button.classList.remove('second');
+    });
+
+    drawnValues.forEach((value, index) => {
+      const el = document.querySelector(`[data-index='${value}']`);
+
+      index === 0 ? el.classList.add('first') : el.classList.add('second');
+
+      if (el) {
+        el.classList.add('active');
+      }
+    });
   }
 }

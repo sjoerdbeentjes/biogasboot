@@ -3,8 +3,8 @@ const path = require('path');
 const moment = require('moment');
 require('dotenv').config();
 const parse = require('csv-parse');
+const config = require('./config');
 const dataPoint = require('../models/dataPoint');
-const tileStatus = require('./tile-status');
 
 function webSokets(app, io) {
   dataPoint.find({
@@ -30,7 +30,7 @@ function webSokets(app, io) {
 
         i += 30;
 
-        io.sockets.emit('dataPoint', dataCollection, tileStatus(dataPoints[i]));
+        io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
       }, 1000);
     });
 }

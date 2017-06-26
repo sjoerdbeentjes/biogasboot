@@ -1,3 +1,37 @@
 main.history {
   display: flex;
 }
+
+main.history {
+  .line {
+    stroke: #2ecc71;
+  }
+
+  .line.compare {
+    stroke: #3498db;
+  }
+
+  .y.axis {
+    text {
+      fill: #2ecc71;
+    }
+  }
+
+  .y.axis.right {
+    text {
+      fill: #3498db;
+    }
+  }
+}
+
+main.history {
+  button.first {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+  }
+
+  button.seccond {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+}
