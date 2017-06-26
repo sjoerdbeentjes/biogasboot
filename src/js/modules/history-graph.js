@@ -1,4 +1,5 @@
 const d3 = require('d3');
+const config = require('../../../modules/config');
 
 if (document.querySelector('#history-graph')) {
   const containerWidth = parseInt(window.getComputedStyle(document.querySelector('#history-graph').parentNode).getPropertyValue('width'));
@@ -17,22 +18,25 @@ if (document.querySelector('#history-graph')) {
   const filters = document.querySelector('.filters');
   const compareButton = document.querySelector('label.compare');
 
-  const usedValues = [{
-    name: 'Bag_Height',
-    title: 'Gaszak-hoogte',
-    min: 0,
-    max: 400
-  }, {
-    name: 'pH_Value',
-    title: 'PH-waarde',
-    min: 500,
-    max: 1000
-  }, {
-    name: 'Temp_PT100_1',
-    title: 'Temperatuur',
-    min: 0,
-    max: 20
-  }];
+  // Make objects for D3.js
+  const getUsedValues = function(){
+    let i = 0;
+    let values = [];
+    for (let key in config.defineValues) {
+      i++;
+      values.push({
+        name: config.defineValues[key].name,
+        title: config.defineValues[key].title,
+        min: config.defineValues[key].min,
+        max: config.defineValues[key].max
+      });
+    }
+    if (i === Object.keys(config.defineValues).length) {
+      return values;
+    }
+  };
+  // Fill the values
+  const usedValues = getUsedValues();
 
   const range = {
     firstYear: firstYear.value,
@@ -113,6 +117,10 @@ if (document.querySelector('#history-graph')) {
     maxSelected === 2 ? maxSelected = 1 : maxSelected = 2;
 
     singleMonth = !singleMonth;
+
+    console.log(svg.node());
+
+    svg.node().classList.toggle('compare-month');
 
     if (drawnValues[1]) {
       drawnValues.splice(1, 1);
@@ -397,10 +405,15 @@ if (document.querySelector('#history-graph')) {
   function activateButtons() {
     document.querySelectorAll('.filters button').forEach(button => {
       button.classList.remove('active');
+      button.classList.remove('first');
+      button.classList.remove('second');
     });
 
-    drawnValues.forEach(value => {
+    drawnValues.forEach((value, index) => {
       const el = document.querySelector(`[data-index='${value}']`);
+
+      index === 0 ? el.classList.add('first') : el.classList.add('second');
+
       if (el) {
         el.classList.add('active');
       }

@@ -1,4 +1,52 @@
 module.exports = {
+  defineValues: {
+    // Define low and high values for indicator, optional: min and max
+    // Settings of PH value
+    // name   = Name in CSV
+    // title  = Title front-end
+    // low    = When PH is going to low
+    // high   = When PH is going to high
+    // min    = The minimal value of PH
+    // max    = The maximal value of PH
+    ph: {
+      name: 'pH_Value',
+      title: 'PH-waarde',
+      low: 7,
+      high: 7.5,
+      min: 1,
+      max: 14
+    },
+    // Settings of Temperature value
+    // name   = Name in CSV
+    // title  = Title front-end
+    // low    = When Temperature is going to low
+    // high   = When Temperature is going to high
+    // min    = The minimal value of Temperature
+    // max    = The maximal value of Temperature
+    temp: {
+      name: 'Temp_PT100_1',
+      title: 'Temperatuur',
+      low: 34.6,
+      high: 38,
+      min: 0,
+      max: 40
+    },
+    // Settings of Gasbag height value
+    // name   = Name in CSV
+    // title  = Title front-end
+    // low    = When Gasbag is going to low
+    // high   = When Gasbag is going to high
+    // min    = The minimal value of Gasbag
+    // max    = The maximal value of Gasbag
+    gasbag: {
+      name: 'Bag_Height',
+      title: 'Gaszak-hoogte',
+      low: 145,
+      high: 155,
+      min: 10,
+      max: 200
+    }
+  },
   tileStatus: function(data) {
     // values when attention is required or not.
     const statusData = {
@@ -7,53 +55,21 @@ module.exports = {
       tempStatus: 0,
       gasbagStatus: 0
     };
-    // Define low and high values for indicator, optional: min and max
-    const types = {
-      // Settings of PH value
-      // Low  = When PH is going to low
-      // high = When PH is going to high
-      // min  = The minimal value of PH
-      // max  = The maximal value of PH
-      ph: {
-        low: 7,
-        high: 7.5,
-        min: 1,
-        max: 14
-      },
-      // Settings of Temperature value
-      // Low  = When Temperature is going to low
-      // high = When Temperature is going to high
-      temp: {
-        low: 34.6,
-        high: 38
-      },
-      // Settings of Gasbag height value
-      // Low  = When Gasbag is going to low
-      // high = When Gasbag is going to high
-      // min  = The minimal value of Gasbag
-      // max  = The maximal value of Gasbag
-      gasbag: {
-        low: 145,
-        high: 155,
-        min: 10,
-        max: 200
-      }
-    };
     // Explain number meanings
     // Send status code
     // 0 = Good
     // 1 = Error
     // Gasbag indicator
     switch (true) {
-      case data.Bag_Height >= types.gasbag.low && data.Bag_Height <= types.gasbag.high:
+      case data.Bag_Height >= this.defineValues['gasbag'].low && data.Bag_Height <= this.defineValues['gasbag'].high:
         // Good
         statusData.gasbagStatus = 0;
         break;
-      case data.Bag_Height > types.gasbag.high:
+      case data.Bag_Height > this.defineValues['gasbag'].high:
         // Error + bag is almost full
         statusData.gasbagStatus = 1;
         break;
-      case data.Bag_Height < types.gasbag.low:
+      case data.Bag_Height < this.defineValues['gasbag'].low:
         // Error + bag is almost empty
         statusData.gasbagStatus = 2;
         break;
@@ -63,15 +79,15 @@ module.exports = {
     }
     // PH indicator
     switch (true) {
-      case (data.ph_value / 100) >= types.ph.low && (data.ph_value / 100) <= types.ph.high:
+      case (data.ph_value / 100) >= this.defineValues['ph'].low && (data.ph_value / 100) <= this.defineValues['ph'].high:
         // Good
         statusData.phStatus = 0;
         break;
-      case (data.ph_value / 100) > types.ph.high:
+      case (data.ph_value / 100) > this.defineValues['ph'].high:
         // Error + ph to high
         statusData.phStatus = 1;
         break;
-      case (data.ph_value / 100) < types.ph.low:
+      case (data.ph_value / 100) < this.defineValues['ph'].low:
         // Error + bag to low
         statusData.phStatus = 1;
         break;
@@ -81,15 +97,15 @@ module.exports = {
     }
     // Temp indicator
     switch (true) {
-      case data.PT100_real_1 >= types.temp.low && data.PT100_real_1 <= types.temp.high:
+      case data.PT100_real_1 >= this.defineValues['temp'].low && data.PT100_real_1 <= this.defineValues['temp'].high:
         // Good
         statusData.tempStatus = 0;
         break;
-      case data.PT100_real_1 > types.temp.high:
+      case data.PT100_real_1 > this.defineValues['temp'].high:
         // Error + temp to high
         statusData.tempStatus = 1;
         break;
-      case data.PT100_real_1 < types.temp.low:
+      case data.PT100_real_1 < this.defineValues['temp'].low:
         // Error + temp to low
         statusData.tempStatus = 1;
         break;

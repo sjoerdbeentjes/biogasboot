@@ -7,19 +7,42 @@ aside {
   border: 0.1em solid #e9e9e9;
   padding: 0;
   margin-bottom: 1em;
+
+  .top {
+    padding: 1em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  input[type='radio'] {
+    display: inline-block;
+    width: auto;
+    margin: 0.5em 0.3em 0 0;
+  }
+
+  label {
+    display: inline-block;
+    margin-right: 0.5em;
+    margin-bottom: 0;
+  }
+
   &.loading {
     position: relative;
+
     &::before {
       content: "";
       background-color: rgba(255,255,255,0.7);
       display: block;
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       z-index: 1;
     }
+
     &::after {
       content: "";
       background-color: rgba(52, 152, 219, 1);
@@ -34,6 +57,7 @@ aside {
       z-index: 2;
     }
   }
+
   > table {
     width: 100%;
     font-size: 0.9em;
@@ -42,62 +66,53 @@ aside {
     border-collapse: collapse;
     display: block;
     overflow-y: scroll;
+
     * {
       border: 0;
       width: 100%;
     }
+
     th {
       padding: 1em 1em 0;
       white-space: nowrap;
     }
+
     td {
       padding: 1em;
       white-space: nowrap;
     }
+
     tr {
       &:nth-of-type(even) {
         background-color: rgba(52, 152, 219, 0.1);
       }
+
       &.tableHead {
         background-color: rgba(44, 62, 80,1.0);
         color: rgba(236, 240, 241,1.0);
       }
     }
+
     .Wh {
       display: none;
     }
+
     .kWh {
       display: none;
     }
-  }
-}
 
-.WhHead {
-  display: none;
-}
-.kWhHead {
-  display: none;
+    .show {
+      display: table-cell;
+    }
+  }
 }
 
 .energyMargin {
   margin: 1em 1em 0;
 }
+
 input.energyMargin {
   margin: 1em 0 1em 1em;
-}
-
-input[name="energy"] {
-  width: auto;
-}
-
-input[name="energy"]#WhCheck:checked + input[name="energy"] + table .Wh,
-input[name="energy"]#WhCheck:checked + input[name="energy"] + table .WhHead {
-  display: table-cell;
-}
-
-input[name="energy"]#kWhCheck:checked + table .kWh,
-input[name="energy"]#kWhCheck:checked + table .kWhHead{
-  display: table-cell;
 }
 
 #indicatorsTable {
@@ -111,16 +126,20 @@ input[name="energy"]#kWhCheck:checked + table .kWhHead{
 .history {
   padding-left: 1em;
   padding-right: 1em;
+
   aside {
-    flex-basis: calc(35% - 0.5em);;
-    max-width: calc(35% - 0.5em);;
+    flex-basis: calc(35% - 0.5em);
+    max-width: calc(35% - 0.5em);
     margin-right: 0.5em;
+
     .range-selector {
       margin-bottom: 1em;
       position: relative;
+
       input[type="checkbox"] {
         position: absolute;
         clip: rect(0,0,0,0);
+
         &:checked + .compare {
           display: inline-block;
           font-size: 1em;
@@ -131,6 +150,7 @@ input[name="energy"]#kWhCheck:checked + table .kWhHead{
           color: #FFFFFF;
         }
       }
+
       .compare {
         display: inline-block;
         font-size: 1em;
@@ -143,40 +163,44 @@ input[name="energy"]#kWhCheck:checked + table .kWhHead{
         float: none;
         position: relative;
         cursor: pointer;
+
         + fieldset {
           display: none;
         }
       }
     }
   }
+
   .graph-group {
-    flex-basis: calc(65% - 0.5em);;
-    max-width: calc(65% - 0.5em);;
+    flex-basis: calc(65% - 0.5em);
+    max-width: calc(65% - 0.5em);
     margin-left: 0.5em;
+
     .filters {
       margin-bottom: 1em;
+
       button {
         margin-right: 1em;
       }
     }
   }
 }
-
 @keyframes spinner-in-out {
   0% {
-    opacity:1;
+    opacity: 1;
     transform: scale(1, 1);
   }
+
   50% {
-    opacity:.2;
+    opacity: 0.2;
     transform: scale(.5, .5);
   }
+
   100% {
-    opacity:1;
+    opacity: 1;
     transform: scale(1, 1);
   }
 }
-
 /* Hidden status rows */
 #Mode_Auto,
 #Mode_Manual,
