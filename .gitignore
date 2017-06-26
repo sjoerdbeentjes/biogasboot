@@ -189,3 +189,5 @@ Temporary Items
 .apdisk
 
 *.csv
+views/partials/account/login.ejs
+views/partials/account/setup.ejs
