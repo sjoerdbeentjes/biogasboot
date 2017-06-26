@@ -59,16 +59,11 @@
     position: absolute;
     width: 100vw;
     padding: 1em;
-    #right_tank {
-      position: absolute;
-      top: 20em;
-      left: 24em;
+    img {
+      max-width: 100%;
     }
-    .small_vector {
-      max-width: 14em;
-    }
-    #container {
-      max-width: 65em;
+    map {
+      max-width: 100%;
     }
   }
 }
