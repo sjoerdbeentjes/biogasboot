@@ -76,14 +76,13 @@ function filterData(format, date, data) {
 ![Live Operator Dashboard](screenshots/dashboard1.png)
 ![History Data Overview](screenshots/dashboard2.png)
 
-## Used packages
+## Dependencies
 * [x] [`BCryptjs`](https://www.npmjs.com/package/bcryptjs) Password hashing
 * [x] [`Body-parser`](https://www.npmjs.com/package/body-parser) Middleware for body parsing
 * [x] [`Connect-flash`](https://www.npmjs.com/package/connect-flash) Store messages in sessions
 * [x] [`Cookie-parser`](https://www.npmjs.com/package/cookie-parser) Parse and populate cookies
 * [x] [`CSV-parse`](https://www.npmjs.com/package/csv-parse) Convert CSV files into arrays and objects
 * [x] [`D3`](https://www.npmjs.com/package/d3) Library for data visualizations
-* [x] [`Debug`](https://www.npmjs.com/package/debug) Debugging utility
 * [x] [`Dotenv`](https://www.npmjs.com/package/dotenv) Load enviroment variables from .env files
 * [x] [`EJS`](https://www.npmjs.com/package/ejs) Templating library (Embedded JavaScript templates)
 * [x] [`Express`](https://www.npmjs.com/package/express) Web framework for NodeJS (routing)
@@ -102,6 +101,19 @@ function filterData(format, date, data) {
 * [x] [`Request`](https://www.npmjs.com/package/request) Client for HTTP requests
 * [x] [`Socket.io`](https://www.npmjs.com/package/socket.io) Enables websockets
 * [x] [`Web-push`](https://www.npmjs.com/package/web-push) Library for push notifications
+
+## Dev Dependencies
+* [x] [`Debug`](https://www.npmjs.com/package/debug) Debugging utility
+* [x] [`XO`](https://www.npmjs.com/package/xo) Configurable ESLinter
+* [x] [`Babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) Babel preset for all es2015 plugins
+* [x] [`Babelify`](https://www.npmjs.com/package/babelify) Enables Babel browserify transform
+* [x] [`Browserify`](https://www.npmjs.com/package/browserify) Bundle all required JS tags
+* [x] [`Imagemin`](https://www.npmjs.com/package/imagemin) Minify images
+* [x] [`Imagemin-webp`](https://www.npmjs.com/package/imagemin-webp) Build Web-p images
+* [x] [`Ngrok`](https://www.npmjs.com/package/ngrok) Expose localhost to the web
+* [x] [`Node-sass`](https://www.npmjs.com/package/node-sass) Compiles .scss to .css
+* [x] [`Nodemon`](https://www.npmjs.com/package/nodemon) Watch all files in which Nodemon was started
+* [x] [`Watchify`](https://www.npmjs.com/package/watchify) Watch mode for Browserify builds
 
 ## ToDo
 * [ ] Push notification for operators if something goes wrong
@@ -129,37 +141,37 @@ function filterData(format, date, data) {
 The application has multiple API endpoints. This is an overview of all the possibilities.
 
 **All data**
-```/api/all```
+`/api/all`
 This call returns an object with all the data that is available.
 
 **Date Range data**
-```/api/all?dateStart=1489720679&dateEnd=1490268059```
+`/api/all?dateStart=1489720679&dateEnd=1490268059`
 This call returns an object with all the data within the specified date-range The date has to be a UNIX timestamp. You declare the start- and end datel
 
 **Data for a specific day**
-```/api/all?format=d&date=1490400000```
+`/api/all?format=d&date=1490400000`
 This call returns the data of a specific day. All values are added up and the 'count' value can be used to divide the values to get the average of that day. This call needs an UNIX timestamp as date.
 
 **Average per day in a specific range**
-```/api/all?dateStart=1489720679&dateEnd=1490268059&format=d```
-Get the average per day in a specific range. Use a UNIX timestamp as date, followed by ```&format=d```
+`/api/all?dateStart=1489720679&dateEnd=1490268059&format=d`
+Get the average per day in a specific range. Use a UNIX timestamp as date, followed by `&format=d`
 
 ## Build / Install and start project
 
 ### Clone this repo
 
-```
+```console
   git clone https://github.com/sjoerdbeentjes/biogasboot
   cd biogasboot
 ```
 
 ### Install the dependencies
-```
+```console
 npm install
 ```
 
 ### Setup environment variables (.env)
-```
+```console
 DB_URL=YOUR_MONGODB_URL
 GCM_API_KEY=YOUR_GCM_API_KEY_FROM_GOOGLE
 FTP_SERVER=YOUR_FTP_SERVER_IP
@@ -170,17 +182,17 @@ API_KEY=YOUR_API_KEY
 
 ### Build CSS and JS
 This will build the minified and cleaned CSS and JavaScript files.
-```
+```console
 npm run build
 ```
 
 ### Start server
-```
+```console
 npm start
 ```
 
 ### Start server with live updates
-```
+```console
 npm run start-update
 ```
 
