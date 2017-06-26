@@ -1,6 +1,17 @@
 # Contribution of Timo Verkroost
 Text
 
+- Download CSV from FTP server
+- Usage calculation
+- Part of the websockets
+- Config file
+- Slide-in filter (CSS only), we didn't implement it.
+- Compare table in history + switch between Wh and kWh (CSS only)
+- User restrictions added
+- Structure of dashboard pages (Real-time and History)
+- Notifications with ServiceWorker
+- Part of the API to calculate usage for each month
+
 ## Table of contents
 * [Heading](#heading)
 

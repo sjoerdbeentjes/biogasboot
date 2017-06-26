@@ -105,8 +105,9 @@ router.get('/range/monthperday/', (req, res, next) => {
             $gte: startDate.toDate(),
             $lt: endDate.toDate()
           }
-        }
-    }, {$group: {_id: {
+        },
+    },
+      {$group: {_id: {
         year: {$year: '$Date'},
         month: {$month: '$Date'},
         day: {$dayOfMonth: '$Date'}
@@ -125,7 +126,8 @@ router.get('/range/monthperday/', (req, res, next) => {
           count: {
             $sum: 1
           },}
-      }
+      },
+      { $sort: {'_id.year':1, '_id.day':1} }
     ], (err, result) => {
       if (err) {
         console.log(err);

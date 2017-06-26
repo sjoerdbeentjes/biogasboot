@@ -40,7 +40,7 @@
           Vergelijken
         </label>
 
-        <fieldset>
+        <fieldset class="compare-month">
           <h2>Tweede maand</h2>
           <label>
             <div>Jaar</div>
@@ -74,9 +74,11 @@
       </form>
     </section>
     <section id="compare">
-      <label class="energyMargin">Energie verbruik eenheid:</label>
-      <input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh
-      <input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh
+      <div class="top">
+        <h2>Energie verbruik eenheid:</h2>
+        <label><input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh</label>
+        <label><input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh</label>
+      </div>
       <table id="compareTable">
         <thead>
           <tr class="tableHead">
@@ -87,11 +89,11 @@
           <tr id="indicatorsTable" class="tableHead">
             <td>Apparaat</td>
             <td>Min.</td>
-            <td class="WhHead">Wh</td>
-            <td class="kWhHead">kWh</td>
+            <td class="WhHead Wh">Wh</td>
+            <td class="kWhHead kWh">kWh</td>
             <td>Min.</td>
-            <td class="WhHead">Wh</td>
-            <td class="kWhHead">kWh</td>
+            <td class="WhHead Wh">Wh</td>
+            <td class="kWhHead kWh">kWh</td>
           </tr>
         </thead>
         <tbody>
