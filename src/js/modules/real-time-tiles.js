@@ -11,8 +11,8 @@ if (document.getElementById('currentData')) {
   socket.on('dataPoint', (points, tileStatus) => {
     // Get current number of bag height
     const currentBag = Number(points[points.length - 1].Bag_Height);
-    const currentTemp = (Number(points[points.length - 1].PT100_real_1) + Number(points[points.length - 1].PT100_real_2)) / 2;
-    const currentPh = Number(points[points.length - 1].ph_value);
+    const currentTemp = (Number(points[points.length - 1].Temp_PT100_1) + Number(points[points.length - 1].Temp_PT100_2)) / 2;
+    const currentPh = Number(points[points.length - 1].pH_Value);
 
     setValue('#bagCurrent', Math.round(currentBag), tileStatus.gasbagStatus);
     setValue('#tempCurrent', parseFloat(Math.round(currentTemp * 10) / 10).toFixed(1), tileStatus.tempStatus);
