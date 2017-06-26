@@ -155,24 +155,6 @@ module.exports = {
         downloadDir: '../data/ftp/STATUS/',
         schema: require('../models/statusPoint'),
         fileColumns: ['Date', 'Time', 'Storagetank_Mixe', 'Storagetank_Feed', 'Digester_Mixer', 'Digester_Heater_1', 'Digester_Heater_2', 'Gaspump', 'Mode_Stop', 'Mode_Manual', 'Mode_Auto', 'System_Started', 'Additive_Pump']
-
-      },
-      checkForNewFilesIn(directoryKey) {
-        new JSFtp(this.setup).ls(this[directoryKey].directory, (err, res) => {
-          const ftpFiles = res.map(dataPoint => dataPoint.name);
-          syncFTPwithMongoDatabase(directoryKey, ftpFiles);
-        });
-      },
-      checkForNewLocalFiles(directoryKey) {
-        fs.readdir(path.join(__dirname, this[directoryKey].downloadDir), (err, files) => {
-          files.forEach(file => {
-            fs.readFile(path.join(__dirname, `${this[directoryKey].downloadDir}${file}`), (err, data) => {
-              if (err) throw err;
-              console.log(path.join(__dirname, `${this[directoryKey].downloadDir}${file}`))
-              parseFileDataToJSON(data, directoryKey);
-            });
-          });
-        });
       }
     };
     return ftpSettings;
