@@ -76,14 +76,13 @@ function filterData(format, date, data) {
 ![Live Operator Dashboard](screenshots/dashboard1.png)
 ![History Data Overview](screenshots/dashboard2.png)
 
-## Used packages
+## Dependencies
 * [x] [`BCryptjs`](https://www.npmjs.com/package/bcryptjs) Password hashing
 * [x] [`Body-parser`](https://www.npmjs.com/package/body-parser) Middleware for body parsing
 * [x] [`Connect-flash`](https://www.npmjs.com/package/connect-flash) Store messages in sessions
 * [x] [`Cookie-parser`](https://www.npmjs.com/package/cookie-parser) Parse and populate cookies
 * [x] [`CSV-parse`](https://www.npmjs.com/package/csv-parse) Convert CSV files into arrays and objects
 * [x] [`D3`](https://www.npmjs.com/package/d3) Library for data visualizations
-* [x] [`Debug`](https://www.npmjs.com/package/debug) Debugging utility
 * [x] [`Dotenv`](https://www.npmjs.com/package/dotenv) Load enviroment variables from .env files
 * [x] [`EJS`](https://www.npmjs.com/package/ejs) Templating library (Embedded JavaScript templates)
 * [x] [`Express`](https://www.npmjs.com/package/express) Web framework for NodeJS (routing)
@@ -102,6 +101,21 @@ function filterData(format, date, data) {
 * [x] [`Request`](https://www.npmjs.com/package/request) Client for HTTP requests
 * [x] [`Socket.io`](https://www.npmjs.com/package/socket.io) Enables websockets
 * [x] [`Web-push`](https://www.npmjs.com/package/web-push) Library for push notifications
+
+## Dev Dependencies
+* [x] [`Debug`](https://www.npmjs.com/package/debug) Debugging utility
+* [x] [`XO`](https://www.npmjs.com/package/xo) Configurable ESLinter
+* [x] [`Babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) Babel preset for all es2015 plugins
+* [x] [`Babelify`](https://www.npmjs.com/package/babelify) Enables Babel browserify transform
+* [x] [`Browserify`](https://www.npmjs.com/package/browserify) Bundle all required JS tags
+* [x] [`Imagemin`](https://www.npmjs.com/package/imagemin) Minify images
+* [x] [`Imagemin-webp`](https://www.npmjs.com/package/imagemin-webp) Build Web-p images
+* [x] [`Ngrok`](https://www.npmjs.com/package/ngrok) Expose localhost to the web
+* [x] [`Node-sass`](https://www.npmjs.com/package/node-sass) Compiles .scss to .css
+* [x] [`Nodemon`](https://www.npmjs.com/package/nodemon) Watch all files in which Nodemon was started
+* [x] [`Watchify`](https://www.npmjs.com/package/watchify) Watch mode for Browserify builds
+
+
 
 ## ToDo
 * [ ] Push notification for operators if something goes wrong
