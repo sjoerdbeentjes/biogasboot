@@ -10,7 +10,6 @@ if(document.getElementsByClassName('interactive-dashboard')) {
     }
   }
 
-  leftTank.addEventListener("mouseover", info.getInput);
 
 
 }
