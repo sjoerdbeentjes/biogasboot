@@ -115,8 +115,6 @@ function filterData(format, date, data) {
 * [x] [`Nodemon`](https://www.npmjs.com/package/nodemon) Watch all files in which Nodemon was started
 * [x] [`Watchify`](https://www.npmjs.com/package/watchify) Watch mode for Browserify builds
 
-
-
 ## ToDo
 * [ ] Push notification for operators if something goes wrong
 * [ ] Smart defaults for selecting range's / views in the backend
@@ -143,20 +141,20 @@ function filterData(format, date, data) {
 The application has multiple API endpoints. This is an overview of all the possibilities.
 
 **All data**
-```/api/all```
+`/api/all`
 This call returns an object with all the data that is available.
 
 **Date Range data**
-```/api/all?dateStart=1489720679&dateEnd=1490268059```
+`/api/all?dateStart=1489720679&dateEnd=1490268059`
 This call returns an object with all the data within the specified date-range The date has to be a UNIX timestamp. You declare the start- and end datel
 
 **Data for a specific day**
-```/api/all?format=d&date=1490400000```
+`/api/all?format=d&date=1490400000`
 This call returns the data of a specific day. All values are added up and the 'count' value can be used to divide the values to get the average of that day. This call needs an UNIX timestamp as date.
 
 **Average per day in a specific range**
-```/api/all?dateStart=1489720679&dateEnd=1490268059&format=d```
-Get the average per day in a specific range. Use a UNIX timestamp as date, followed by ```&format=d```
+`/api/all?dateStart=1489720679&dateEnd=1490268059&format=d`
+Get the average per day in a specific range. Use a UNIX timestamp as date, followed by `&format=d`
 
 ## Build / Install and start project
 
