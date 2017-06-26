@@ -3,6 +3,9 @@
 <main class="history">
   <aside>
     <section class="range-selector">
+      <% YMdropdown.forEach(function(ym) { %>
+        <li><%= ym._id.year %> - <%= ym._id.month %></li>
+      <% }); %>
       <form>
         <fieldset>
           <h2>Eerste maand</h2>

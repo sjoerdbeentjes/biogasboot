@@ -46,7 +46,7 @@ mongoose.connect(process.env.DB_URL);
 // FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
 // WebSockets
-// webSockets(app, io);
+webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
