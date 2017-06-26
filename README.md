@@ -148,18 +148,18 @@ Get the average per day in a specific range. Use a UNIX timestamp as date, follo
 
 ### Clone this repo
 
-```
+```console
   git clone https://github.com/sjoerdbeentjes/biogasboot
   cd biogasboot
 ```
 
 ### Install the dependencies
-```
+```console
 npm install
 ```
 
 ### Setup environment variables (.env)
-```
+```console
 DB_URL=YOUR_MONGODB_URL
 GCM_API_KEY=YOUR_GCM_API_KEY_FROM_GOOGLE
 FTP_SERVER=YOUR_FTP_SERVER_IP
@@ -170,17 +170,17 @@ API_KEY=YOUR_API_KEY
 
 ### Build CSS and JS
 This will build the minified and cleaned CSS and JavaScript files.
-```
+```console
 npm run build
 ```
 
 ### Start server
-```
+```console
 npm start
 ```
 
 ### Start server with live updates
-```
+```console
 npm run start-update
 ```
 
