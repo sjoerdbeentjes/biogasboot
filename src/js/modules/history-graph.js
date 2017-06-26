@@ -114,6 +114,10 @@ if (document.querySelector('#history-graph')) {
 
     singleMonth = !singleMonth;
 
+    console.log(svg.node());
+
+    svg.node().classList.toggle('compare-month');
+
     if (drawnValues[1]) {
       drawnValues.splice(1, 1);
     }
