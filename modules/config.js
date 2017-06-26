@@ -44,7 +44,7 @@ module.exports = {
       low: 145,
       high: 155,
       min: 10,
-      max: 200
+      max: 300
     }
   },
   tileStatus: function(data) {
