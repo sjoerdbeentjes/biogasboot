@@ -397,10 +397,15 @@ if (document.querySelector('#history-graph')) {
   function activateButtons() {
     document.querySelectorAll('.filters button').forEach(button => {
       button.classList.remove('active');
+      button.classList.remove('first');
+      button.classList.remove('second');
     });
 
-    drawnValues.forEach(value => {
+    drawnValues.forEach((value, index) => {
       const el = document.querySelector(`[data-index='${value}']`);
+
+      index === 0 ? el.classList.add('first') : el.classList.add('second');
+
       if (el) {
         el.classList.add('active');
       }
