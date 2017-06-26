@@ -3,14 +3,9 @@ const path = require('path');
 const parse = require('csv-parse');
 const webPush = require('web-push');
 require('dotenv').config();
-
+const config = require('./config');
 const Subscription = require('../models/subscription');
 //const dataPoint = require('../models/dataPoint');
-const tileStatus = require('./tile-status');
-
-// dataPoint.find((err, dataPoints) => {
-//   console.log(dataPoints);
-// });
 
 let payload;
 
@@ -32,18 +27,9 @@ function sendNotification(subscription, payload) {
     console.log(err);
   });
 }
-// // Get all subscriptions and push message
-// Subscription.find((err, subscriptions) => {
-//   // Message payload (now static but needs to be dynamic)
-//   const payload = 'Nog een test 3';
-//   // Loop trough all the subscriptions
-//   for (let i = 0; i < subscriptions.length; i++) {
-//     sendNotification(subscriptions[i], payload);
-//   }
-// });
 
 function gasBagHigh(output, i) {
-  if (tileStatus(output[i]).gasbagStatus === 0) {
+  if (config.tileStatus(output[i]).gasbagStatus === 0) {
     // Get all subscriptions and push message
     Subscription.find((err, subscriptions) => {
       // Message payload (now static but needs to be dynamic)
@@ -81,11 +67,7 @@ fs.readFile('./data/sample-data.csv', (err, data) => {
       }
 
       i += 30;
-
-      console.log(tileStatus(output[i]));
       gasBagHigh(output, i);
-
-      // io.sockets.emit('dataPoint', dataCollection, tileStatus(output[i]));
     }, 3000);
   });
 });
@@ -115,7 +97,7 @@ function serviceWorker(app) {
     const p256dh = req.body.key;
     const auth = req.body.authSecret;
     if (checkSubscription(endpoint)) {
-      console.log('added');
+      console.log('Subscription added');
       // Add subscription to DB
       const newSubscription = new Subscription({endpoint: endpoint, p256dh: p256dh, auth: auth});
       newSubscription.save(function (err) {
@@ -129,7 +111,7 @@ function serviceWorker(app) {
   app.post('/operator/unregister-serviceworker', (req, res) => {
     const endpoint = req.body.endpoint;
     if (checkSubscription(endpoint)) {
-      console.log('removed');
+      console.log('Subscription removed');
       // Remove device from DB based in endpoint when find it will removed
       Subscription.findOneAndRemove({endpoint: endpoint}, function (err, docs) {});
     }
