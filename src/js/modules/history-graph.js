@@ -2,14 +2,15 @@ const d3 = require('d3');
 const config = require('../../../modules/config');
 
 if (document.querySelector('#history-graph')) {
-  const containerWidth = parseInt(window.getComputedStyle(document.querySelector('#history-graph').parentNode).getPropertyValue('width'));
-  const containerHeight = parseInt(window.getComputedStyle(document.querySelector('#history-graph').parentNode).getPropertyValue('height'));
+  const containerWidth = document.querySelector('#history-graph').parentNode.clientWidth;
+  const containerHeight = document.querySelector('#history-graph').parentNode.clientHeight;
 
   // Set the dimensions of the canvas / graph
   const margin = {top: 20, right: 40, bottom: 60, left: 40};
   const width = containerWidth - margin.left - margin.right - 32;
   const height = containerHeight - margin.top - margin.bottom - 16;
 
+  // Get initial values
   const firstYear = document.querySelector('#firstYear');
   const secondYear = document.querySelector('#secondYear');
   const firstMonth = document.querySelector('#firstMonth');
@@ -19,22 +20,25 @@ if (document.querySelector('#history-graph')) {
   const compareButton = document.querySelector('label.compare');
 
   // Make objects for D3.js
-  const getUsedValues = function(){
+  const getUsedValues = function () {
     let i = 0;
-    let values = [];
-    for (let key in config.defineValues) {
-      i++;
-      values.push({
-        name: config.defineValues[key].name,
-        title: config.defineValues[key].title,
-        min: config.defineValues[key].min,
-        max: config.defineValues[key].max
-      });
-    }
-    if (i === Object.keys(config.defineValues).length) {
-      return values;
+    const values = [];
+    for (const key in config.defineValues) {
+      if (Object.prototype.hasOwnProperty.call(config.defineValues, key)) {
+        i++;
+        values.push({
+          name: config.defineValues[key].name,
+          title: config.defineValues[key].title,
+          min: config.defineValues[key].min,
+          max: config.defineValues[key].max
+        });
+      }
+      if (i === Object.keys(config.defineValues).length) {
+        return values;
+      }
     }
   };
+
   // Fill the values
   const usedValues = getUsedValues();
 
@@ -45,7 +49,7 @@ if (document.querySelector('#history-graph')) {
     secondMonth: secondMonth.value
   };
 
-  let drawnValues = [];
+  let drawnValues = [2, 3];
 
   let maxSelected = 2;
   let singleMonth = false;
@@ -86,7 +90,7 @@ if (document.querySelector('#history-graph')) {
     .ticks(4)
     .tickSize(-width);
 
-  // Define the line
+  // Define the lines
   const valueline = d3.line()
     .x(d => x(d.date))
     .y(d => y(d[usedValues[drawnValues[0] - 1].name]));
@@ -95,13 +99,14 @@ if (document.querySelector('#history-graph')) {
     .x(d => x(d.date))
     .y(d => singleMonth ? y(d[usedValues[drawnValues[0] - 1].name]) : y1(d[usedValues[drawnValues[1] - 1].name]));
 
-  // Adds the svg canvas
+  // Adds the svg
   const svg = d3.select('#history-graph')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+  // Create and add buttons to the page
   usedValues.forEach((value, i) => {
     const el = document.createElement('button');
     el.innerHTML = value.title;
@@ -113,12 +118,11 @@ if (document.querySelector('#history-graph')) {
     filters.appendChild(el);
   });
 
+  // Change the values needed for the single month mode
   compareButton.addEventListener('click', e => {
     maxSelected === 2 ? maxSelected = 1 : maxSelected = 2;
 
     singleMonth = !singleMonth;
-
-    console.log(svg.node());
 
     svg.node().classList.toggle('compare-month');
 
@@ -129,7 +133,7 @@ if (document.querySelector('#history-graph')) {
     activateButtons();
   });
 
-  // Get the data
+  // Get the data on initial load
   d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
     data = cleanData(data);
 
@@ -170,28 +174,28 @@ if (document.querySelector('#history-graph')) {
       .call(xAxis);
 
     // Add the Y Axis
-    if (drawnValues[0]) {
+    if (drawnValues[0]) { // if there are selected values
       svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
-    } else {
+    } else { // if not, just draw the 'g' element to be filled later
       svg.append('g')
         .attr('class', 'y axis');
     }
 
-    if (drawnValues[1]) {
+    if (drawnValues[1]) { // if there are selected values
       svg.append('g')
         .attr('class', 'y axis right')
         .attr('transform', `translate(${width})`)
         .call(y1Axis);
-    } else {
+    } else { // if not, just draw the 'g' element to be filled later
       svg.append('g')
         .attr('class', 'y axis right')
-        .attr('transform', `translate(${width})`)
+        .attr('transform', `translate(${width})`);
     }
   });
 
-  // ** Update data section (Called from the onclick)
+  // Update graph with new data
   function updateData(url) {
     // Get the data again
     d3.json(url, (error, data) => {
@@ -206,15 +210,17 @@ if (document.querySelector('#history-graph')) {
         return d.date;
       }));
 
+      // change domain if first value is in drawnValues array
       if (drawnValues[0]) {
         y.domain([usedValues[drawnValues[0] - 1].min, usedValues[drawnValues[0] - 1].max]);
       }
 
+      // change domain if second value is in drawnValues array
       if (drawnValues[1]) {
         y1.domain([usedValues[drawnValues[1] - 1].min, usedValues[drawnValues[1] - 1].max]);
       }
 
-      // Select the section we want to apply our changes to
+      // Select the section where changes are made
       const svg = d3.select('body');
 
       // Make the changes
@@ -225,7 +231,7 @@ if (document.querySelector('#history-graph')) {
         svg.select('.line').node().setAttribute('d', '');
       }
 
-      if (drawnValues[1] && !singleMonth) {
+      if (drawnValues[1] && !singleMonth) { // check if there is a first value and it's not in singleMonth mode
         svg.select('.line.compare')
           .attr('d', compareValueline(data));
       } else if (singleMonth) {
@@ -420,4 +426,6 @@ if (document.querySelector('#history-graph')) {
       }
     });
   }
+
+  activateButtons();
 }
