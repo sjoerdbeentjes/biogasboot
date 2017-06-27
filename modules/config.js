@@ -28,7 +28,7 @@ module.exports = {
       title: 'Temperatuur',
       low: 34.6,
       high: 38,
-      min: 0,
+      min: 25,
       max: 40
     },
     // Settings of Gasbag height value
@@ -44,7 +44,7 @@ module.exports = {
       low: 145,
       high: 155,
       min: 10,
-      max: 300
+      max: 250
     }
   },
   tileStatus: function(data) {

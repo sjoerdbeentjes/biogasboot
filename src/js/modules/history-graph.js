@@ -375,6 +375,7 @@ if (document.querySelector('#history-graph')) {
 
     activateButtons();
     updateData(showMonth(firstMonth.value, firstYear.value));
+    updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 1);
   }
 
   function handleFilterClick(e) {

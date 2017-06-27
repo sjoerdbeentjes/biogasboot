@@ -7,12 +7,7 @@ const config = require('./config');
 const dataPoint = require('../models/dataPoint');
 
 function webSokets(app, io) {
-  dataPoint.find({
-      Date: {
-        $gte: moment('1484906400000', 'x').toDate(),
-        $lt: moment('1484906400000', 'x').add('days', 6).toDate()
-      }
-    },
+  dataPoint.find({},
     (err, dataPoints) => {
       let i = 1;
       const sendItemsCount = 30;
@@ -31,7 +26,7 @@ function webSokets(app, io) {
         i += 30;
 
         io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
-      }, 1000);
+      }, 10000);
     });
 }
 

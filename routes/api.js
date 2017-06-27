@@ -8,30 +8,6 @@ const router = express.Router();
 const usageCalculation = require('../modules/usage-calculation');
 const config = require('../modules/config');
 
-function setData(req, res) {
-  fs.readFile('./data/sample-data.csv', (err, data) => {
-    if (err) {
-      throw err;
-    }
-    parse(data, {
-      columns: ['Date', 'Time', 'PT100_real_1', 'PT100_real_2', 'Gaszak_hoogte_hu']
-    }, (error, output) => {
-      if (error) {
-        throw error;
-      }
-      output.forEach(item => {
-        const dataPoint = new DataPoint(item);
-        dataPoint.save(err => {
-          if (err) {
-            throw err;
-          }
-        });
-      });
-      res.send(output);
-    });
-  });
-}
-
 router.get('/range', (req, res, next) => {
   if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
     const startDate = moment(Number(req.param('dateStart') * 1000));
@@ -92,7 +68,6 @@ router.get('/range/average', (req, res, next) => {
     res.send('No valid API key');
   }
 });
-
 
 //http://localhost:3000/api/range/monthperday?dateStart=1470002400&dateEnd=1472680800&api_key=CMD17
 router.get('/range/monthperday/', (req, res, next) => {
