@@ -41,10 +41,10 @@ module.exports = {
     gasbag: {
       name: 'Bag_Height',
       title: 'Gaszak-hoogte',
-      low: 145,
-      high: 155,
-      min: 10,
-      max: 250
+      low: 100,
+      high: 235,
+      min: 20,
+      max: 300
     }
   },
   tileStatus: function(data) {

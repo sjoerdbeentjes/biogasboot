@@ -17,7 +17,7 @@ const app = express();
 // Init modules
 const FTP = require('./modules/getFTPFiles');
 const webSockets = require('./modules/websockets');
-// const serviceWorker = require('./modules/server-service-worker');
+const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
 
@@ -122,7 +122,7 @@ app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
-// serviceWorker(app);
+serviceWorker(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

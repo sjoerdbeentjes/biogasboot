@@ -1,8 +1,26 @@
-const maxBagValue = 200;
-const bagValues = [
-  130, // warning
-  160 // error
-];
+const config = require('../../../modules/config');
+
+// Make objects for D3.js
+const getUsedValues = function(){
+  let i = 0;
+  let values = [];
+  for (let key in config.defineValues) {
+    i++;
+    values.push({
+      name: config.defineValues[key].name,
+      title: config.defineValues[key].title,
+      min: config.defineValues[key].min,
+      max: config.defineValues[key].max,
+      high: config.defineValues[key].high,
+      low: config.defineValues[key].low
+    });
+  }
+  if (i === Object.keys(config.defineValues).length) {
+    return values;
+  }
+};
+// Fill the values
+const usedValues = getUsedValues();
 
 if (document.getElementById('currentData')) {
   const io = require('socket.io-client');
@@ -47,7 +65,7 @@ function setMeterBar(status, value) {
     color = '#e74c3c';
   }
 
-  el.style.width = `${(value / maxBagValue) * 100}%`;
+  el.style.width = `${(value / usedValues[2].max) * 100}%`;
   el.style.backgroundColor = color;
 }
 

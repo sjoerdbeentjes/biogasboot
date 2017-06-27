@@ -90,13 +90,13 @@ if (subscriptionButton) {
   // Change button text to Subscribe
   function setSubscribeButton() {
     subscriptionButton.onclick = subscribe;
-    subscriptionButton.textContent = 'Subscribe!';
+    subscriptionButton.textContent = 'Meldingen aanzetten';
   }
 
   // Change button text to Unsubscribe
   function setUnsubscribeButton() {
     subscriptionButton.onclick = unsubscribe;
-    subscriptionButton.textContent = 'Unsubscribe!';
+    subscriptionButton.textContent = 'Meldingen uitzetten';
   }
 
   // source: https://serviceworke.rs/push-subscription-management.html
