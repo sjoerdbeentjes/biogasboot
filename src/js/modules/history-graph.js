@@ -77,13 +77,13 @@ if (document.querySelector('#history-graph')) {
   const yAxis = d3
     .axisLeft()
     .scale(y)
-    .ticks(5)
+    .ticks(4)
     .tickSize(-width);
 
   const y1Axis = d3
     .axisRight()
     .scale(y1)
-    .ticks(5)
+    .ticks(4)
     .tickSize(-width);
 
   // Define the line
