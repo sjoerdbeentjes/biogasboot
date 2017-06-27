@@ -28,7 +28,7 @@ module.exports = {
       title: 'Temperatuur',
       low: 34.6,
       high: 38,
-      min: 25,
+      min: 0,
       max: 40
     },
     // Settings of Gasbag height value
