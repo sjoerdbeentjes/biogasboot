@@ -410,7 +410,9 @@ if (document.querySelector('#history-graph')) {
   }
 
   function activateButtons() {
-    document.querySelectorAll('.filters button').forEach(button => {
+    const buttons = document.querySelectorAll('.filters button')
+
+    Array.prototype.forEach.call(buttons, button => {
       button.classList.remove('active');
       button.classList.remove('first');
       button.classList.remove('second');
