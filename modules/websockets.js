@@ -119,7 +119,7 @@ function webSokets(app, io) {
         sendTimeOutHigh = false;
         sendTimeOutLow = false;
         io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
-      }, 1000);
+      }, 10000);
     });
 }
 
