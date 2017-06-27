@@ -43,9 +43,6 @@
     <% } %>
 
     <% if (locals.user) { %>
-      <!--<li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>-->
-
-      <li class="user"><a href=""><%= user.name %> (<%= user.role %>)</a></li>
 
       <% if (locals.user.role === "admin") { %>
         <li><a href="/users">Gebruikers</a></li>
