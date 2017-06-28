@@ -1,20 +1,6 @@
 # Contribution of Timo Verkroost
 Text
 
-- Download CSV from FTP server
-- Usage calculation
-- Part of the websockets
-- Config file
-- Slide-in filter (CSS only), we didn't implement it.
-- Compare table in history + switch between Wh and kWh (CSS only)
-- User restrictions added
-- Structure of dashboard pages (Real-time and History)
-- Notifications with ServiceWorker
-- Part of the API to calculate usage for each month
-
-## Branches by me
-Test
-
 ## Process
 Explain your process
 
@@ -50,9 +36,10 @@ Note: Diego did some refactoring to better processing the data, but the base is 
 
 #### Code snippets
 * [Config file FTP settings](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/config.js#L155-L176)
+* [Commit init FTP transfer](https://github.com/sjoerdbeentjes/biogasboot/commit/cec7063f6b8860b63ccc13c38705f384b027e6d5)
 * [Builded module file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/getFTPFiles.js)
 
-<details>
+Click to see the code: <details>
 
 ```javascript
 
@@ -135,7 +122,7 @@ This module is integrated into our API so when a request is made to the URL with
 * [Feature branche link for Usage calculation](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/usageCalculation)
 * [Builded module file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/usage-calculation.js)
 
-<details>
+Click to see the code: <details>
 
 ```javascript
 
@@ -326,9 +313,11 @@ To see the data that the control panel is pushing to de FTP "real-time" we creat
 #### Code snippets
 I created a seperate module for the states but later merged it in the config because then we can better use it everywhere.
 * [Builded module in config file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/config.js#L2-L118)
+* [Commit init status tiles part 1](https://github.com/sjoerdbeentjes/biogasboot/commit/87b512943ab3833d898e1fcceaf3b8d68c0a7a6b)
+* [Commit init status tiles part 2](https://github.com/sjoerdbeentjes/biogasboot/commit/8e74016e64b96618fb3c9048c41326e9c275f13c)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/currentData.scss)
 
-<details>
+Click to see the code: <details>
 
 ```javascript
 
@@ -478,8 +467,10 @@ First we thought we needed some filters for mobile on the history dashboard but 
 
 #### Code snippets
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/historyData.scss)
+* [Commit init filter slide in part 1](https://github.com/sjoerdbeentjes/biogasboot/commit/9b02765d4d1389dd0a6edf8c6d70f46d672061ec)
+* [Commit init filter slide in part 2](https://github.com/sjoerdbeentjes/biogasboot/commit/363cdda4eb158d53e9e0f5faf2fccbe76cb5b891)
 
-<details>
+Click to see the code: <details>
 
 ```html
 
@@ -574,7 +565,7 @@ For me it was a challenge to let this work because working with ServiceWorkers c
 * [Builded module server side](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/serviceworker/modules/server-service-worker.js)
 * [Builded (part of) module send notifications](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/serviceworker/modules/websockets.js)
 
-<details>
+Click to see the code: <details>
 
 ```javascript
 
@@ -742,10 +733,11 @@ So I decided to make a switch possible with only CSS, later JS was added but it 
 * [Hitory route with get available years and months](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
 * [Commit to get years and months](https://github.com/sjoerdbeentjes/biogasboot/commit/db7c7a37b8ef462e9cd4187c34937d999be4e555)
 * [Commit to add years and months to front-end](https://github.com/sjoerdbeentjes/biogasboot/commit/755ba6cf237fcf145628f3bc2ca573c9366f2361)
+* [Commit ajax call for values inside table](https://github.com/sjoerdbeentjes/biogasboot/commit/3b7175cb8350c865ae26dcdab6431ae0ad2470a3)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/aside.scss)
 * [Commit switch between Wh and kWh](https://github.com/sjoerdbeentjes/biogasboot/commit/ef83298b6b2388ea4b876f374ea99dc65a491662)
 
-<details>
+Click to see the code: <details>
 
 ```javascript
 
@@ -862,27 +854,12 @@ if (res.locals.user) {
 ```
 
 ### Structure of dashboard pages (Real-time and History)
-Explain what you did.
+I did some basic layout styling for the dashboards and also make them responsive. I did my best to use the basic HTML elements and CSS properties to make it accessible for more devices.
 
-[Feature branche link](#branche)
+#### Code snippets
+* [Feature branche part 1 of the history styling](https://github.com/sjoerdbeentjes/biogasboot/tree/feat/history-styling)
+* [Feature branche part 2 of the history styling](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/history)
 
-```javascript
-
-// JavaScript code
-  
-```
-
-```html
-
-<!-- HTML Code -->
-
-```
-
-```css
-
-/* CSS/SASS code */
-  
-```
 
 ## Subjects
 Explain which subjects you've used.
