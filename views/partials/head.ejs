@@ -36,23 +36,18 @@
     </label>
     <input name="showMenu" id="showMenu" type="checkbox">
     <ul>
-      <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
-      <li class="history-page"><a href="/operator/dashboard/history">Historische data</a></li>
+      <% if (locals.user) { %>
+        <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
+        <li class="history-page"><a href="/operator/dashboard/history">Historische data</a></li>
+      <% } %>
       <li class="customer"><a href="/customer/dashboard">Klanten dashboard</a></li>
       <% if (!locals.user) { %>
         <li class="user"><a href="/auth/login">Inloggen</a></li>
-      <% } %>
-
-      <% if (locals.user) { %>
-
-        <% if (locals.user.role === "admin") { %>
-          <li><a href="/users">Gebruikers</a></li>
-        <% } %>
-
+      <% } else { %>
         <li><a href="/auth/logout">Uitloggen</a></li>
       <% } %>
-    </ul>
-  </nav>
+  </ul>
+</nav>
   <% if (typeof(isRealTime) !== 'undefined') { %>
     <button id="subscriptionButton" disabled>Meldingen aanzetten</button>
   <% } %>

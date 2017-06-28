@@ -20,7 +20,7 @@ router.get('/register', (req, res) => {
   if (res.locals.user && res.locals.user.role === 'admin') {
     res.render('register');
   } else {
-    res.status(404).render('404');
+    //res.status(404).render('login');
   }
 });
 
