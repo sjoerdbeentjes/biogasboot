@@ -41,7 +41,7 @@ Explain your process
 Intro
 
 ### Config file
-To make it easy for everyone who's working with our server I created a config file where all the variables are stored. This file is included in other modules that need the variables. So when the config is changed it will change everwhere where it's included.
+To make it easy for everyone who's working with our server I created a config file where all the variables are stored. This file is included in other modules that need the variables. So when the config is changed it will change everywhere where it's included.
 
 This a combine of multiple module settings placed in 1 file.
 
