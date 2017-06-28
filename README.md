@@ -224,6 +224,8 @@ npm run start-update
 Diego Staphorst   | Sjoerd Beentjes  | Timo Verkroost  | Camille Sébastien
 --- | --- | --- | ---
 ![Diego Staphorst][diego] | ![Sjoerd Beentjes][sjoerd] | ![Timo Verkroost][timo] | ![Camille Sébastien][camille]
+[Collaboration link](collaborators/diego.md) | [Collaboration link](collaborators/sjoerd.md) | [Collaboration link](collaborators/timo.md) | [Collaboration link](collaborators/#)
+
 ## License
 MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
