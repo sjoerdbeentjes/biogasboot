@@ -24,7 +24,8 @@ const getUsedValues = function(){
 // Fill the values
 const usedValues = getUsedValues();
 
-if (document.querySelector('#chart')) {
+if (document.querySelector('#chart') && document.querySelector('#chart').clientWidth) {
+  console.log('loaded');
   const socket = io.connect();
 
   let data = [];
