@@ -559,9 +559,9 @@ label[for="showFilters"]::after {
 </details>
 
 ### Notifications with ServiceWorker
-As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifcations. To send notifcations I needed a GCM_API_KEY (Google Cloud Messaging).
+As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifications. To send notifications I needed a GCM_API_KEY (Google Cloud Messaging).
 
-For me it was a challange to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
+For me it was a challenge to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
 
 #### NPM modules used
 * [`Web-push`](https://www.npmjs.com/package/web-push) Library for push notifications

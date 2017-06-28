@@ -8,6 +8,8 @@ We have 2 specific target audiences that both needed their own approach.
 - **The operators** of the Biogasboot, they have to see all the data that is coming from the sensors of the Biogasboot.
 - **The customers** of café De Ceuvel, they don't need all the data but only a fraction of it so realize what the Biogasboot does.
 
+![fe-biogasboot](md-media/fe-biogasboot.png)
+
 ### Operators
 The operator is the person who takes control of the food waste digester. He or she wants to know the current state of the digester with the current values of the process parameters. Historical data should be accessible to the operator to determine if a new adjustment had a good effect on the process compared to a previous run. Remarkable trends in the data should also be notified which the operator gets the response of.
 
@@ -157,6 +159,11 @@ This call returns the data of a specific day. All values are added up and the 'c
 **Average per day in a specific range**
 `/api/all?dateStart=1489720679&dateEnd=1490268059&format=d`
 Get the average per day in a specific range. Use a UNIX timestamp as date, followed by `&format=d`
+
+## Notifications with ServiceWorker
+As addition on the websockets we made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone To send notifications we needed a GCM_API_KEY (Google Cloud Messaging).
+
+The notifications are used for the real-time dashboard so the operator doesn't have to watch his phone all the time.
 
 ## Calculation with the data
 The Biogasboot stores the data in a CSV file but this RAW data and we can't do everything with this that. Some stakeholder want a bundle of multiple values but those bundles aren't found in the CSV files.
