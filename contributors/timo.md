@@ -1,11 +1,11 @@
 # Contribution of Timo Verkroost
-Text
+The Biogasboot data Visualization project is build by Sjoerd, Diego, Camille and Timo (me). We decided to do this in a team to prevent duplicate products and simply we can do more. My part in this project was mostly work on the status indicator and notifcations but I did also allot of styling and layout of the dashboards. What follows in this reading file is what I've done and where to find the source.
 
 ## Process
-Explain your process
+At the beginning of the day as team we did a quick meeting to discuss what we're going to do that day. When we sketched something we discussed it also and mostly we did some improvement to them.
 
 ## Builded parts
-Intro
+Because we build the application with a team we build the components in modules and different parts. The parts below is were I worked on.
 
 ### Config file
 To make it easy for everyone who's working with our server I created a config file where all the variables are stored. This file is included in other modules that need the variables. So when the config is changed it will change everywhere where it's included.
@@ -39,7 +39,8 @@ Note: Diego did some refactoring to better processing the data, but the base is 
 * [Commit init FTP transfer](https://github.com/sjoerdbeentjes/biogasboot/commit/cec7063f6b8860b63ccc13c38705f384b027e6d5)
 * [Builded module file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/getFTPFiles.js)
 
-Click to see the code: <details>
+Click on 'Details' to see the code:
+<details>
 
 ```javascript
 
@@ -122,7 +123,8 @@ This module is integrated into our API so when a request is made to the URL with
 * [Feature branche link for Usage calculation](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/usageCalculation)
 * [Builded module file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/usage-calculation.js)
 
-Click to see the code: <details>
+Click on 'Details' to see the code:
+<details>
 
 ```javascript
 
@@ -317,7 +319,8 @@ I created a seperate module for the states but later merged it in the config bec
 * [Commit init status tiles part 2](https://github.com/sjoerdbeentjes/biogasboot/commit/8e74016e64b96618fb3c9048c41326e9c275f13c)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/currentData.scss)
 
-Click to see the code: <details>
+Click on 'Details' to see the code:
+<details>
 
 ```javascript
 
@@ -470,7 +473,8 @@ First we thought we needed some filters for mobile on the history dashboard but 
 * [Commit init filter slide in part 1](https://github.com/sjoerdbeentjes/biogasboot/commit/9b02765d4d1389dd0a6edf8c6d70f46d672061ec)
 * [Commit init filter slide in part 2](https://github.com/sjoerdbeentjes/biogasboot/commit/363cdda4eb158d53e9e0f5faf2fccbe76cb5b891)
 
-Click to see the code: <details>
+Click on 'Details' to see the code:
+<details>
 
 ```html
 
@@ -565,7 +569,8 @@ For me it was a challenge to let this work because working with ServiceWorkers c
 * [Builded module server side](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/serviceworker/modules/server-service-worker.js)
 * [Builded (part of) module send notifications](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/serviceworker/modules/websockets.js)
 
-Click to see the code: <details>
+Click on 'Details' to see the code:
+<details>
 
 ```javascript
 
@@ -737,7 +742,8 @@ So I decided to make a switch possible with only CSS, later JS was added but it 
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/aside.scss)
 * [Commit switch between Wh and kWh](https://github.com/sjoerdbeentjes/biogasboot/commit/ef83298b6b2388ea4b876f374ea99dc65a491662)
 
-Click to see the code: <details>
+Click on 'Details' to see the code: 
+<details>
 
 ```javascript
 
