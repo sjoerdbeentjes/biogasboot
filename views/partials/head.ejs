@@ -29,26 +29,29 @@
 </head>
 <body>
 
-<nav>
-  <label for="showMenu">
-    MENU
-  </label>
-  <input name="showMenu" id="showMenu" type="checkbox">
-  <ul>
-    <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
-    <li class="history"><a href="/operator/dashboard/history">Historische data</a></li>
-    <li class="customer"><a href="/customer/dashboard">Klanten dashboard</a></li>
-    <% if (!locals.user) { %>
-      <li class="user"><a href="/auth/login">Inloggen</a></li>
-    <% } %>
-
-    <% if (locals.user) { %>
-
-      <% if (locals.user.role === "admin") { %>
-        <li><a href="/users">Gebruikers</a></li>
+<header>
+  <nav>
+    <label for="showMenu">
+      MENU
+    </label>
+    <input name="showMenu" id="showMenu" type="checkbox">
+    <ul>
+      <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
+      <li class="history-page"><a href="/operator/dashboard/history">Historische data</a></li>
+      <li class="customer"><a href="/customer/dashboard">Klanten dashboard</a></li>
+      <% if (!locals.user) { %>
+        <li class="user"><a href="/auth/login">Inloggen</a></li>
       <% } %>
 
-      <li><a href="/auth/logout">Uitloggen</a></li>
-    <% } %>
-  </ul>
-</nav>
+      <% if (locals.user) { %>
+
+        <% if (locals.user.role === "admin") { %>
+          <li><a href="/users">Gebruikers</a></li>
+        <% } %>
+
+        <li><a href="/auth/logout">Uitloggen</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <button id="subscriptionButton" disabled>Meldingen aanzetten</button>
+</header>
