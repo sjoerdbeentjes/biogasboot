@@ -59,8 +59,25 @@
     position: absolute;
     width: 100vw;
     padding: 1em;
-    img {
-      max-width: 100%;
+    text-align: center;
+    svg {
+      max-width: 60em;
     }
   }
+}
+
+#Tank2, #Tank1 {
+  transition: .5s;
+}
+
+#Tank2:hover, #Tank1:hover {
+  transition: .5s;
+  transform: translateY(-30px);
+}
+
+.infoPanel {
+  position: absolute;
+  padding: 1em;
+  background-color: #4d548a;
+  max-width: 8em;
 }
