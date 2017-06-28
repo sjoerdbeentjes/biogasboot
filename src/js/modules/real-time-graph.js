@@ -3,10 +3,10 @@ const io = require('socket.io-client');
 const config = require('../../../modules/config');
 
 // Make objects for D3.js
-const getUsedValues = function(){
+const getUsedValues = function () {
   let i = 0;
-  let values = [];
-  for (let key in config.defineValues) {
+  const values = [];
+  for (const key in config.defineValues) {
     i++;
     values.push({
       name: config.defineValues[key].name,
@@ -32,8 +32,8 @@ if (document.querySelector('#chart') && document.querySelector('#chart').clientW
 
   const ticks = 240;
 
-  const containerWidth = parseInt(window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('width'));
-  const containerHeight = parseInt(window.getComputedStyle(document.querySelector('#chart').parentNode).getPropertyValue('height'));
+  const containerWidth = document.querySelector('#chart').parentNode.clientWidth;
+  const containerHeight = document.querySelector('#chart').parentNode.clientHeight;
 
   const margin = {top: 20, right: 30, bottom: 60, left: 30};
   const width = containerWidth - margin.left - margin.right - 32;
@@ -163,29 +163,4 @@ if (document.querySelector('#chart') && document.querySelector('#chart').clientW
     axisX
       .call(xAxis);
   }
-
-  // function init() {
-  //   d3.json('http://localhost:3000/api/all', (err, points) => {
-  //     if (err) throw err;
-
-  //     const lastIndex = points.length - 1;
-
-  //     const dateTime = points[lastIndex]['Date'];
-
-  //     const parsedDateTime = new Date(dateTime);
-
-  //     maxDate = parsedDateTime;
-  //     minDate = d3.timeMinute.offset(maxDate, -ticks);
-
-  //     points.forEach(point => {
-  //       point.dateTime = new Date(point['Date']);
-  //     });
-
-  //     console.log(points);
-
-  //     tick(points);
-  //   });
-  // }
-
-  // init();
 }
