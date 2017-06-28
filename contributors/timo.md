@@ -877,7 +877,7 @@ I did some basic layout styling for the dashboards and also make them responsive
 Above I did explain every module/part that I made for this application, now link them to the subjects I followed this minor. First I do a short intro for what I've done and then I link to the modules in this repo to see why I think this subject is used in the module.
 
 ### Web App from Scratch
-I used the principles of JavaScript that I learned in this subject. Like object literals and modulair building. But it isn't a single page application but every page has got many DOM manipulations that all those pages are 'single pages'.
+I used the principles of JavaScript that I learned in this subject. Like object literals and modular building. But it isn't a single page application but every page has got many DOM manipulations that all those pages are 'single pages'.
 
 #### Linked modules
 * [Config file](#config-file)
@@ -905,14 +905,14 @@ To make the application better preform I tried to render the data on the server 
 * [Notifications with ServiceWorker](#notifications-with-serviceworker)
 
 ### Browser Technologies
-Mostly I used HTML5 and CSS3 and where I can serverside rendering, this results in less process on the front-end and better compatibility for older browsers. 
+Mostly I used HTML5 and CSS3 and where I can serverside rendering, this results in less process on the front-end and better compatibility for older browsers.
 
 #### Linked modules
 * [Usage calculation](#usage-calculation)
 * [Structure of dashboard pages (Real-time and History)](#structure-of-dashboard-pages-real-time-and-history)
 
 ### Real-Time Web
-To deliver the warning indicators directly to the front-end I used a websocket when the user received the sockets the indicator tiles will change (if there is a change available). Also the data in the indicator tiles is updated by the same websocket.
+To deliver the warning indicators directly to the front-end I used a websocket when the user received the sockets the indicator tiles will change (if there is a change available). Also the sensor data in the indicator tiles is updated by the same websocket.
 
 #### Linked modules
 * [Config file](#config-file)
