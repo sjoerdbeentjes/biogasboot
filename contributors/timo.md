@@ -877,7 +877,7 @@ I did some basic layout styling for the dashboards and also make them responsive
 Above I did explain every module/part that I made for this application, now link them to the subjects I followed this minor. First I do a short intro for what I've done and then I link to the modules in this repo to see why I think this subject is used in the module.
 
 ### Web App from Scratch
-I used the principles of JavaScript that I learned in this subject. Like object literals and modulair building.
+I used the principles of JavaScript that I learned in this subject. Like object literals and modulair building. But it isn't a single page application but every page has got many DOM manipulations that all those pages are 'single pages'.
 
 #### Linked modules
 * [Config file](#config-file)
@@ -887,7 +887,7 @@ I used the principles of JavaScript that I learned in this subject. Like object 
 * [Notifications with ServiceWorker](#notifications-with-serviceworker)
 
 ### CSS to the Rescue
-I made the basic styling for the dashboards and also tried to use some smart CSS tricks to prevent using JavaScript.
+I made the basic styling for the dashboards and also tried to use some smart CSS tricks to prevent using JavaScript. Most of the layout is made with flex-box.
 
 #### Linked modules
 * [Part of the websockets](#part-of-the-websockets)
@@ -895,7 +895,7 @@ I made the basic styling for the dashboards and also tried to use some smart CSS
 * [Structure of dashboard pages (Real-time and History)](#structure-of-dashboard-pages-real-time-and-history)
 
 ### Performance Matters
-To make the application better preform I tried to render the data on the server and then push to the front-end because some calculations are very heavy to run. I made also a ServiceWorker that can send status notifications to the user when their device is registered.
+To make the application better preform I tried to render the data on the server and then push to the front-end because some calculations are very heavy to run. Every calculation is stored inside our API and can be reached with the right API call each call will get a specific data string from Mongo so we don't have to loop though all the data this makes the calls allot faster. Also I made also a ServiceWorker that can send status notifications to the user when their device is registered.
 
 #### Linked modules
 * [Config file](#config-file)
