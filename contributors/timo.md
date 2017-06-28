@@ -1,22 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Contribution of Timo Verkroost](#contribution-of-timo-verkroost)
-  - [Table of contents](#table-of-contents)
-  - [Process](#process)
-  - [Builded modules](#builded-modules)
-    - [Module 1](#module-1)
-  - [Subjects](#subjects)
-    - [Web App from Scratch](#web-app-from-scratch)
-    - [CSS to the Rescue](#css-to-the-rescue)
-    - [Performance Matters](#performance-matters)
-    - [Browser Technologies](#browser-technologies)
-    - [Real-Time Web](#real-time-web)
-    - [Web of Things](#web-of-things)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Contribution of Timo Verkroost
 Text
 
