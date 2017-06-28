@@ -14,6 +14,7 @@ This a combine of multiple module settings placed in 1 file.
 
 ```javascript
 
+// modules/config.js
 // It can be included in front-end and backend files you only need to call the right function that you needed
 
 // For backend modules
@@ -866,24 +867,57 @@ I did some basic layout styling for the dashboards and also make them responsive
 * [Feature branche part 1 of the history styling](https://github.com/sjoerdbeentjes/biogasboot/tree/feat/history-styling)
 * [Feature branche part 2 of the history styling](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/history)
 
-
 ## Subjects
-Explain which subjects you've used.
+Above I did explain every module/part that I made for this application, now link them to the subjects I followed this minor. First I do a short intro for what I've done and then I link to the modules in this repo to see why I think this subject is used in the module.
 
 ### Web App from Scratch
-Explain
+I used the principles of JavaScript that I learned in this subject. Like object literals and modulair building.
+
+#### Linked modules
+* [Config file](#config-file)
+* [Download CSV from FTP server](#download-csv-from-ftp-server)
+* [Usage calculation](#usage-calculation)
+* [Part of the websockets](#part-of-the-websockets)
+* [Notifications with ServiceWorker](#notifications-with-serviceworker)
 
 ### CSS to the Rescue
-Explain 
+I made the basic styling for the dashboards and also tried to use some smart CSS tricks to prevent using JavaScript.
+
+#### Linked modules
+* [Part of the websockets](#part-of-the-websockets)
+* [Slide-in filter CSS only (we didn't implement it)](#slide-in-filter-css-only-we-didnt-implement-it)
+* [Structure of dashboard pages (Real-time and History)](#structure-of-dashboard-pages-real-time-and-history)
 
 ### Performance Matters
-Explain
+To make the application better preform I tried to render the data on the server and then push to the front-end because some calculations are very heavy to run. I made also a ServiceWorker that can send status notifications to the user when their device is registered.
+
+#### Linked modules
+* [Config file](#config-file)
+* [Download CSV from FTP server](#download-csv-from-ftp-server)
+* [Usage calculation](#usage-calculation)
+* [Part of the websockets](#part-of-the-websockets)
+* [Notifications with ServiceWorker](#notifications-with-serviceworker)
 
 ### Browser Technologies
-Explain
+Mostly I used HTML5 and CSS3 and where I can serverside rendering, this results in less process on the front-end and better compatibility for older browsers. 
+
+#### Linked modules
+* [Usage calculation](#usage-calculation)
+* [Structure of dashboard pages (Real-time and History)](#structure-of-dashboard-pages-real-time-and-history)
 
 ### Real-Time Web
-Explain 
+To deliver the warning indicators directly to the front-end I used a websocket when the user received the sockets the indicator tiles will change (if there is a change available). Also the data in the indicator tiles is updated by the same websocket.
+
+#### Linked modules
+* [Config file](#config-file)
+* [Usage calculation](#usage-calculation)
+* [Part of the websockets](#part-of-the-websockets)
+* [Notifications with ServiceWorker](#notifications-with-serviceworker)
 
 ### Web of Things
-Explain
+We get the sensor data from a CSV file, the data will be pushed to a FTP server so I made a module that can read the data from the FTP and then the data will be processed into our MongoDB database. From our database I read the values and run some calculations on them and push to the front-end. This can be real-time but also in the history view.
+
+#### Linked modules
+* [Config file](#config-file)
+* [Download CSV from FTP server](#download-csv-from-ftp-server)
+* [Usage calculation](#usage-calculation)
