@@ -3,6 +3,7 @@
 This project has been carried out together with [Sjoerd](https://github.com/sjoerdbeentjes). [Timo](https://github.com/TimoVerkroost) and [Camille](https://github.com/camille500), two classmates from the Amsterdam University of Applied Sciences. We executed our last project of the semester with a commissioner of [The Biogas Boat](http://www.biogasboot.nl/). This boat can convert organic waste into biogas which can be cooked with in [de Ceuvel](http://deceuvel.nl/). This has to be done to close loops, which helps by creating a sustainable environment.
 
 In order to monitor the entire digestion process of organic waste into biogas, several sensors have been placed on the boat. These sensors are located in the digester, at the gas bag, on the boat to keep track of the gas supply to the Ceuvel and one for the temperature outside the boat.
+
 ## Table of contents
 - [Contribution of Diego Staphorst](#contribution-of-diego-staphorst)
   - [Introduction](#introduction)
@@ -108,6 +109,7 @@ In the example below you can see the aggregate function which clumps data of a s
 <details>
 
 ```javascript
+// In this function the DataPoint schema gets called with where every instance should be between the startdate and enddate
 DataPoint.aggregate([{
       $match: {
           Date: {
@@ -116,6 +118,7 @@ DataPoint.aggregate([{
           }
         },
     },
+    // It aggregates a group of instances and takes the average for the day. 
       {$group: {_id: {
         year: {$year: '$Date'},
         month: {$month: '$Date'},
@@ -136,6 +139,7 @@ DataPoint.aggregate([{
             $sum: 1
           },}
       },
+      // It gets sorted by the year than the day
       { $sort: {'_id.year':1, '_id.day':1} }
     ], (err, result) => {
       if (err) {
@@ -152,7 +156,7 @@ DataPoint.aggregate([{
 By using browserify we were able to work also in the frontend in modules. To keep structure in the project we had to this.
 
 #### NPM scripts
-To keep track and process files we made use of NPM scripts. Processing of the images to webp was also done I created the setup for this.
+To keep track and process files we made use of NPM scripts. Processing of the images to webp was also done I created the setup for this. In this file we created build and watch scripts. If you dont like to build the css and js you can put watch on.
 
 <details>
 
@@ -171,6 +175,7 @@ To keep track and process files we made use of NPM scripts. Processing of the im
   }
 ```
 ```javascript
+// Imports NPM packages to convert png and jpg images to WEBP
 const imagemin = require('imagemin'); // The imagemin module.
 const webp = require('imagemin-webp'); // imagemin's WebP plugin.
 
@@ -200,12 +205,14 @@ We got a semi real time web experience. All the data collected from the biogas b
 
 In this [getFTPFiles.js](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/getFTPFiles.js) file I was working for getting the files from FTP to the database.
 
+All the way at the bottom you can get more information about getting data from the FTP.
 
 <details>
 
-### Checking FTP for new data
+### Checking the latest file in the FTP for new data
 
 ```javascript
+// Get latest file inside the mongoDB sorted on Date.
 function checkLatestFileForNewData(file) {
   const formattedDate = moment(file.split('.')[0], 'YYMMDD');
   dataPoint.find({
@@ -217,8 +224,10 @@ function checkLatestFileForNewData(file) {
     .sort('-Date')
     .limit(1)
     .exec((err, latestDataPoint) => {
+      // With JSFtp download the latest file from the FTP inside the folder VALUE.
       new JSFtp(settingsFTP).get(`/uploads/VALUE/VALUE/${file}`, path.join(__dirname, `../data/ftp/VALUE/${file}`), hadErr => {
         if (hadErr) throw hadErr;
+        // Read the file from where it was downloaded, ../data/ftp/VALUE/. Parse this to JSON
         fs.readFile(path.join(__dirname, `../data/ftp/VALUE/${file}`), (err, data) => {
           if (err) throw err;
           parse(data, {
@@ -226,11 +235,13 @@ function checkLatestFileForNewData(file) {
           }, (err, parsedData) => {
             if (err) throw err;
             parsedData.shift(); // Remove headers from arrays
+            // Change Date and Time to Date object, remove Time from object
             parsedData = parsedData.map(dataPoint => {
               dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD-MM-YYYY HH:mm:ss').toDate();
               delete dataPoint.Time;
               return dataPoint;
             });
+            // Get all datapoints which have a higher Date then the Date from latestDataPoint. Add those files to mongo
             parsedData = parsedData.filter(dataPoint => dataPoint.Date > latestDataPoint[0].Date);
             if (parsedData.length > 0)
               addFileToMongo(parsedData);
@@ -246,34 +257,40 @@ function checkLatestFileForNewData(file) {
 <details>
 
 #### Backend simulating realtime graph
-In this function data is send to the frontend with Socket.io.
+In this function data is send to the frontend with Socket.io. This function was written by me, Sjoerd and Timo.  
 ```javascript
 function webSokets(app, io) {
+  // Setting paramerts for getting data out of the database
   const range = 1483225200;
   const inputRange = 1;
   const months = moment.duration(inputRange, 'months').valueOf();
   const startDate = moment(Number(range) * 1000);
   const endDate = moment(Number(startDate + months));
+  // Query the database
   dataPoint.find({
-      Date: {
-        $gte: startDate.toDate(),
-        $lt: endDate.toDate()
-      }
-    },
-    (err, dataPoints) => {
+    Date: {
+      $gte: startDate.toDate(),
+      $lt: endDate.toDate()
+    }
+  })
+    .sort([['Date', 'ascending']])
+    // Execute script after getting data
+    .exec((err, dataPoints) => {
+      // Setting variables for sending data to the frontend
       let i = 0;
       const sendItemsCount = 30;
+      // Stop backend from spamming notifcations
       let sendTimeOutHigh = false;
       let sendTimeOutLow = false;
-      setInterval(() => {
 
+      // For simulating real-time this interval was made, resetting I when index is to high
+      setInterval(() => {
         if (!dataPoints[i + sendItemsCount]) {
           i = 0;
         }
-
         const dataCollection = [];
-
-        for (let x = 0; x <= sendItemsCount; x++) {
+        // Looping over data collection and checking if bag height is in range.
+        for (let x = 0; x < sendItemsCount; x++) {
           dataCollection.push(dataPoints[x + i]);
           if (dataPoints[x + i].Bag_Height >= usedValues[2].high) {
             if (dataPoints[x + i - 1].Bag_Height < usedValues[2].high && sendTimeOutHigh === false) {
@@ -291,8 +308,9 @@ function webSokets(app, io) {
         i += 30;
         sendTimeOutHigh = false;
         sendTimeOutLow = false;
+        // emitting the data to the frontend
         io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
-      }, 10000);
+      }, 50);
     });
 }
 ```
@@ -331,5 +349,149 @@ do
 done
 ```
 
-We were able to connect the script to the FTP which then downloaded the files from there if they were not in Mongo yet. This way we simulated the data flow according to what we were told. 
-[FTP](https://github.com/sjoerdbeentjes/biogasboot/blob/master/modules/getFTPFiles.js)
+### RealTime-web & IOT
+The project manager said that the data from the boat will be send with a 2G connection to the FTP server. This data will be uploaded every 30 minutes. In the script which can be seen below and at [Real-Time Web](#real-time-web) the data will be downloaded if not yet in Mongo. The [checkLatestFileForNewData](#real-time-web) will be checked evert 15 minutes for new data. 
+
+<details>
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+const JSFtp = require('jsftp');
+const moment = require('moment');
+const parse = require('csv-parse');
+const config = require('./config');
+
+require('dotenv').config();
+
+const FTP = module.exports = config.ftp();
+
+const checkForNewFilesIn = function (directoryKey) {
+  // Get latest file in directory
+  new JSFtp(FTP.setup).ls(FTP[directoryKey].directory, (err, res) => {
+    const ftpFiles = res.map(dataPoint => dataPoint.name);
+    syncFTPwithMongoDatabase(directoryKey, ftpFiles);
+  });
+};
+
+function checkForNewLocalFiles(directoryKey) {
+  // Check localy for new files if FTP is not working
+  fs.readdir(path.join(__dirname, FTP[directoryKey].downloadDir), (err, files) => {
+    files.forEach(file => {
+      fs.readFile(path.join(__dirname, `${FTP[directoryKey].downloadDir}${file}`), (err, data) => {
+        if (err) throw err;
+        parseFileDataToJSON(data, directoryKey);
+      });
+    });
+  });
+}
+
+function syncFTPwithMongoDatabase(directoryKey, ftpFiles) {
+  // Check if the dates of the file names in mongo are also in MongoDB
+  FTP[directoryKey].schema.distinct('Date', (err, date) => {
+    if (err) throw err;
+    // Get all possible schema dates and format them to YYMMDD which can be compared with the dates from FTP
+    date = date.map(date => {
+      return moment(date, 'DD-MM-YYYY').format('YYMMDD');
+    });
+    const uniqueDates = date.filter((date, index, array) => {
+      return array.indexOf(date) === index;
+    });
+    // Files not in mongo are the filenames which are not yet in mongo download them
+    const filesNotInMongo = compareFTPDatesWithMongo(uniqueDates, ftpFiles);
+    downloadMissingData(directoryKey, filesNotInMongo);
+  });
+}
+
+function compareFTPDatesWithMongo(datesInMongo, ftpFiles) {
+  /**
+   * If unique dates does include the file don't filter it from files.
+   */
+  return ftpFiles.filter(file => {
+    return !datesInMongo.includes(file.split('.')[0]);
+  });
+}
+
+function downloadMissingData(directoryKey, filesNotInMongo) {
+  // Create directory if not exists
+  if (!fs.existsSync(path.join(__dirname, `${FTP[directoryKey].downloadDir}`))) fs.mkdirSync(path.join(__dirname, `${FTP[directoryKey].downloadDir}`));
+  // Download each file which is not in mongo to the download directory
+  filesNotInMongo.forEach(file => {
+    new JSFtp(FTP.setup).get(`${FTP[directoryKey].directory}${file}`, path.join(__dirname, `${FTP[directoryKey].downloadDir}${file}`), hadErr => {
+      if (hadErr) throw hadErr;
+      else
+        fs.readFile(path.join(__dirname, `${FTP[directoryKey].downloadDir}${file}`), (err, data) => {
+          // Readfile parse it to json, add to mongo and remove it
+          if (err) throw err;
+          parseFileDataToJSON(data, directoryKey);
+          removeDownloadedFTPFile(file, directoryKey);
+        });
+    });
+  });
+}
+
+function removeDownloadedFTPFile(file, directoryKey) {
+  // Unlink downloaded file
+  fs.unlink(path.join(__dirname, `.${FTP[directoryKey].downloadDir}${file}`));
+}
+
+function parseFileDataToJSON(data, directoryKey) {
+  // Parse data from file to json
+  parse(data, {
+    delimiter: ';',
+    columns: FTP[directoryKey].fileColumns
+  }, (err, parsedData) => {
+    if (err) throw err;
+    parsedData.shift(); // Remove headers from arrays
+    parsedData = parsedData.map(dataPoint => {
+      // Convert Date & Time to Date object
+      dataPoint.Date = moment(`${dataPoint.Date} ${dataPoint.Time}`, 'DD/MM/YYYY HH:mm:ss').add(1, 'hours').format('YYYY-MM-DD HH:mm:ss');
+      delete dataPoint.Time;
+      return dataPoint;
+    });
+    addFileToMongo(parsedData, directoryKey);
+  });
+}
+
+function addFileToMongo(data, directoryKey) {
+  // Insert whole json to mongo
+  FTP[directoryKey].schema.insertMany(data)
+    .then(mongooseDocuments => {})
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+module.exports.checkForNewFilesIn = checkForNewFilesIn;
+module.exports.checkForNewLocalFiles = checkForNewLocalFiles;
+```
+
+```javascript
+ftp: function() {
+    const ftpSettings = {
+      // This object contains all information needed to get the information out of the FTP into mongo
+      setup: {
+        host: process.env.FTP_SERVER,
+        port: 21,
+        user: process.env.FTP_USER,
+        pass: process.env.FTP_PASS
+      },
+      value: {
+        directory: '/uploads/VALUE/VALUE/',
+        downloadDir: '../data/ftp/VALUE/',
+        schema: require('../models/dataPoint'),
+        fileColumns: ['Date', 'Time', 'Temp_PT100_1', 'Temp_PT100_2', 'pH_Value', 'Bag_Height']
+      },
+      status: {
+        directory: '/uploads/STATUS/STATUS/',
+        downloadDir: '../data/ftp/STATUS/',
+        schema: require('../models/statusPoint'),
+        fileColumns: ['Date', 'Time', 'Storagetank_Mixe', 'Storagetank_Feed', 'Digester_Mixer', 'Digester_Heater_1', 'Digester_Heater_2', 'Gaspump', 'Mode_Stop', 'Mode_Manual', 'Mode_Auto', 'System_Started', 'Additive_Pump']
+      }
+    };
+    return ftpSettings;
+  }
+```
+
+
+</details>
