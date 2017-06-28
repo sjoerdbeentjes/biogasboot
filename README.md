@@ -8,6 +8,8 @@ We have 2 specific target audiences that both needed their own approach.
 - **The operators** of the Biogasboot, they have to see all the data that is coming from the sensors of the Biogasboot.
 - **The customers** of café De Ceuvel, they don't need all the data but only a fraction of it so realize what the Biogasboot does.
 
+![fe-biogasboot](md-media/fe-biogasboot.png)
+
 ### Operators
 The operator is the person who takes control of the food waste digester. He or she wants to know the current state of the digester with the current values of the process parameters. Historical data should be accessible to the operator to determine if a new adjustment had a good effect on the process compared to a previous run. Remarkable trends in the data should also be notified which the operator gets the response of.
 
@@ -73,8 +75,10 @@ function filterData(format, date, data) {
 ```
 
 ## Screenshots
-![Live Operator Dashboard](screenshots/dashboard1.png)
-![History Data Overview](screenshots/dashboard2.png)
+All views of the dashboard currently in the app
+![Live Operator Dashboard](md-media/dashboard.png)
+![History Data Overview](md-media/historic-dashboard.png)
+![Live mobile Dashboard bundle](md-media/mobile-dashboard-bundle.png)
 
 ## Dependencies
 * [x] [`BCryptjs`](https://www.npmjs.com/package/bcryptjs) Password hashing
@@ -116,15 +120,13 @@ function filterData(format, date, data) {
 * [x] [`Watchify`](https://www.npmjs.com/package/watchify) Watch mode for Browserify builds
 
 ## ToDo
-* [ ] Push notification for operators if something goes wrong
-* [ ] Smart defaults for selecting range's / views in the backend
-* [ ] Layout for the history section
-* [ ] Filters for the history section
-* [ ] D3 Graphs for comparing time ranges
-* [ ] Interactive view of the Biogasboot
-* [ ] Dashboard view for in Café de Ceuvel
-* [ ] Possibility for admins to add event data to the dashboard
-* [ ] Build a guide for the operator application
+* [x] Push notification for operators if something goes wrong
+* [x] Layout for the history section
+* [x] Filters for the history section
+* [x] D3 Graphs for comparing time ranges
+* [x] Interactive view of the Biogasboot
+* [x] Dashboard view for in Café de Ceuvel
+* [x] Build a guide for the operator application
 
 ## Finished ToDo's
 * [x] Range selector to select two dates and pass the range to the front-end
@@ -136,6 +138,10 @@ function filterData(format, date, data) {
 
 ## Wishlist
 * [ ] Live data from the Biogasboot
+* [ ] Plotting of status data
+* [ ] Piechart of process devices 
+* [ ] Possibility for admins to add event data to the dashboard
+* [ ] Smart defaults for selecting range's / views in the backend
 
 ## API Endpoints
 The application has multiple API endpoints. This is an overview of all the possibilities.
@@ -155,6 +161,37 @@ This call returns the data of a specific day. All values are added up and the 'c
 **Average per day in a specific range**
 `/api/all?dateStart=1489720679&dateEnd=1490268059&format=d`
 Get the average per day in a specific range. Use a UNIX timestamp as date, followed by `&format=d`
+
+## Notifications with ServiceWorker
+As addition on the websockets we made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone To send notifications we needed a GCM_API_KEY (Google Cloud Messaging).
+
+The notifications are used for the real-time dashboard so the operator doesn't have to watch his phone all the time.
+
+## Calculation with the data
+The Biogasboot stores the data in a CSV file but this RAW data and we can't do everything with this that. Some stakeholder want a bundle of multiple values but those bundles aren't found in the CSV files.
+
+### Usage calculations
+The calculations we did are mostly found in modules/usage-calculation.js here is calculated how long a device is ON in 1 month. When we know how long it's ON we can calculate the energy usage in Wh and kWh. Those calculations are stored in an object and then pushed to the front-end. For every calculation there is a comment how the calculation is working.
+
+## Config variables
+The application makes use variables that aren't clear yet so we made a config file where all the different variables are stored.
+
+The config can be founded in the folder "modules/config.js". Here you can define the following things:
+ * The min, max, low, high values of a parameter like PH value or gasbag.
+ * The above has impact on the tileStatus function that will define the state of a value.
+ * Every device has it's own usage per hour this can also changed here.
+ * When the control panel of the Biogasboot is connected to a FTP server you can also modify the FTP settings.
+
+```javascript
+
+// It can be included in front-end and backend files you only need to call the right function that you needed
+
+// For backend modules
+const config = require('./config');
+
+// For front-end modules
+const config = require('../../../modules/config');
+```
 
 ## Build / Install and start project
 
@@ -204,6 +241,8 @@ npm run start-update
 Diego Staphorst   | Sjoerd Beentjes  | Timo Verkroost  | Camille Sébastien
 --- | --- | --- | ---
 ![Diego Staphorst][diego] | ![Sjoerd Beentjes][sjoerd] | ![Timo Verkroost][timo] | ![Camille Sébastien][camille]
+[Contributor link](contributors/diego.md) | [Contributor link](contributors/sjoerd.md) | [Contributor link](contributors/timo.md) | [Contributor link](Contributor/camille.md)
+
 ## License
 MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
@@ -213,4 +252,4 @@ MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
 [timo]: https://avatars2.githubusercontent.com/u/17787175?v=3&s=400 "Timo Verkroost"
 
-[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=460 "Camille Sébastien"
+[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=400 "Camille Sébastien"

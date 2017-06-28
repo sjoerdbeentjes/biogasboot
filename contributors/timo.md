@@ -1,22 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Contribution of Timo Verkroost](#contribution-of-timo-verkroost)
-  - [Table of contents](#table-of-contents)
-  - [Process](#process)
-  - [Builded modules](#builded-modules)
-    - [Module 1](#module-1)
-  - [Subjects](#subjects)
-    - [Web App from Scratch](#web-app-from-scratch)
-    - [CSS to the Rescue](#css-to-the-rescue)
-    - [Performance Matters](#performance-matters)
-    - [Browser Technologies](#browser-technologies)
-    - [Real-Time Web](#real-time-web)
-    - [Web of Things](#web-of-things)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Contribution of Timo Verkroost
 Text
 
@@ -41,7 +22,7 @@ Explain your process
 Intro
 
 ### Config file
-To make it easy for everyone who's working with our server I created a config file where all the variables are stored. This file is included in other modules that need the variables. So when the config is changed it will change everwhere where it's included.
+To make it easy for everyone who's working with our server I created a config file where all the variables are stored. This file is included in other modules that need the variables. So when the config is changed it will change everywhere where it's included.
 
 This a combine of multiple module settings placed in 1 file.
 
@@ -578,9 +559,9 @@ label[for="showFilters"]::after {
 </details>
 
 ### Notifications with ServiceWorker
-As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifcations. To send notifcations I needed a GCM_API_KEY (Google Cloud Messaging).
+As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifications. To send notifications I needed a GCM_API_KEY (Google Cloud Messaging).
 
-For me it was a challange to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
+For me it was a challenge to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
 
 #### NPM modules used
 * [`Web-push`](https://www.npmjs.com/package/web-push) Library for push notifications
@@ -747,19 +728,15 @@ function sendGasBagLow() {
 </details>
 
 ### Compare table in history + switch between Wh and kWh (CSS only)
+Previously I made the usage calculation module now I'm gonna use it to render the history page compare months. First I made it possible to loop through the database to find all the year and months available to fill in the compare months.
+
 On the history dashboard it is possible to compare 2 months also to compare the usages of those months. But sometimes you want to see the energy usage in Wh (watt hour) and sometimes in kWh (kilo watt hour). The values ar already saved in the usageCalculation module but it's overkill to show them both at the same time.
 
 So I decided to make a switch possible with only CSS, later JS was added but it works without JS.
 
 #### Code snippets
+* [Hitory route](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/aside.scss)
-
-
-```javascript
-
-// JavaScript code
-  
-```
 
 ```html
 
