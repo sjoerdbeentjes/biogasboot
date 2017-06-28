@@ -72,7 +72,7 @@ function setMeterBar(status, value) {
 const weatherApi = {
   value: document.querySelector(`#tempCurrentOutside .value`),
   icon: document.querySelector(`#tempCurrentOutside .icon`),
-  url: 'http://api.openweathermap.org/data/2.5/weather',
+  url: 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather',
   key: 'APPID=3e418cff30ae27d7220280cdf07d7a86',
   location: {
     lat: 'lat=52.394063',
@@ -83,7 +83,6 @@ const weatherApi = {
       .then(data => data.json())
       .then(data => {
         this.value.innerHTML = data.main.temp;
-        this.icon.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
       });
   }
 };
