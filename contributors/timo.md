@@ -1,10 +1,16 @@
 # Contribution of Timo Verkroost
 The Biogasboot data Visualization project is build by Sjoerd, Diego, Camille and Timo (me). We decided to do this in a team to prevent duplicate products and simply we can do more. My part in this project was mostly work on the status indicator and notifcations but I did also allot of styling and layout of the dashboards. What follows in this reading file is what I've done and where to find the source.
 
+## Table of contents
+* [Process](#process)
+* [Builded parts/modules](#builded-parts-modules)
+* [Subjects](#subjects)
+* [Most proud of](#most-proud-of)
+
 ## Process
 At the beginning of the day as team we did a quick meeting to discuss what we're going to do that day. When we sketched something we discussed it also and mostly we did some improvement to them.
 
-## Builded parts
+## Builded parts/modules
 Because we build the application with a team we build the components in modules and different parts. The parts below is were I worked on.
 
 ### Config file
@@ -921,3 +927,6 @@ We get the sensor data from a CSV file, the data will be pushed to a FTP server 
 * [Config file](#config-file)
 * [Download CSV from FTP server](#download-csv-from-ftp-server)
 * [Usage calculation](#usage-calculation)
+
+## Most proud of
+I'm most proud of the notification ServiceWorker I builded in the application. I had some help from [ServiceWorker Cookbook](serviceworke.rs) but this was only the base. I had to intergrate it myself and also linked the subscriptions to the MongoDB which was also new for me. Also I did some CSS tricks to prevent using JavaScript where I learned from sometimes it's handy but not always.
