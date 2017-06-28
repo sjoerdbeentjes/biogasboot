@@ -235,4 +235,4 @@ MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
 [timo]: https://avatars2.githubusercontent.com/u/17787175?v=3&s=400 "Timo Verkroost"
 
-[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=460 "Camille Sébastien"
+[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=400 "Camille Sébastien"
