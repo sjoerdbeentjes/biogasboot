@@ -1,6 +1,6 @@
 # Contribution of Diego Staphorst
 ## Introduction
-This project has been carried out together with [Sjoerd](https://github.com/sjoerdbeentjes). [Timo](https://github.com/TimoVerkroost) and [Camille](https://github.com/camille500), two classmates from the Amsterdam University of Applied Sciences. We executed our last project of the semester with a commissioner of [The Biogas Boat](http://www.biogasboot.nl/). This boat can convert organic waste into biogas which can be cooked with in [de Ceuvel](http://deceuvel.nl/). This has to be done to close loops, which helps by creating a sustainable environment.
+This project has been carried out together with [Sjoerd](https://github.com/sjoerdbeentjes), [Timo](https://github.com/TimoVerkroost) and [Camille](https://github.com/camille500), two classmates from the Amsterdam University of Applied Sciences. We executed our last project of the semester with a commissioner of [The Biogas Boat](http://www.biogasboot.nl/). This boat can convert organic waste into biogas which can be cooked with in [de Ceuvel](http://deceuvel.nl/). This has to be done to close loops, which helps by creating a sustainable environment.
 
 In order to monitor the entire digestion process of organic waste into biogas, several sensors have been placed on the boat. These sensors are located in the digester, at the gas bag, on the boat to keep track of the gas supply to the Ceuvel and one for the temperature outside the boat.
 
@@ -50,6 +50,8 @@ I worked on some parts the frontend of the real time dashboard like the current 
 
 I made use of the object litteral design pattern. I also made use of the new ES6 style of coding which later was babelified for use in older browsers. Beneath in the details you can see an example of the API used.
 
+#### Real time weather function in frontend
+
 <details>
 
 ```javascript
@@ -80,6 +82,8 @@ if (document.getElementById('tempCurrentOutside')) weatherApi.checkTemperature()
 ### CSS to the Rescue
 I created the map structure for Sass, it is based on [DevTips Starter kit](https://github.com/DevTips/DevTips-Starter-Kit/tree/master/assets/css) but with a little twist to make it more biological. We used variables for storing data we had to reuse like the colors so it will be changed on the whole website when the variables changes. I also styled the first version of the customer dashboard which was not included in the final product because Camille was working on that part of the website when he started working with us.
 
+#### SCSS structure
+
 <details>
 
 - src/
@@ -105,6 +109,8 @@ I created the map structure for Sass, it is based on [DevTips Starter kit](https
 We did a lot about the performance because we were working with huge sets of data. The first problems arose with querying the mongo database. At first we were downloading the whole data set into the backend and parsed the data with Node.js. When I saw what the problem was we started using $match, $group, $aggregate which are functions for creating queries. This way you can ask the database storage to already manipulate the data which creates smaller JSON downloads. This way there al shorter loading times for the users which creates a better User Experience.
 
 In the example below you can see the aggregate function which clumps data of a single day ($match) together. It takes the average of the day from the selected properties. By doing it this way we were able to reduce the send time by nearly 2 minutes, only a small part of the data had to be processed after getting it. 
+
+#### Send datapoints with Socket.io to frontend
 
 <details>
 
@@ -207,9 +213,9 @@ In this [getFTPFiles.js](https://github.com/sjoerdbeentjes/biogasboot/blob/maste
 
 All the way at the bottom you can get more information about getting data from the FTP.
 
-<details>
+#### Checking the latest file in the FTP for new data
 
-### Checking the latest file in the FTP for new data
+<details>
 
 ```javascript
 // Get latest file inside the mongoDB sorted on Date.
@@ -254,9 +260,10 @@ function checkLatestFileForNewData(file) {
 
 </details>
 
+#### Backend realtime graph
+
 <details>
 
-#### Backend simulating realtime graph
 In this function data is send to the frontend with Socket.io. This function was written by me, Sjoerd and Timo.  
 ```javascript
 function webSokets(app, io) {
@@ -351,6 +358,8 @@ done
 
 ### RealTime-web & IOT
 The project manager said that the data from the boat will be send with a 2G connection to the FTP server. This data will be uploaded every 30 minutes. In the script which can be seen below and at [Real-Time Web](#real-time-web) the data will be downloaded if not yet in Mongo. The [checkLatestFileForNewData](#real-time-web) will be checked evert 15 minutes for new data. 
+
+#### Script for syncing FTP with Mongo
 
 <details>
 
