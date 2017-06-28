@@ -856,7 +856,7 @@ if (res.locals.user) {
 
 ```html
 <!--
-  views/partials/head.js
+  views/partials/head.ejs
   Show dashboards only for logged in users 
  -->
 <% if (locals.user) { %>
