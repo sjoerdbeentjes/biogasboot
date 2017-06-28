@@ -1,7 +1,12 @@
+// Load all datapoints
 const DataPoint = require('../models/dataPoint');
 
+// Object with methods for needed calculations
 const gasCalculations = {
   total(req, res) {
+    /* Get all instances with a bagheight higher than 20 and lower than 220
+       Has to be lower than 220 because of the fact that the bag can't get higher than
+       220cm. Not lower than 20cm because then the bag can't be filled anymore */
     DataPoint.aggregate([
       {
         $project: {
@@ -11,7 +16,7 @@ const gasCalculations = {
       {
         $match: {
           Bag_Height: {
-            $lte: 240,
+            $lte: 220,
             $gte: 20
           }
         }
