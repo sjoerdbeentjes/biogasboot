@@ -73,8 +73,8 @@ function filterData(format, date, data) {
 ```
 
 ## Screenshots
-![Live Operator Dashboard](screenshots/dashboard1.png)
-![History Data Overview](screenshots/dashboard2.png)
+![Live Operator Dashboard](md-media/dashboard1.png)
+![History Data Overview](md-media/dashboard2.png)
 
 ## Dependencies
 * [x] [`BCryptjs`](https://www.npmjs.com/package/bcryptjs) Password hashing
@@ -116,15 +116,13 @@ function filterData(format, date, data) {
 * [x] [`Watchify`](https://www.npmjs.com/package/watchify) Watch mode for Browserify builds
 
 ## ToDo
-* [ ] Push notification for operators if something goes wrong
-* [ ] Smart defaults for selecting range's / views in the backend
-* [ ] Layout for the history section
-* [ ] Filters for the history section
-* [ ] D3 Graphs for comparing time ranges
-* [ ] Interactive view of the Biogasboot
-* [ ] Dashboard view for in Café de Ceuvel
-* [ ] Possibility for admins to add event data to the dashboard
-* [ ] Build a guide for the operator application
+* [x] Push notification for operators if something goes wrong
+* [x] Layout for the history section
+* [x] Filters for the history section
+* [x] D3 Graphs for comparing time ranges
+* [x] Interactive view of the Biogasboot
+* [x] Dashboard view for in Café de Ceuvel
+* [x] Build a guide for the operator application
 
 ## Finished ToDo's
 * [x] Range selector to select two dates and pass the range to the front-end
@@ -136,6 +134,10 @@ function filterData(format, date, data) {
 
 ## Wishlist
 * [ ] Live data from the Biogasboot
+* [ ] Plotting of status data
+* [ ] Piechart of process devices 
+* [ ] Possibility for admins to add event data to the dashboard
+* [ ] Smart defaults for selecting range's / views in the backend
 
 ## API Endpoints
 The application has multiple API endpoints. This is an overview of all the possibilities.
