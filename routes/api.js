@@ -6,6 +6,7 @@ const DataPoint = require('../models/dataPoint');
 const StatusPoint = require('../models/statusPoint');
 const router = express.Router();
 const usageCalculation = require('../modules/usage-calculation');
+const gasCalculation = require('../modules/gas-calculation');
 const config = require('../modules/config');
 
 router.get('/range', (req, res, next) => {
@@ -143,6 +144,10 @@ router.get('/status', (req, res, next) => {
   } else {
     res.send('No valid API key');
   }
+});
+
+router.get('/status/gas', (req, res, next) => {
+  gasCalculation.total(req, res);
 });
 
 router.get('/status/range/:range', (req, res, next) => {
