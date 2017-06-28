@@ -747,19 +747,15 @@ function sendGasBagLow() {
 </details>
 
 ### Compare table in history + switch between Wh and kWh (CSS only)
+Previously I made the usage calculation module now I'm gonna use it to render the history page compare months. First I made it possible to loop through the database to find all the year and months available to fill in the compare months.
+
 On the history dashboard it is possible to compare 2 months also to compare the usages of those months. But sometimes you want to see the energy usage in Wh (watt hour) and sometimes in kWh (kilo watt hour). The values ar already saved in the usageCalculation module but it's overkill to show them both at the same time.
 
 So I decided to make a switch possible with only CSS, later JS was added but it works without JS.
 
 #### Code snippets
+* [Hitory route](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/aside.scss)
-
-
-```javascript
-
-// JavaScript code
-  
-```
 
 ```html
 
