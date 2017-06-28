@@ -75,8 +75,12 @@ function filterData(format, date, data) {
 ```
 
 ## Screenshots
-![Live Operator Dashboard](md-media/dashboard1.png)
-![History Data Overview](md-media/dashboard2.png)
+All views of the dashboard currently in the app
+![Live Operator Dashboard](md-media/dashboard.png)
+![History Data Overview](md-media/historic-dashboard.png)
+![Live mobile Dashboard](md-media/mobile-dashboard.png)
+![Live mobile Dashboard](md-media/mobile-notification.png)
+
 
 ## Dependencies
 * [x] [`BCryptjs`](https://www.npmjs.com/package/bcryptjs) Password hashing
