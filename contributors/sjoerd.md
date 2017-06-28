@@ -7,9 +7,6 @@ We made a dashboard to give insights in the data. The app consists of two parts:
 
 The chart in the real time view updates immediately when new data is available. The history view is used to compare all saved data.
 
-## Table of contents
-* [Heading](#heading)
-
 ## Things I worked on
 
 ### Real time chart
@@ -48,7 +45,7 @@ socket.on('dataPoint', point => {
 
 I later [rebuild](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/js/modules/real-time-graph.js#L141) the `tick()` funtion on the client side so it could take an array of datapoints.
 
-For the chart we used [D3](https://www.npmjs.com/package/d3). This is used for inserting the SVG into the DOM as well as updating it. The code for it can be found [here](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/real-time-data/src/js/modules/real-time-graph.js).
+For the chart we used [D3](https://www.npmjs.com/package/d3). This is used for inserting the SVG into the DOM as well as updating it. The code that I wrote for it as a start can be found [here](https://github.com/sjoerdbeentjes/biogasboot/blob/feature/real-time-data/src/js/modules/real-time-graph.js). The final code can be found [here](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/js/modules/real-time-graph.js).
 
 ### History chart
 
@@ -66,7 +63,7 @@ I worked on a lot of subjects during this project. This are the subjects I've be
 - Working with MongoDB and Mongoose
 - Creating a login flow
 
-### Web App from
+### Web App from scratch
 
 The app is not a single-page application, but uses a lot of DOM manipulation. The individual screens can be seen as applications as themselves.
 
@@ -99,7 +96,7 @@ We use Websockets to transfer the real-time data. We used [socket.io](https://ww
 
 The data we use is acquired by sensors. This data is transferred to the control-unit, where it gets stored on an SD-card. We used this data, from the sensors to simulate the data flow for the real-time view. From there it was as if we were working with real sensors.
 
-## My branches
+## Branches i've been working on a lot
 - [feature/server](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/server) setup for the server
 - [feature/real-time-data](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/real-time-data) setup for the real-time data via sockets
 - [feature/history](https://github.com/sjoerdbeentjes/biogasboot/tree/feature/history) the history chart

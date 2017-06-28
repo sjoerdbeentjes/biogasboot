@@ -1,22 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Contribution of Timo Verkroost](#contribution-of-timo-verkroost)
-  - [Table of contents](#table-of-contents)
-  - [Process](#process)
-  - [Builded modules](#builded-modules)
-    - [Module 1](#module-1)
-  - [Subjects](#subjects)
-    - [Web App from Scratch](#web-app-from-scratch)
-    - [CSS to the Rescue](#css-to-the-rescue)
-    - [Performance Matters](#performance-matters)
-    - [Browser Technologies](#browser-technologies)
-    - [Real-Time Web](#real-time-web)
-    - [Web of Things](#web-of-things)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Contribution of Timo Verkroost
 Text
 
@@ -578,9 +559,9 @@ label[for="showFilters"]::after {
 </details>
 
 ### Notifications with ServiceWorker
-As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifcations. To send notifcations I needed a GCM_API_KEY (Google Cloud Messaging).
+As addition on the websockets I made a ServiceWorker that can send notifications to devices that are subscribed. This is very usefull when a warning state is triggered but the operator isn't watching is phone dashboard. The subscriptions are saved in the MongoDB database so when the server restarts the subscriptions aren't gone. For the ServiceWorker I used the source [ServiceWorkers Cookbook](https://serviceworke.rs/). Also I used the Web-push module to send the notifications. To send notifications I needed a GCM_API_KEY (Google Cloud Messaging).
 
-For me it was a challange to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
+For me it was a challenge to let this work because working with ServiceWorkers can be hard. I tried many things and I'm proud of the result.
 
 #### NPM modules used
 * [`Web-push`](https://www.npmjs.com/package/web-push) Library for push notifications
