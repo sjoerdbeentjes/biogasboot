@@ -1,7 +1,31 @@
 const d3 = require('d3');
 const io = require('socket.io-client');
+const config = require('../../../modules/config');
 
-if (document.querySelector('#chart')) {
+// Make objects for D3.js
+const getUsedValues = function(){
+  let i = 0;
+  let values = [];
+  for (let key in config.defineValues) {
+    i++;
+    values.push({
+      name: config.defineValues[key].name,
+      title: config.defineValues[key].title,
+      min: config.defineValues[key].min,
+      max: config.defineValues[key].max,
+      high: config.defineValues[key].high,
+      low: config.defineValues[key].low
+    });
+  }
+  if (i === Object.keys(config.defineValues).length) {
+    return values;
+  }
+};
+// Fill the values
+const usedValues = getUsedValues();
+
+if (document.querySelector('#chart') && document.querySelector('#chart').clientWidth) {
+  console.log('loaded');
   const socket = io.connect();
 
   let data = [];
@@ -34,7 +58,7 @@ if (document.querySelector('#chart')) {
 
   const y = d3
     .scaleLinear()
-    .domain([0, 400])
+    .domain([usedValues[2].min, usedValues[2].max])
     .range([height, 0]);
 
   let line = d3.line()
@@ -83,7 +107,7 @@ if (document.querySelector('#chart')) {
     .append('g')
     .append('rect')
     .attr('x', 0)
-    .attr('y', y(140))
+    .attr('y', y(usedValues[2].high))
     .attr('width', width)
     .attr('height', 140)
     .style('fill', '#3498db')
@@ -95,11 +119,10 @@ if (document.querySelector('#chart')) {
     .append('line')
     .attr('x0', 0)
     .attr('x1', width)
-    .attr('y1', y(180))
-    .attr('y2', y(180));
+    .attr('y1', y(usedValues[2].high))
+    .attr('y2', y(usedValues[2].high));
 
   socket.on('dataPoint', points => {
-    console.log(points);
     const lastIndex = points.length - 1;
 
     const parsedDateTime = new Date(points[lastIndex]['Date']);

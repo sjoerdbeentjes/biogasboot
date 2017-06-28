@@ -1,4 +1,4 @@
-nav {
+header {
   background-color: #ffffff;
   position: fixed;
   top:0;
@@ -7,6 +7,19 @@ nav {
   z-index: 10;
   width: 100%;
   border-bottom: 0.1em solid #e9e9e9;
+  display: flex;
+}
+
+header nav {
+  float: left;
+}
+
+header #subscriptionButton {
+  float: right;
+  margin-left: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 
 #showMenu {
@@ -55,7 +68,7 @@ nav .user {
   margin-left: auto;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 48em) {
   nav > label {
     display: none;
   }
@@ -67,5 +80,9 @@ nav .user {
 
   nav ul li {
     display: inline-block;
+  }
+
+  header #subscriptionButton {
+    position: static;
   }
 }

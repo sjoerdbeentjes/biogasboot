@@ -3,18 +3,30 @@
   flex: 0 1 auto;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 100%;
-  padding: 1em;
+  height: auto;
+  justify-content: space-between;
+  .icon {
+    display: inline-block;
+    margin: 0;
+  }
+  #subButton {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  #subscriptionButton {
+    padding: 1em;
+    margin-bottom: 1em;
+  }
 }
 
 #currentData > button {
-  flex-basis: 95%;
-  max-width: 95%;
+  flex-basis: 100%;
+  max-width: 100%;
   text-align: center;
   box-sizing: border-box;
   padding: 0;
   border-radius: 0.2em;
-  margin: 0 1em 1em 0;
+  margin: 0 0 1em 0;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -46,8 +58,8 @@
   }
 
   #currentData > button {
-    flex-basis: 18%;
-    max-width: 18%;
+    flex-basis: 24%;
+    max-width: 24%;
   }
 
   #currentData > button > .inner > h3 {

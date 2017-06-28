@@ -1,5 +1,5 @@
 const moment = require('moment');
-
+const config = require('./config');
 const StatusPoint = require('../models/statusPoint');
 
 const usageCalculation = {
@@ -30,67 +30,67 @@ const usageCalculation = {
     let deviceCollection = {
       Storagetank_Mixe: {
         timeON: 0,
-        watts: 180,
+        watts: config.deviceWatts['Storagetank_Mixe'].watts,
         kWh: 0,
         Wh: 0
       },
       Storagetank_Feed: {
         timeON: 0,
-        watts: 210,
+        watts: config.deviceWatts['Storagetank_Feed'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Mixer: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Digester_Mixer'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Heater_1: {
         timeON: 0,
-        watts: 2000,
+        watts: config.deviceWatts['Digester_Heater_1'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Heater_2: {
         timeON: 0,
-        watts: 2000,
+        watts: config.deviceWatts['Digester_Heater_2'].watts,
         kWh: 0,
         Wh: 0
       },
       Gaspump: {
         timeON: 0,
-        watts: 550,
+        watts: config.deviceWatts['Gaspump'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Stop: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Stop'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Manual: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Manual'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Auto: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Auto'].watts,
         kWh: 0,
         Wh: 0
       },
       System_Started: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['System_Started'].watts,
         kWh: 0,
         Wh: 0
       },
       Additive_Pump: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Additive_Pump'].watts,
         kWh: 0,
         Wh: 0
       },
@@ -142,67 +142,67 @@ const usageCalculation = {
     let deviceCollection = {
       Storagetank_Mixe: {
         timeON: 0,
-        watts: 180,
+        watts: config.deviceWatts['Storagetank_Mixe'].watts,
         kWh: 0,
         Wh: 0
       },
       Storagetank_Feed: {
         timeON: 0,
-        watts: 210,
+        watts: config.deviceWatts['Storagetank_Feed'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Mixer: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Digester_Mixer'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Heater_1: {
         timeON: 0,
-        watts: 2000,
+        watts: config.deviceWatts['Digester_Heater_1'].watts,
         kWh: 0,
         Wh: 0
       },
       Digester_Heater_2: {
         timeON: 0,
-        watts: 2000,
+        watts: config.deviceWatts['Digester_Heater_2'].watts,
         kWh: 0,
         Wh: 0
       },
       Gaspump: {
         timeON: 0,
-        watts: 550,
+        watts: config.deviceWatts['Gaspump'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Stop: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Stop'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Manual: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Manual'].watts,
         kWh: 0,
         Wh: 0
       },
       Mode_Auto: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Mode_Auto'].watts,
         kWh: 0,
         Wh: 0
       },
       System_Started: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['System_Started'].watts,
         kWh: 0,
         Wh: 0
       },
       Additive_Pump: {
         timeON: 0,
-        watts: 0,
+        watts: config.deviceWatts['Additive_Pump'].watts,
         kWh: 0,
         Wh: 0
       },

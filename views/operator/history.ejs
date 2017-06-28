@@ -10,27 +10,18 @@
           <label>
             <div>Jaar</div>
             <select name="firstYear" id="firstYear">
-              <option value='2015'>2015</option>
-              <option selected value='2016'>2016</option>
-              <option value='2017'>2017</option>
+              <% dorpdownYears.forEach(function(year) { %>
+                <option value="<%= year %>"><%= year %></option>
+              <% }); %>
             </select>
           </label>
 
           <label>
             <div>Maand</div>
             <select name="firstMonth" id="firstMonth">
-              <option value='1'>January</option>
-              <option value='2'>February</option>
-              <option value='3'>March</option>
-              <option value='4'>April</option>
-              <option value='5'>May</option>
-              <option selected value='6'>June</option>
-              <option value='7'>July</option>
-              <option value='8'>August</option>
-              <option value='9'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <% dorpdownMonths.forEach(function(month) { %>
+                <option value="<%= month %>"><%= dorpdownMonthNames[month - 1] %></option>
+              <% }); %>
             </select>
           </label>
         </fieldset>
@@ -40,14 +31,15 @@
           Vergelijken
         </label>
 
-        <fieldset>
+        <fieldset class="compare-month">
           <h2>Tweede maand</h2>
           <label>
             <div>Jaar</div>
             <select name="secondYear" id="secondYear">
-              <option value='2015'>2015</option>
-              <option selected value='2016'>2016</option>
-              <option value='2017'>2017</option>
+              <option selected value="0">Selecteer Jaar</option>
+              <% dorpdownYears.forEach(function(year) { %>
+              <option value="<%= year %>"><%= year %></option>
+              <% }); %>
             </select>
           </label>
 
@@ -55,28 +47,21 @@
             <div>Maand</div>
 
             <select name="secondMonth" id="secondMonth">
-              <option selected value='0'>Selecteer maand</option>
-              <option value='1'>January</option>
-              <option value='2'>February</option>
-              <option value='3'>March</option>
-              <option value='4'>April</option>
-              <option value='5'>May</option>
-              <option value='6'>June</option>
-              <option value='7'>July</option>
-              <option value='8'>August</option>
-              <option value='9'>September</option>
-              <option value='10'>October</option>
-              <option value='11'>November</option>
-              <option value='12'>December</option>
+              <option selected value="0">Selecteer maand</option>
+              <% dorpdownMonths.forEach(function(month) { %>
+              <option value="<%= month %>"><%= dorpdownMonthNames[month - 1] %></option>
+              <% }); %>
             </select>
           </label>
         </fieldset>
       </form>
     </section>
     <section id="compare">
-      <label class="energyMargin">Energie verbruik eenheid:</label>
-      <input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh
-      <input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh
+      <div class="top">
+        <h2>Energie verbruik eenheid:</h2>
+        <label><input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh</label>
+        <label><input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh</label>
+      </div>
       <table id="compareTable">
         <thead>
           <tr class="tableHead">
@@ -87,11 +72,11 @@
           <tr id="indicatorsTable" class="tableHead">
             <td>Apparaat</td>
             <td>Min.</td>
-            <td class="WhHead">Wh</td>
-            <td class="kWhHead">kWh</td>
+            <td class="WhHead Wh">Wh</td>
+            <td class="kWhHead kWh">kWh</td>
             <td>Min.</td>
-            <td class="WhHead">Wh</td>
-            <td class="kWhHead">kWh</td>
+            <td class="WhHead Wh">Wh</td>
+            <td class="kWhHead kWh">kWh</td>
           </tr>
         </thead>
         <tbody>

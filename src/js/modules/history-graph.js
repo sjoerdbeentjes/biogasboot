@@ -1,37 +1,46 @@
 const d3 = require('d3');
+const config = require('../../../modules/config');
 
-if (document.querySelector('#history-graph')) {
-  const containerWidth = parseInt(window.getComputedStyle(document.querySelector('#history-graph').parentNode).getPropertyValue('width'));
-  const containerHeight = parseInt(window.getComputedStyle(document.querySelector('#history-graph').parentNode).getPropertyValue('height'));
+if (document.querySelector('#history-graph') && document.querySelector('#history-graph').clientWidth) {
+  const containerWidth = document.querySelector('#history-graph').parentNode.clientWidth;
+  const containerHeight = document.querySelector('#history-graph').parentNode.clientHeight;
 
   // Set the dimensions of the canvas / graph
   const margin = {top: 20, right: 40, bottom: 60, left: 40};
   const width = containerWidth - margin.left - margin.right - 32;
   const height = containerHeight - margin.top - margin.bottom - 16;
 
+  // Get initial values
   const firstYear = document.querySelector('#firstYear');
   const secondYear = document.querySelector('#secondYear');
   const firstMonth = document.querySelector('#firstMonth');
   const secondMonth = document.querySelector('#secondMonth');
 
   const filters = document.querySelector('.filters');
+  const compareButton = document.querySelector('label.compare');
 
-  const usedValues = [{
-    name: 'Bag_Height',
-    title: 'Gaszak-hoogte',
-    min: 0,
-    max: 400
-  }, {
-    name: 'pH_Value',
-    title: 'PH-waarde',
-    min: 500,
-    max: 1000
-  }, {
-    name: 'Temp_PT100_1',
-    title: 'Temperatuur',
-    min: 0,
-    max: 100
-  }];
+  // Make objects for D3.js
+  const getUsedValues = function () {
+    let i = 0;
+    const values = [];
+    for (const key in config.defineValues) {
+      if (Object.prototype.hasOwnProperty.call(config.defineValues, key)) {
+        i++;
+        values.push({
+          name: config.defineValues[key].name,
+          title: config.defineValues[key].title,
+          min: config.defineValues[key].min,
+          max: config.defineValues[key].max
+        });
+      }
+      if (i === Object.keys(config.defineValues).length) {
+        return values;
+      }
+    }
+  };
+
+  // Fill the values
+  const usedValues = getUsedValues();
 
   const range = {
     firstYear: firstYear.value,
@@ -40,7 +49,10 @@ if (document.querySelector('#history-graph')) {
     secondMonth: secondMonth.value
   };
 
-  const drawnValues = [];
+  let drawnValues = [2, 3];
+
+  let maxSelected = 2;
+  let singleMonth = false;
 
   // Parse the date / time
   const parseDate = d3.timeParse('%m-%d-%Y');
@@ -63,84 +75,96 @@ if (document.querySelector('#history-graph')) {
   // Define the axes
   const xAxis = d3
     .axisBottom()
+    .tickFormat(d => d.getDate())
     .scale(x);
 
   const yAxis = d3
     .axisLeft()
     .scale(y)
-    .ticks(5)
+    .ticks(4)
     .tickSize(-width);
 
   const y1Axis = d3
     .axisRight()
     .scale(y1)
-    .ticks(5)
+    .ticks(4)
     .tickSize(-width);
 
-  // Define the line
+  // Define the lines
   const valueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[0]].name]));
+    .y(d => y(d[usedValues[drawnValues[0] - 1].name]));
 
   const compareValueline = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d[usedValues[drawnValues[1]].name]));
+    .y(d => singleMonth ? y(d[usedValues[drawnValues[0] - 1].name]) : y1(d[usedValues[drawnValues[1] - 1].name]));
 
-  // Adds the svg canvas
+  // Adds the svg
   const svg = d3.select('#history-graph')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+  // Create and add buttons to the page
   usedValues.forEach((value, i) => {
     const el = document.createElement('button');
     el.innerHTML = value.title;
     el.setAttribute('name', value.name);
-    el.setAttribute('data-index', i);
+    el.setAttribute('data-index', i + 1);
     el.addEventListener('click', e => {
       handleFilterClick(e);
     });
     filters.appendChild(el);
   });
 
-  // Get the data
-  d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
-    console.log(data);
+  // Change the values needed for the single month mode
+  compareButton.addEventListener('click', e => {
+    maxSelected === 2 ? maxSelected = 1 : maxSelected = 2;
 
-    data.forEach(d => {
-      d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
-      d.Bag_Height = +d.Bag_Height;
-    });
+    singleMonth = !singleMonth;
+
+    svg.node().classList.toggle('compare-month');
+
+    if (drawnValues[1]) {
+      drawnValues.splice(1, 1);
+    }
+
+    activateButtons();
+  });
+
+  // Get the data on initial load
+  d3.json(showMonth(firstMonth.value, firstYear.value), (error, data) => {
+    data = cleanData(data);
 
     // Scale the range of the data
     x.domain(d3.extent(data, d => d.date));
 
-    if (drawnValues[0] >= 0) {
-      y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+    if (drawnValues[0]) {
+      y.domain([usedValues[drawnValues[0] - 1].min, usedValues[drawnValues[0] - 1].max]);
     }
 
     if (drawnValues[1]) {
-      y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+      y1.domain([usedValues[drawnValues[1] - 1].min, usedValues[drawnValues[1] - 1].max]);
     }
 
     // Add the valueline path.
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[0]) {
       svg.append('path')
-        .attr('class', 'line')
+        .attr('class', 'line first')
         .attr('d', valueline(data));
     } else {
       svg.append('path')
-        .attr('class', 'line');
+        .attr('class', 'line first');
     }
 
     if (drawnValues[1]) {
       svg.append('path')
-        .attr('class', 'line')
+        .attr('class', 'line compare')
         .attr('d', compareValueline(data));
     } else {
       svg.append('path')
-        .attr('class', 'line');
+        .attr('class', 'line compare');
     }
 
     // Add the X Axis
@@ -150,82 +174,93 @@ if (document.querySelector('#history-graph')) {
       .call(xAxis);
 
     // Add the Y Axis
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[0]) { // if there are selected values
       svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
-    } else {
+    } else { // if not, just draw the 'g' element to be filled later
       svg.append('g')
         .attr('class', 'y axis');
     }
 
-    if (drawnValues[0] >= 0) {
+    if (drawnValues[1]) { // if there are selected values
       svg.append('g')
         .attr('class', 'y axis right')
         .attr('transform', `translate(${width})`)
         .call(y1Axis);
-    } else {
+    } else { // if not, just draw the 'g' element to be filled later
       svg.append('g')
         .attr('class', 'y axis right')
         .attr('transform', `translate(${width})`);
     }
   });
 
-  // ** Update data section (Called from the onclick)
+  // Update graph with new data
   function updateData(url) {
     // Get the data again
     d3.json(url, (error, data) => {
-      data.forEach(d => {
-        d.Bag_Height = +d.Bag_Height;
-        d.date = parseDate(`${d._id.month}-${d._id.day}-${d._id.year}`);
-      });
+      if (!data) {
+        data = [];
+      }
+
+      data = cleanData(data);
 
       // Scale the range of the data again
       x.domain(d3.extent(data, d => {
         return d.date;
       }));
 
-      if (drawnValues[0] >= 0) {
-        y.domain([usedValues[drawnValues[0]].min, usedValues[drawnValues[0]].max]);
+      // change domain if first value is in drawnValues array
+      if (drawnValues[0]) {
+        y.domain([usedValues[drawnValues[0] - 1].min, usedValues[drawnValues[0] - 1].max]);
       }
 
+      // change domain if second value is in drawnValues array
       if (drawnValues[1]) {
-        y1.domain([usedValues[drawnValues[1]].min, usedValues[drawnValues[1]].max]);
+        y1.domain([usedValues[drawnValues[1] - 1].min, usedValues[drawnValues[1] - 1].max]);
       }
 
-      // Select the section we want to apply our changes to
-      const svg = d3.select('body').transition();
+      // Select the section where changes are made
+      const svg = d3.select('body');
 
       // Make the changes
-      if (drawnValues[0] >= 0) {
+      if (drawnValues[0]) {
         svg.select('.line')
-          .duration(750).attr('d', valueline(data));
+          .attr('d', valueline(data));
       } else {
-        svg.select('.line').node().innerHMTL = '';
+        svg.select('.line').node().setAttribute('d', '');
+      }
+
+      if (drawnValues[1] && !singleMonth) { // check if there is a first value and it's not in singleMonth mode
+        svg.select('.line.compare')
+          .attr('d', compareValueline(data));
+      } else if (singleMonth) {
+        d3.json(showMonth(range.secondMonth, range.secondYear), compareData => {
+          compareData = cleanData(compareData);
+
+          svg.select('.line.compare')
+            .attr('d', compareValueline(compareData));
+        });
+      } else {
+        svg.select('.line.compare').node().setAttribute('d', '');
       }
 
       svg.select('.x.axis')
-        .duration(750).call(xAxis);
+        .call(xAxis);
 
-      if (drawnValues[0] >= 0) {
+      if (drawnValues[0]) {
         svg.select('.y.axis')
-          .duration(750).call(yAxis);
+          .call(yAxis);
       } else {
         svg.select('.y.axis').node().innerHMTL = '';
       }
 
       if (drawnValues[1]) {
         svg.select('.y.axis.right')
-          .duration(750).call(y1Axis);
+          .call(y1Axis);
       } else {
         svg.select('.y.axis.right').node().innerHTML = '';
       }
-    });
-  }
-
-  function updateCompareData(url) {
-    d3.json(url, (error, data) => {
-      console.log(data);
     });
   }
 
@@ -275,7 +310,7 @@ if (document.querySelector('#history-graph')) {
       range.secondMonth = value;
       range.secondYear = year;
 
-      getRange();
+      setSecondMonth();
     });
   }
 
@@ -289,6 +324,7 @@ if (document.querySelector('#history-graph')) {
 
     return url;
   }
+
   // Update usage table
   function updateCompareUsage(url, indicator) {
     const compareContainer = document.querySelector('#compare');
@@ -325,7 +361,7 @@ if (document.querySelector('#history-graph')) {
         }
       }
     };
-    xhttp.open("GET", url, true);
+    xhttp.open('GET', url, true);
     xhttp.send();
   }
   updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 0);
@@ -336,31 +372,62 @@ if (document.querySelector('#history-graph')) {
       updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 0);
     } else {
       updateData(showMonth(range.firstMonth, range.firstYear));
-      updateCompareData(showMonth(range.secondMonth, range.secondYear));
       updateCompareUsage(showMonthUsage(range.secondMonth, range.secondYear), 1);
     }
+  }
+
+  function setSecondMonth() {
+    maxSelected = 1;
+
+    activateButtons();
+    updateData(showMonth(firstMonth.value, firstYear.value));
+    updateCompareUsage(showMonthUsage(range.firstMonth, range.firstYear), 1);
   }
 
   function handleFilterClick(e) {
     const index = Number(e.target.attributes['data-index'].value);
 
-    if (drawnValues.length < 2 && drawnValues.indexOf(index) === -1) {
+    if (singleMonth) {
+      drawnValues = [index];
+    } else if (drawnValues.length < maxSelected && drawnValues.indexOf(index) === -1) {
       drawnValues.push(index);
     } else if (drawnValues.indexOf(index) > -1) {
-      drawnValues.splice(drawnValues.indexOf(index));
+      drawnValues.splice(drawnValues.indexOf(index), 1);
     }
 
-    document.querySelectorAll('.filters button').forEach(button => {
-      button.classList.remove('active');
-    });
-
-    drawnValues.forEach(value => {
-      const el = document.querySelector(`[data-index='${value}']`);
-      el.classList.add('active');
-    });
-
-    console.log(drawnValues);
+    activateButtons();
 
     updateData(showMonth(firstMonth.value, firstYear.value));
   }
+
+  function cleanData(data) {
+    return data.map(d => {
+      d.date = parseDate(`01-${d._id.day}-1970`);
+      d.Bag_Height = +d.Bag_Height;
+
+      return d;
+    });
+  }
+
+  function activateButtons() {
+    const buttons = document.querySelectorAll('.filters button')
+
+    Array.prototype.forEach.call(buttons, button => {
+      button.classList.remove('active');
+      button.classList.remove('first');
+      button.classList.remove('second');
+    });
+
+    drawnValues.forEach((value, index) => {
+      const el = document.querySelector(`[data-index='${value}']`);
+
+      index === 0 ? el.classList.add('first') : el.classList.add('second');
+
+      if (el) {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  activateButtons();
 }

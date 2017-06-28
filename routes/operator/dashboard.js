@@ -8,6 +8,7 @@ const User = require('../../models/user');
 router.get('/', (req, res, next) => {
   if (res.locals.user) {
     User.find((err, users) => {
+      res.locals.isRealTime = true;
       res.render('operator/dashboard', {title: 'Operator | Dashboard'});
     });
   } else {

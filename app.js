@@ -17,7 +17,7 @@ const app = express();
 // Init modules
 const FTP = require('./modules/getFTPFiles');
 const webSockets = require('./modules/websockets');
-// const serviceWorker = require('./modules/server-service-worker');
+const serviceWorker = require('./modules/server-service-worker');
 
 const db = mongoose.connection;
 
@@ -46,7 +46,7 @@ mongoose.connect(process.env.DB_URL);
 // FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
 // WebSockets
-// webSockets(app, io);
+webSockets(app, io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -122,7 +122,7 @@ app.use('/customer/dashboard', customerDashboard);
 app.use('*', error);
 
 // Service worker push notifications
-// serviceWorker(app);
+serviceWorker(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

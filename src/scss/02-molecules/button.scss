@@ -1,4 +1,4 @@
-button, [role='button'] {
+button, [role='button'], .button {
   display: inline-block;
   font-size: 1em;
   background-color: #fff;
@@ -15,5 +15,10 @@ button, [role='button'] {
   &.warning {
     border: 1px solid $warning-theme-color;
     color: $warning-theme-color;
+  }
+
+  &.active {
+    background-color: $primary-theme-color;
+    color: #fff;
   }
 }

@@ -1,5 +1,8 @@
 .graph-group {
   flex: 1;
+  display: none;
+  float: left;
+  width: 100%;
 }
 
 .axis.y .tick line {
@@ -29,4 +32,10 @@
 
 .tick line {
   stroke: $lighter-grey;
+}
+
+@media (min-width: 50em) {
+  .graph-group {
+    display: block;
+  }
 }
