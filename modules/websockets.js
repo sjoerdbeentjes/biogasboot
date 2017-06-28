@@ -9,10 +9,10 @@ const dataPoint = require('../models/dataPoint');
 const Subscription = require('../models/subscription');
 
 // Make objects for D3.js
-const getUsedValues = function(){
+const getUsedValues = function () {
   let i = 0;
-  let values = [];
-  for (let key in config.defineValues) {
+  const values = [];
+  for (const key in config.defineValues) {
     i++;
     values.push({
       name: config.defineValues[key].name,
@@ -43,9 +43,11 @@ function sendNotification(subscription, payload) {
     }
   }, payload).then(() => {
     console.log('Push Application Server - Notification sent to ' + subscription.endpoint);
-  }).catch((err) => {
+  }).catch(err => {
     // Remove from subscription list in DB when there is a error
-    Subscription.findOneAndRemove({endpoint: subscription.endpoint}, function (err, docs) {});
+    Subscription.findOneAndRemove({
+      endpoint: subscription.endpoint
+    }, (err, docs) => {});
     console.log('ERROR in sending Notification, endpoint removed ' + subscription.endpoint);
     console.log(err);
   });
@@ -82,18 +84,18 @@ function webSokets(app, io) {
   const startDate = moment(Number(range) * 1000);
   const endDate = moment(Number(startDate + months));
   dataPoint.find({
-      Date: {
-        $gte: startDate.toDate(),
-        $lt: endDate.toDate()
-      }
-    },
-    (err, dataPoints) => {
+    Date: {
+      $gte: startDate.toDate(),
+      $lt: endDate.toDate()
+    }
+  })
+    .sort('+Date')
+    .exec((err, dataPoints) => {
       let i = 0;
       const sendItemsCount = 30;
       let sendTimeOutHigh = false;
       let sendTimeOutLow = false;
       setInterval(() => {
-
         if (!dataPoints[i + sendItemsCount]) {
           i = 0;
         }
@@ -114,7 +116,6 @@ function webSokets(app, io) {
             }
           }
         }
-
         i += 30;
         sendTimeOutHigh = false;
         sendTimeOutLow = false;
