@@ -735,6 +735,9 @@ On the history dashboard it is possible to compare 2 months also to compare the 
 
 So I decided to make a switch possible with only CSS, later JS was added but it works without JS.
 
+#### NPM modules used
+* [`Mongoose`](https://www.npmjs.com/package/mongoose) MongoDB object modeling
+
 #### Code snippets
 * [Hitory route with get available years and months](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
 * [Commit to get years and months](https://github.com/sjoerdbeentjes/biogasboot/commit/db7c7a37b8ef462e9cd4187c34937d999be4e555)
@@ -830,26 +833,32 @@ input[name="energy"]#kWhCheck:checked + table .kWhHead{
 </details>
 
 ### User restrictions added
-Explain what you did.
+The history data view and real-time date view most be restricted to operators only. The login and registration system was already builded bu Sjoerd but the pages weren't restricted. For me was the task to restrict the pages that are only for the operators and redirect the not logged in users to the login form.
 
-[Feature branche link](#branche)
+#### Code snippets
+* [Feature branche for restrictions](#https://github.com/sjoerdbeentjes/biogasboot/tree/feature/user_restrictions)
 
 ```javascript
 
-// JavaScript code
+if (res.locals.user) {
+  // Render page if user is logged in
+} else {
+  // Render login page if user isn't logged in
+  res.status(404).render('login');
+}
   
 ```
 
 ```html
+<!--
+  views/partials/head.js
+  Show dashboards only for logged in users 
+ -->
+<% if (locals.user) { %>
+  <li class="dashboard"><a href="/operator/dashboard">Dashboard</a></li>
+  <li class="history-page"><a href="/operator/dashboard/history">Historische data</a></li>
+<% } %>
 
-<!-- HTML Code -->
-
-```
-
-```css
-
-/* CSS/SASS code */
-  
 ```
 
 ### Structure of dashboard pages (Real-time and History)
