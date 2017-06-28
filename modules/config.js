@@ -154,6 +154,7 @@ module.exports = {
   },
   ftp: function() {
     const ftpSettings = {
+      // This object contains all information needed to get the information out of the FTP into mongo
       setup: {
         host: process.env.FTP_SERVER,
         port: 21,

@@ -78,11 +78,13 @@ function sendGasBagLow() {
 }
 
 function webSokets(app, io) {
+  // Setting paramerts for getting data out of the database
   const range = 1483225200;
   const inputRange = 1;
   const months = moment.duration(inputRange, 'months').valueOf();
   const startDate = moment(Number(range) * 1000);
   const endDate = moment(Number(startDate + months));
+  // Query the database
   dataPoint.find({
     Date: {
       $gte: startDate.toDate(),
@@ -90,19 +92,22 @@ function webSokets(app, io) {
     }
   })
     .sort([['Date', 'ascending']])
+    // Execute script after getting data
     .exec((err, dataPoints) => {
+      // Setting variables for sending data to the frontend
       let i = 0;
       const sendItemsCount = 30;
+      // Stop backend from spamming notifcations
       let sendTimeOutHigh = false;
       let sendTimeOutLow = false;
 
+      // For simulating real-time this interval was made, resetting I when index is to high
       setInterval(() => {
         if (!dataPoints[i + sendItemsCount]) {
           i = 0;
         }
-
         const dataCollection = [];
-
+        // Looping over data collection and checking if bag height is in range.
         for (let x = 0; x < sendItemsCount; x++) {
           dataCollection.push(dataPoints[x + i]);
           if (dataPoints[x + i].Bag_Height >= usedValues[2].high) {
@@ -121,6 +126,7 @@ function webSokets(app, io) {
         i += 30;
         sendTimeOutHigh = false;
         sendTimeOutLow = false;
+        // emitting the data to the frontend
         io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
       }, 50);
     });
