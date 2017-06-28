@@ -15,6 +15,7 @@ router.get('/', (req, res, next) => {
   // } else {
   //   res.status(404).render('404');
   // }
+  res.locals.isRealTime = true;
   res.render('operator/dashboard', {title: 'Operator | Dashboard'});
 });
 

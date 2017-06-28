@@ -53,5 +53,7 @@
       <% } %>
     </ul>
   </nav>
-  <button id="subscriptionButton" disabled>Meldingen aanzetten</button>
+  <% if (typeof(isRealTime) !== 'undefined') { %>
+    <button id="subscriptionButton" disabled>Meldingen aanzetten</button>
+  <% } %>
 </header>
