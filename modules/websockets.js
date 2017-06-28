@@ -89,12 +89,13 @@ function webSokets(app, io) {
       $lt: endDate.toDate()
     }
   })
-    .sort('+Date')
+    .sort([['Date', 'ascending']])
     .exec((err, dataPoints) => {
       let i = 0;
       const sendItemsCount = 30;
       let sendTimeOutHigh = false;
       let sendTimeOutLow = false;
+
       setInterval(() => {
         if (!dataPoints[i + sendItemsCount]) {
           i = 0;
@@ -102,7 +103,7 @@ function webSokets(app, io) {
 
         const dataCollection = [];
 
-        for (let x = 0; x <= sendItemsCount; x++) {
+        for (let x = 0; x < sendItemsCount; x++) {
           dataCollection.push(dataPoints[x + i]);
           if (dataPoints[x + i].Bag_Height >= usedValues[2].high) {
             if (dataPoints[x + i - 1].Bag_Height < usedValues[2].high && sendTimeOutHigh === false) {
@@ -116,11 +117,12 @@ function webSokets(app, io) {
             }
           }
         }
+
         i += 30;
         sendTimeOutHigh = false;
         sendTimeOutLow = false;
         io.sockets.emit('dataPoint', dataCollection, config.tileStatus(dataPoints[i]));
-      }, 1000);
+      }, 50);
     });
 }
 

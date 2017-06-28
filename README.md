@@ -158,6 +158,26 @@ This call returns the data of a specific day. All values are added up and the 'c
 `/api/all?dateStart=1489720679&dateEnd=1490268059&format=d`
 Get the average per day in a specific range. Use a UNIX timestamp as date, followed by `&format=d`
 
+## Config variables
+The application makes use variables that aren't clear yet so we made a config file where all the different variables are stored.
+
+The config can be founded in the folder "modules/config.js". Here you can define the following things:
+ * The min, max, low, high values of a parameter like PH value or gasbag.
+ * The above has impact on the tileStatus function that will define the state of a value.
+ * Every device has it's own usage per hour this can also changed here.
+ * When the control panel of the Biogasboot is connected to a FTP server you can also modify the FTP settings.
+
+```javascript
+
+// It can be included in front-end and backend files you only need to call the right function that you needed
+
+// For backend modules
+const config = require('./config');
+
+// For front-end modules
+const config = require('../../../modules/config');
+```
+
 ## Build / Install and start project
 
 ### Clone this repo
@@ -206,6 +226,8 @@ npm run start-update
 Diego Staphorst   | Sjoerd Beentjes  | Timo Verkroost  | Camille Sébastien
 --- | --- | --- | ---
 ![Diego Staphorst][diego] | ![Sjoerd Beentjes][sjoerd] | ![Timo Verkroost][timo] | ![Camille Sébastien][camille]
+[Contributor link](contributors/diego.md) | [Contributor link](contributors/sjoerd.md) | [Contributor link](contributors/timo.md) | [Contributor link](Contributor/camille.md)
+
 ## License
 MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
@@ -215,4 +237,4 @@ MIT © Diego Staphorst, Sjoerd Beentjes, Timo Verkroost, Camille Sébastien
 
 [timo]: https://avatars2.githubusercontent.com/u/17787175?v=3&s=400 "Timo Verkroost"
 
-[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=460 "Camille Sébastien"
+[Camille]: https://avatars1.githubusercontent.com/u/8942820?v=3&s=400 "Camille Sébastien"
