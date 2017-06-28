@@ -728,27 +728,105 @@ function sendGasBagLow() {
 </details>
 
 ### Compare table in history + switch between Wh and kWh (CSS only)
-Previously I made the usage calculation module now I'm gonna use it to render the history page compare months. First I made it possible to loop through the database to find all the year and months available to fill in the compare months.
+Previously I made the usage calculation module now I'm gonna use it to render the history page compare months. First I made it possible to loop through the database to find all the year and months available to fill in the compare months on page load. When the page is loaded the user can select 1 of the available years and months and then click on "vergelijken" to add another year and month. Now the user can compare 2 months with each other.
 
 On the history dashboard it is possible to compare 2 months also to compare the usages of those months. But sometimes you want to see the energy usage in Wh (watt hour) and sometimes in kWh (kilo watt hour). The values ar already saved in the usageCalculation module but it's overkill to show them both at the same time.
 
 So I decided to make a switch possible with only CSS, later JS was added but it works without JS.
 
 #### Code snippets
-* [Hitory route](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
+* [Hitory route with get available years and months](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/operator/dashboard-history.js)
+* [Commit to get years and months](https://github.com/sjoerdbeentjes/biogasboot/commit/db7c7a37b8ef462e9cd4187c34937d999be4e555)
+* [Commit to add years and months to front-end](https://github.com/sjoerdbeentjes/biogasboot/commit/755ba6cf237fcf145628f3bc2ca573c9366f2361)
 * [Builded SCSS file](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/scss/03-proteins/aside.scss)
+* [Commit switch between Wh and kWh](https://github.com/sjoerdbeentjes/biogasboot/commit/ef83298b6b2388ea4b876f374ea99dc65a491662)
 
-```html
+<details>
 
-<!-- HTML Code -->
+```javascript
+
+// routes/operator/dashboard-history.js
+
+dataPoint.aggregate([
+  {$project : {
+    year : {$year : "$Date"},
+    month : {$month : "$Date"},
+  }},
+  {$group : {
+    _id : {year : "$year",month : "$month"}
+  }},
+  { $sort: {'_id.year':1, '_id.month':1} }
+], (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+      // Get years
+      let years = [];
+      for (let i = 0; i < result.length; i++) {
+        // Only adds to years when not exist to prevent duplicates
+        years.indexOf(result[i]._id.year) === -1 ? years.push(result[i]._id.year): years;
+      }
+      // Get months
+      let months = [];
+      for (let i = 0; i < result.length; i++) {
+        // Only adds to months when not exist to prevent duplicates
+        months.indexOf(result[i]._id.month) === -1 ? months.push(result[i]._id.month): months;
+      }
+      // Init month names
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      res.locals.dorpdownYears = years;
+      res.locals.dorpdownMonths = months;
+      res.locals.dorpdownMonthNames = monthNames;
+      res.render('operator/history', {title: 'Operator | Dashboard'});
+  }
+});
 
 ```
 
 ```css
+/* Show and hide Wh and kWh based on radio button value*/
 
-/* CSS/SASS code */
-  
+WhHead {
+ display: none;
+ }
+.kWhHead {
+ display: none;
+}
+
+.energyMargin {
+ margin: 1em 1em 0;
+}
+input.energyMargin {
+ margin: 1em 0 1em 1em;
+}
+
+input[name="energy"] {
+ width: auto;
+}
+
+input[name="energy"]#WhCheck:checked + input[name="energy"] + table .Wh,
+input[name="energy"]#WhCheck:checked + input[name="energy"] + table .WhHead {
+ display: table-cell;
+}
+
+input[name="energy"]#kWhCheck:checked + table .kWh,
+input[name="energy"]#kWhCheck:checked + table .kWhHead{
+ display: table-cell;
+}
+
 ```
+
+```html
+<!-- Based on this order we can hide and how with de + indicatior in CSS -->
+<label class="energyMargin">Energie verbruik eenheid:</label>
+<input class="energyMargin" type="radio" name="energy" value="Wh" id="WhCheck" checked> Wh
+<input class="energyMargin" type="radio" name="energy" value="kWh" id="kWhCheck"> kWh
+<table id="compareTable">
+ <!-- Compare table -->
+</table>
+
+```
+</details>
 
 ### User restrictions added
 Explain what you did.
