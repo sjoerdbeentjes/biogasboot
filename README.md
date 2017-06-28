@@ -79,7 +79,7 @@ All views of the dashboard currently in the app
 ![Live Operator Dashboard](md-media/dashboard.png)
 ![History Data Overview](md-media/historic-dashboard.png)
 ![Live mobile Dashboard](md-media/mobile-dashboard.png)
-![Live mobile Dashboard](md-media/mobile-notification.png)
+![Notification on mobile](md-media/mobile-notifcation.png)
 
 
 ## Dependencies
