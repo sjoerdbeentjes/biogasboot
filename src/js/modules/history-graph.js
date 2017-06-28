@@ -1,7 +1,7 @@
 const d3 = require('d3');
 const config = require('../../../modules/config');
 
-if (document.querySelector('#history-graph')) {
+if (document.querySelector('#history-graph') && document.querySelector('#history-graph').clientWidth) {
   const containerWidth = document.querySelector('#history-graph').parentNode.clientWidth;
   const containerHeight = document.querySelector('#history-graph').parentNode.clientHeight;
 

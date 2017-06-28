@@ -24,11 +24,8 @@ const getUsedValues = function(){
 // Fill the values
 const usedValues = getUsedValues();
 
-const windowWidth = window.innerWidth
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-
-if (document.querySelector('#chart') && windowWidth > 800) {
+if (document.querySelector('#chart') && document.querySelector('#chart').clientWidth) {
+  console.log('loaded');
   const socket = io.connect();
 
   let data = [];
