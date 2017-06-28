@@ -1,4 +1,4 @@
-//require('./modules/real-time-graph');
+require('./modules/real-time-graph');
 require('./modules/history-graph');
 require('./modules/customer-dashboard');
 require('./modules/interactive-dashboard');
