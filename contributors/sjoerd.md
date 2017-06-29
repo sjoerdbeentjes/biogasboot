@@ -49,23 +49,42 @@ For the chart we used [D3](https://www.npmjs.com/package/d3). This is used for i
 
 ### History chart
 
-It was a big challange to present the data in a useful way. After discussing a lot as well internally as with the client, we decided to let the user choose with the range of a month. These are the options:
+It was a big challange to present all the saved data in a useful way. After discussing a lot as well internally as with the client, we decided to let the user choose with the range of a month. These are the options:
 - Choose a month and two values
 - Choose two months and one value
 This way the chart always has a maximum of two y-axis, which keeps it simple and clear.
 
 The history chart also uses D3. The range selector sends API calls and after that calls the [update()](https://github.com/sjoerdbeentjes/biogasboot/blob/master/src/js/modules/history-graph.js#L199) function.
 
+This is the code i used to generate the url for a month:
+```javascript
+// parseMonth()
+const parseMonth = d3.timeParse('%Y-%m');
+
+// showMonth()
+function showMonth(monthNumber, yearNumber) {
+  const month = parseMonth(`${yearNumber}-${monthNumber}`);
+  const monthFromMonth = parseMonth(`${yearNumber}-${Number(monthNumber) + 1}`);
+
+  const monthUnix = month / 1000;
+  const monthFromMonthUnix = monthFromMonth / 1000;
+
+  const url = `/api/range/monthperday?dateStart=${monthUnix}&dateEnd=${monthFromMonthUnix}&api_key=CMD17`;
+
+  return url;
+}
+```
+
 ## Subjects
 I worked on a lot of subjects during this project. This are the subjects I've been working on:
-- Working with an API
+- Working with an API, that we made ourselves
 - Determining a good structure for a scalable application
-- Working with MongoDB and Mongoose
-- Creating a login flow
+- [Working](https://github.com/sjoerdbeentjes/biogasboot/blob/master/models/dataPoint.js) with MongoDB and Mongoose
+- [Creating](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/auth.js) a login flow using [passport](https://www.npmjs.com/package/passport))
 
 ### Web App from scratch
 
-The app is not a single-page application, but uses a lot of DOM manipulation. The individual screens can be seen as applications as themselves.
+The app is not a single-page application, but uses a lot of DOM manipulation. The individual screens can be seen as applications as themselves. There is a lot of interaction and feedback happening during when viewing the history chart. There is a lot of use of the API, which is very important in this application.
 
 ### CSS to the Rescue
 
