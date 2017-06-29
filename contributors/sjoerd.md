@@ -80,7 +80,7 @@ I worked on a lot of subjects during this project. This are the subjects I've be
 - Working with an API, that we made ourselves
 - Determining a good structure for a scalable application
 - [Working](https://github.com/sjoerdbeentjes/biogasboot/blob/master/models/dataPoint.js) with MongoDB and Mongoose
-- [Creating](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/auth.js) a login flow using [passport](https://www.npmjs.com/package/passport))
+- [Creating](https://github.com/sjoerdbeentjes/biogasboot/blob/master/routes/auth.js) a login flow using [passport](https://www.npmjs.com/package/passport)
 
 ### Web App from scratch
 
