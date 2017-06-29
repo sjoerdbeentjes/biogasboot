@@ -18,6 +18,9 @@ To make it easy for everyone who's working with our server I created a config fi
 
 This a combine of multiple module settings placed in 1 file.
 
+#### Code snippets
+* [Commit were the config was init](https://github.com/sjoerdbeentjes/biogasboot/commit/2f78149f4becff47e0b4dcd59e0bf59b1b25d6b3)
+
 ```javascript
 
 // modules/config.js
