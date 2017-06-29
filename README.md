@@ -1,8 +1,6 @@
 # Biogasboot data visualization
 Through sensors that themselves report their data, data is generated about the fermentation process. This data is received by us and translated to a (data) visualisation for both operators and visitors that visit the cafe "De Ceuvel".
 
-Biogasboot data visualization: [Live demo not available yet](#)
-
 ## Concept
 We have 2 specific target audiences that both needed their own approach.
 - **The operators** of the Biogasboot, they have to see all the data that is coming from the sensors of the Biogasboot.
