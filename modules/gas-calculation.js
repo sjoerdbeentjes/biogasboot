@@ -34,7 +34,6 @@ const gasCalculations = {
         } else if(totalGas > last) {
           totalData.generated += totalGas - last;
         } else if(totalGas < last) {
-          console.log(last - totalGas)
           totalData.used += last - totalGas;
         }
         last = totalGas;
