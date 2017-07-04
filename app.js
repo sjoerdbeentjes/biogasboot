@@ -12,8 +12,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
 const socketio = require('socket.io');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 // Init modules
 const FTP = require('./modules/getFTPFiles');
 const webSockets = require('./modules/websockets');
@@ -40,8 +42,10 @@ const operatorDashboardHistory = require('./routes/operator/dashboard-history');
 mongoose.connect(process.env.DB_URL);
 
 // Get files/data from FTP
-FTP.checkForNewFilesIn('value');
-
+// console.log(getFTPfiles)
+// FTP.checkForNewLocalFiles('value');
+// FTP.checkForNewLocalFiles('status');
+// FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
 // WebSockets
 webSockets(app, io);
@@ -91,8 +95,6 @@ app.use(expressValidator({
 
 // global vars
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.locals.user = req.user || null;
   next();
 });
