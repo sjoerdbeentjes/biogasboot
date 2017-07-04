@@ -54,30 +54,31 @@
 }
 
 .interactive-dashboard {
-  padding: 1em;
+  background:
+  main {
+    padding: 0;
+  }
   .interactive {
     position: absolute;
     width: 100vw;
     padding: 1em;
     text-align: center;
     svg {
-      max-width: 60em;
+      max-width: 70em;
     }
   }
 }
 
-#Tank2, #Tank1 {
+.move_up {
   transition: .5s;
 }
 
-#Tank2:hover, #Tank1:hover {
+.move_up:hover {
   transition: .5s;
-  transform: translateY(-30px);
+  transform: scale(1.02);
+  cursor: pointer;
 }
 
-.infoPanel {
-  position: absolute;
-  padding: 1em;
-  background-color: #4d548a;
-  max-width: 8em;
+#Bubble3 {
+  width: 20em!important
 }
