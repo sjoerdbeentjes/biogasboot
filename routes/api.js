@@ -6,6 +6,7 @@ const DataPoint = require('../models/dataPoint');
 const StatusPoint = require('../models/statusPoint');
 const router = express.Router();
 const usageCalculation = require('../modules/usage-calculation');
+const feedCalculation = require('../modules/feed-calculation');
 const gasCalculation = require('../modules/gas-calculation');
 const config = require('../modules/config');
 
@@ -159,9 +160,9 @@ router.get('/status/range/:range', (req, res, next) => {
   }
 });
 
-router.get('/status/test', (req, res, next) => {
+router.get('/status/feed/', (req, res, next) => {
   if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
-    console.log(StatusPoint);
+    feedCalculation.init(req, res);
   } else {
     res.send('No valid API key');
   }
