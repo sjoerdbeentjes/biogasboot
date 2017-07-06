@@ -148,7 +148,7 @@ router.get('/status', (req, res, next) => {
 });
 
 router.get('/status/gas', (req, res, next) => {
-  gasCalculation.total(req, res);
+  gasCalculation.get(req, res);
 });
 
 router.get('/status/range/:range', (req, res, next) => {
@@ -162,7 +162,7 @@ router.get('/status/range/:range', (req, res, next) => {
 
 router.get('/status/feed/', (req, res, next) => {
   if (req.param('api_key') && req.param('api_key') == process.env.API_KEY) {
-    feedCalculation.init(req, res);
+    feedCalculation.get(req, res);
   } else {
     res.send('No valid API key');
   }

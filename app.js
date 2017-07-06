@@ -47,6 +47,25 @@ mongoose.connect(process.env.DB_URL);
 // FTP.checkForNewLocalFiles('status');
 // FTP.checkForNewLocalFiles('alarm'); // does not work with current filenames
 
+// Init hourly API calls
+const gasCalculation = require('./modules/gas-calculation');
+const feedCalculation = require('./modules/feed-calculation');
+
+const data = {
+  init() {
+    gasCalculation.init();
+    feedCalculation.init();
+    this.interval();
+  },
+  interval() {
+    let intervalTime = 60000 * 60;
+    setInterval(gasCalculation.init, intervalTime);
+    setInterval(feedCalculation.init, intervalTime);
+  }
+};
+
+data.init();
+
 // WebSockets
 webSockets(app, io);
 

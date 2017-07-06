@@ -1,14 +1,15 @@
 const config = require('./config');
 const StatusPoint = require('../models/statusPoint');
+let feedData = {};
 
 const feedCalculation = {
-  init(req, res) {
+  init() {
     // Calculate the from date and the actual date
     StatusPoint.find({ }, (err, statuspoints) => {
-        return feedCalculation.handleResult(statuspoints, req, res);
+        return feedCalculation.handleResult(statuspoints);
     });
   },
-  handleResult(output, req, res) {
+  handleResult(output) {
     let feedOn = false;
     let latestDate = false;
     let secondsOn = 0;
@@ -28,14 +29,17 @@ const feedCalculation = {
         feedOn = false;
       }
     });
-    this.calculateAmount(secondsOn, req, res)
+    this.calculateAmount(secondsOn)
   },
-  calculateAmount(seconds, req, res) {
+  calculateAmount(seconds) {
     let data = {
       hours: hours = (seconds / 60) / 60,
       kilograms: hours * 256
     };
-    res.send(data);
+    feedData = data;
+  },
+  get(req, res) {
+    res.send(feedData);
   }
 }
 

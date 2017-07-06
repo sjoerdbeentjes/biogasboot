@@ -1,12 +1,15 @@
 // Load all datapoints
 const DataPoint = require('../models/dataPoint');
+let gasData = {};
 
 // Object with methods for needed calculations
 const gasCalculations = {
-  total(req, res) {
+  init() {
+    console.log('running');
     /* Get all instances with a bagheight higher than 20 and lower than 220
        Has to be lower than 220 because of the fact that the bag can't get higher than
        220cm. Not lower than 20cm because then the bag can't be filled anymore */
+
     DataPoint.aggregate([
       {
         $project: {
@@ -38,9 +41,11 @@ const gasCalculations = {
         }
         last = totalGas;
       })
-      res.send(totalData)
+      gasData = totalData;
     })
-
+  },
+  get(req, res) {
+    res.send(savedData);
   }
 }
 
