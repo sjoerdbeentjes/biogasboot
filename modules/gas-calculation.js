@@ -45,7 +45,7 @@ const gasCalculations = {
     })
   },
   get(req, res) {
-    res.send(savedData);
+    res.send(gasData);
   }
 }
 
