@@ -79,6 +79,7 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "feed-read": "0.0.1",
     "jsftp": "^2.0.0",
     "line-by-line": "^0.1.5",
     "moment": "^2.18.1",
